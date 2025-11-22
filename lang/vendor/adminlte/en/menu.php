@@ -4,9 +4,9 @@ return [
 
     'main_navigation' => 'MAIN NAVIGATION',
     'blog' => 'Blog',
-    'pages' => 'Pages',
+    'pages' => '',
     'account_settings' => 'ACCOUNT SETTINGS',
-    'profile' => 'Profile',
+    'profile' => 'Pfile',
     'change_password' => 'Change Password',
     'multilevel' => 'Multi Level',
     'level_one' => 'Level 1',
