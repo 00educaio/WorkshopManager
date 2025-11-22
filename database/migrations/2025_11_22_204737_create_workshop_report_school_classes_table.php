@@ -1,0 +1,40 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    /**
+     * Run the migrations.
+     */
+    public function up(): void
+    {
+        Schema::create('workshop_report_school_classes', function (Blueprint $table) {
+            $table->uuid('id')->primary();
+            $table->time('time');
+            $table->uuid('workshop_report_id');
+            $table->uuid('school_class_id');
+
+            $table->foreign('workshop_report_id')
+                  ->references('id')
+                  ->on('workshop_reports')
+                  ->onDelete('cascade');
+
+            $table->foreign('school_class_id')
+                  ->references('id')
+                  ->on('school_classes')
+                  ->onDelete('cascade');
+            $table->timestamps();
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     */
+    public function down(): void
+    {
+        Schema::dropIfExists('workshop_report_school_classes');
+    }
+};
