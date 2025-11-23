@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('school_class_origins', function (Blueprint $table) {
-            $table->uuid('id')->primary();
+            $table->id();
             $table->string('name')->unique();
             $table->string('description')->nullable();
             $table->string('address')->nullable();

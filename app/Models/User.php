@@ -27,6 +27,8 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'role',
+
     ];
 
     /**
@@ -51,4 +53,24 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    public function isAdmin(): bool
+    {
+        return $this->role === 'admin';
+    }
+
+    public function isManager(): bool
+    {
+        return $this->role === 'manager';
+    }
+    public function isInstructor(): bool
+    {
+        return $this->role === 'instructor';
+    }
+
+    public function workshopReports()
+    {
+        return $this->hasMany(WorkshopReport::class, 'instructor_id');
+    }
+
 }
