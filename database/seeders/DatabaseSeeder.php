@@ -2,6 +2,8 @@
 
 namespace Database\Seeders;
 
+use App\Models\SchoolClass;
+use App\Models\SchoolClassOrigin;
 use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -24,6 +26,20 @@ class DatabaseSeeder extends Seeder
             'email_verified_at' => now(),
             'role' => 'admin',
             'is_active' => true,
+        ]);
+        SchoolClassOrigin::factory()->create([
+            'id' => 1,
+            'name' => 'Origin X',
+        ]);
+
+        SchoolClass::factory()->create([
+            'name' => 'Class A',
+            'school_class_origin_id' => 1,
+        ]);
+
+        SchoolClass::factory()->create([
+            'name' => 'Class B',
+            'school_class_origin_id' => 1,
         ]);
     }
 }
