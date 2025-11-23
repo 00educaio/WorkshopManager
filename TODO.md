@@ -1,3 +1,11 @@
+# Modelagem de dados
+
+-   [ ] 1 - Migrations
+-   [ ] 2 - Models e relationships
+-   [ ] 3 - Seeders e postgres
+-   [ ] 4 - Controllers e routes
+-   [ ] 5 - Views e permissoes
+
 # features futuras
 
 -   [ ] 1 - Avisar quando tiver conflito entre o horarios de ofiicnas

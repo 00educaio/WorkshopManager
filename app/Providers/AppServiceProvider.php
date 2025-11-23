@@ -25,8 +25,9 @@ class AppServiceProvider extends ServiceProvider
             // Add some items to the menu...
             $event->menu->add('MAIN NAVIGATION');
             $event->menu->add([
-                'text' => 'Blog',
-                'url' => 'admin/blog',
+                'text' => 'Perfil',
+                'url' => 'profile',
             ]);
-        });    }
+        });   
+    }
 }
