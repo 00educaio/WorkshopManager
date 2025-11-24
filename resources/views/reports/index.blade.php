@@ -8,12 +8,11 @@
 @section('content')
 
 <x-app-layout>
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item active"><a href="{{ route('dashboard') }}">Painel</a></li>
-            <li class="breadcrumb-item active">Turmas</li>
-        </ol>
-
-    <div class="py-12">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item active"><a href="{{ route('dashboard') }}">Painel</a></li>
+      <li class="breadcrumb-item active">Turmas</li>
+    </ol>
+    <div class="py-1">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900">
@@ -50,19 +49,16 @@
                             <thead class="bg-gray-50">
                                 <tr>
                                     <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        Título
+                                        Data
                                     </th>
                                     <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                         Instrutor
                                     </th>
                                     <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        Data
+                                        N. Oficinas
                                     </th>
                                     <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        Vagas
-                                    </th>
-                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        Status
+                                        Atividade Extra
                                     </th>
                                     <th scope="col" class="relative px-6 py-3">
                                         <span class="sr-only">Ações</span>
@@ -70,28 +66,22 @@
                                 </tr>
                             </thead>
                             <tbody class="bg-white divide-y divide-gray-200">
-                                {{-- @forelse ($workshops as $workshop)
+                                @forelse ($reports as $report)
                                     <tr class="hover:bg-gray-50">
                                         <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                                            {{ $workshop->title }}
+                                            {{ $report->report_date }}
                                         </td>
                                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                            {{ $workshop->instructor }}
+                                            {{ $report->instructor->name }}
                                         </td>
                                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                            {{ $workshop->date }}
+                                            {{ $report->schoolClasses->count() }}
                                         </td>
                                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                            {{ $workshop->capacity }}
-                                        </td>
-                                        <td class="px-6 py-4 whitespace-nowrap">
-                                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full 
-                                                {{ $workshop->status === 'active' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800' }}">
-                                                {{ $workshop->status === 'active' ? 'Ativa' : 'Inativa' }}
-                                            </span>
+                                            {{ $report->extra_activity ? 'Sim' : 'Não' }}
                                         </td>
                                         <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                            <a href="{{ route('workshops.show', $workshop) }}" class="text-indigo-600 hover:text-indigo-900">
+                                            <a href="" class="text-indigo-600 hover:text-indigo-900">
                                                 Ver
                                             </a>
                                         </td>
@@ -106,14 +96,14 @@
                                             @endif
                                         </td>
                                     </tr>
-                                @endforelse --}}
+                                @endforelse
                             </tbody>
                         </table>
                     </div>
 
                     <!-- Paginação (exatamente como no Breeze) -->
                     {{-- <div class="mt-6">
-                        {{ $workshops->onEachSide(1)->links() }}
+                        {{ $reports->onEachSide(1)->links() }}
                     </div> --}}
                 </div>
             </div>

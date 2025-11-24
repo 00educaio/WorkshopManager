@@ -27,19 +27,10 @@ class DatabaseSeeder extends Seeder
             'role' => 'admin',
             'is_active' => true,
         ]);
-        SchoolClassOrigin::factory()->create([
-            'id' => 1,
-            'name' => 'Origin X',
-        ]);
 
-        SchoolClass::factory()->create([
-            'name' => 'Class A',
-            'school_class_origin_id' => 1,
-        ]);
-
-        SchoolClass::factory()->create([
-            'name' => 'Class B',
-            'school_class_origin_id' => 1,
+        $this->call([
+            ClassSeeder::class,
+            ReportSeeder::class,
         ]);
     }
 }
