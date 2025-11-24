@@ -12,7 +12,7 @@ class ReportSeeder extends Seeder
     public function run(): void
     {
         $faker = Faker::create('pt_BR');
-        $instructorIds = DB::table('users')->pluck('id')->toArray();
+        $instructorIds = DB::table('users')->where('role', 'instructor')->pluck('id')->toArray();
         $schoolClassIds = DB::table('school_classes')->pluck('id')->toArray();
 
         // Vamos criar 30 relatórios de exemplo (cerca de 6 semanas)

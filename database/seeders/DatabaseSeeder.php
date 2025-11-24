@@ -2,8 +2,6 @@
 
 namespace Database\Seeders;
 
-use App\Models\SchoolClass;
-use App\Models\SchoolClassOrigin;
 use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -29,6 +27,7 @@ class DatabaseSeeder extends Seeder
         ]);
 
         $this->call([
+            InstructorSeeder::class,
             ClassSeeder::class,
             ReportSeeder::class,
         ]);
