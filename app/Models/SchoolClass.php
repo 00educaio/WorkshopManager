@@ -15,6 +15,7 @@ class SchoolClass extends Model
 
     protected $fillable = [
         'name',
+        'grade',
         'school_class_origin_id',
     ];
 

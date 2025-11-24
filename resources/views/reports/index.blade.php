@@ -10,7 +10,7 @@
 <x-app-layout>
     <ol class="breadcrumb">
       <li class="breadcrumb-item active"><a href="{{ route('dashboard') }}">Painel</a></li>
-      <li class="breadcrumb-item active">Turmas</li>
+      <li class="breadcrumb-item active">Devolutivas</li>
     </ol>
     <div class="py-1">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
@@ -20,7 +20,7 @@
                     <!-- Título + Busca (igual ao Breeze) -->
                     <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-6">
                         <h1 class="text-lg font-medium text-gray-900">
-                            Turmas
+                            Devolutivas
                         </h1>
 
                         <!-- Form de busca (igual ao Breeze) -->
@@ -81,7 +81,7 @@
                                             {{ $report->extra_activity ? 'Sim' : 'Não' }}
                                         </td>
                                         <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                            <a href="" class="text-indigo-600 hover:text-indigo-900">
+                                            <a href="{{ route('reports.show', $report) }}" class="text-indigo-600 hover:text-indigo-900">
                                                 Ver
                                             </a>
                                         </td>

@@ -1,0 +1,143 @@
+@extends('layouts.master')
+
+@section('title', 'Devolutiva - Detalhes')
+
+@section('content_header')
+@stop
+
+@section('content')
+
+<x-app-layout>
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Painel</a></li>
+        <li class="breadcrumb-item"><a href="{{ route('reports.index') }}">Devolutivas</a></li>
+        <li class="breadcrumb-item active">Detalhes</li>
+    </ol>
+
+    <div class="py-1">
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+                <div class="p-6 text-gray-900">
+
+                    <!-- Cabeçalho com título e botão voltar -->
+                    <div class="flex items-center justify-between mb-8">
+                        <h1 class="text-2xl font-semibold text-gray-900">
+                            Devolutiva - {{ $report->report_date }}
+                        </h1>
+                        <a href="{{ route('reports.index') }}" 
+                           class="inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-aqueles">
+                            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+                            </svg>
+                            Voltar
+                        </a>
+                    </div>
+
+                    <!-- Card com informações principais -->
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                        <div class="bg-gray-50 rounded-lg p-1">
+                            <dt class="text-sm font-medium text-gray-500">Instrutor</dt>
+                            <dd class="mt-1 text-lg font-semibold text-gray-900">{{ $report->instructor->name }}</dd>
+                        </div>
+
+                        <div class="bg-gray-50 rounded-lg p-1">
+                            <dt class="text-sm font-medium text-gray-500">Data da devolutiva</dt>
+                            <dd class="mt-1 text-lg font-semibold text-gray-900">
+                                {{ $report->report_date }}
+                            </dd>
+                        </div>
+
+                        <div class="bg-gray-50 rounded-lg p-1">
+                            <dt class="text-sm font-medium text-gray-500">Atividade extra</dt>
+                            <dd class="mt-1 text-lg font-semibold text-gray-900">
+                                <span class="{{ $report->extra_activity ? 'text-green-600' : 'text-red-600' }}">
+                                    {{ $report->extra_activity ? 'Sim' : 'Não' }}
+                                </span>
+                            </dd>
+                        </div>
+                        <div class="bg-gray-50 rounded-lg p-1">
+                            <dt class="text-sm font-medium text-gray-500">Os Materiais foram fornecidos</dt>
+                            <dd class="mt-1 text-lg font-semibold text-gray-900">
+                                <span class="{{ $report->materials_provided ? 'text-green-600' : 'text-red-600' }}">
+                                    {{ $report->materials_provided ? 'Sim' : 'Não' }}
+                                </span>
+                            </dd>
+                        </div>
+                        <div class="bg-gray-50 rounded-lg p-1">
+                            <dt class="text-sm font-medium text-gray-500">Estava de Acordo com a Grade</dt>
+                            <dd class="mt-1 text-lg font-semibold text-gray-900">
+                                <span class="{{ $report->grid_provided ? 'text-green-600' : 'text-red-600' }}">
+                                    {{ $report->grid_provided ? 'Sim' : 'Não' }}
+                                </span>
+                            </dd>
+                        </div>
+                    </div>
+
+                    <!-- Seção de Oficinas Realizadas -->
+
+                    <div class="mt-10">
+                        <h2 class="text-xl font-semibold text-gray-900 mb-4">Feedback</h2>
+                        <div class="bg-gray-50 rounded-lg p-6">
+                            <p class="text-gray-700 whitespace-pre-wrap">{{ $report->feedback }}</p>
+                        </div>
+                    </div>
+
+                    @if($report->observations ?? false)
+                        <div class="mt-10">
+                            <h2 class="text-xl font-semibold text-gray-900 mb-4">Observações</h2>
+                            <div class="bg-gray-50 rounded-lg p-6">
+                                <p class="text-gray-700 whitespace-pre-wrap">{{ $report->observations }}</p>
+                            </div>
+                        </div>
+                    @endif
+                                        <div class="mt-10">
+                        <h2 class="text-xl font-semibold text-gray-900 mb-4">
+                            Oficinas Realizadas ({{ $report->schoolClasses->count() }})
+                        </h2>
+
+                        @if($report->schoolClasses->count() > 0)
+                            <div class="overflow-x-auto">
+                                <table class="min-w-full divide-y divide-gray-200">
+                                    <thead class="bg-gray-50">
+                                        <tr>
+                                            <th class="px-6 py-3 text-left text-xs font-medium te37xt-gray-500 uppercase tracking-wider">Turma</th>
+                                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Escola</th>
+                                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Hora</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="bg-white divide-y divide-gray-200">
+                                        @foreach($report->schoolClasses as $class)
+                                            <tr class="hover:bg-gray-50">
+                                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                                    {{ $class->schoolClass->name }}
+                                                </td>
+                                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                                    {{ $class->schoolClass->origin->name }}
+                                                </td>
+                                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                                    {{ $class->time ?? '—' }}
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
+                        @else
+                            <p class="text-gray-500 italic">Nenhuma oficina associada a esta devolutiva.</p>
+                        @endif
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</x-app-layout>
+@endsection
+
+@section('css')
+    {{-- estilos extras se precisar --}}
+@endsection
+
+@section('js')
+    {{-- scripts extras se precisar --}}
+@endsection

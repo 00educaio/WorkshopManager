@@ -18,7 +18,6 @@ return new class extends Migration
 
             $table->boolean('extra_activities')->default(false);
             $table->text('extra_activities_description')->nullable();
-            $table->integer('number_of_workshops');
             $table->boolean('materials_provided')->default(true);
             $table->boolean('grid_provided')->default(true);
             $table->text('observations')->nullable();

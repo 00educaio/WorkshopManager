@@ -2,8 +2,6 @@
 
 namespace Database\Seeders;
 
-use App\Models\SchoolClass;
-use App\Models\SchoolClassOrigin;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
@@ -63,20 +61,5 @@ class ClassSeeder extends Seeder
                 'updated_at' => now(),
             ]);
         }
-
-        // SchoolClassOrigin::factory()->create([
-        //     'id' => 1,
-        //     'name' => 'Origin X',
-        // ]);
-
-        // SchoolClass::factory()->create([
-        //     'name' => 'Class A',
-        //     'school_class_origin_id' => 1,
-        // ]);
-
-        // SchoolClass::factory()->create([
-        //     'name' => 'Class B',
-        //     'school_class_origin_id' => 1,
-        // ]);
     }
 }

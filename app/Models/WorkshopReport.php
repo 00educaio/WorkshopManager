@@ -17,7 +17,6 @@ class WorkshopReport extends Model
         'report_date',
         'extra_activities',
         'extra_activities_description',
-        'number_of_workshops',
         'materials_provided',
         'grid_provided',
         'observations', 

@@ -11,6 +11,7 @@ return new class extends Migration
         Schema::create('school_classes', function (Blueprint $table) {
             $table->id();
             $table->string('name')->unique();
+            $table->string('grade')->nullable();
 
             $table->unsignedBigInteger('school_class_origin_id');
             $table->foreign('school_class_origin_id')

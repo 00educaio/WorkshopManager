@@ -21,6 +21,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/classes', [SchoolClassController::class, 'index'])->name('classes.index');
 
     Route::get('/reports', [WorkshopReportController::class, 'index'])->name('reports.index');
+    Route::get('/reports/{report}', [WorkshopReportController::class, 'show'])->name('reports.show');
 });
 
 require __DIR__.'/auth.php';

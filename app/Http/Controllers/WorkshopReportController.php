@@ -12,4 +12,9 @@ class WorkshopReportController extends Controller
         $reports = WorkshopReport::all();
         return view('reports.index', compact('reports'));
     }
+
+    public function show(WorkshopReport $report)
+    {
+        return view('reports.show', compact('report'));
+    }
 }

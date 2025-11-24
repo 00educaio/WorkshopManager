@@ -18,7 +18,6 @@ class ReportSeeder extends Seeder
         // Vamos criar 30 relatórios de exemplo (cerca de 6 semanas)
         for ($i = 0; $i < 30; $i++) {
             $reportDate = $faker->dateTimeBetween('-3 months', 'now')->format('d/m/Y');
-            $numberOfWorkshops = $faker->numberBetween(2, 8);
 
             $reportId = (string) Str::uuid();
 
@@ -27,7 +26,6 @@ class ReportSeeder extends Seeder
                 'report_date'            => $reportDate,
                 'extra_activities'       => $faker->boolean(30),
                 'extra_activities_description' => $faker->boolean(30) ? $faker->paragraph(2) : null,
-                'number_of_workshops'    => $numberOfWorkshops,
                 'materials_provided'     => $faker->boolean(90),
                 'grid_provided'          => $faker->boolean(85),
                 'observations'           => $faker->optional(0.7)->paragraph(3),
