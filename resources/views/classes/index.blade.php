@@ -8,10 +8,11 @@
 @section('content')
 
 <x-app-layout>
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item active"><a href="{{ route('dashboard') }}">Painel</a></li>
-            <li class="breadcrumb-item active">Turmas</li>
-        </ol>
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Painel</a></li>
+        <li class="breadcrumb-item active">Turmas</li>
+    </ol>
+    
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">

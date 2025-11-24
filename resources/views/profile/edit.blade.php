@@ -8,7 +8,7 @@
 @section('content')
 <x-app-layout>
     <ol class="breadcrumb">
-        <li class="breadcrumb-item active"><a href="{{ route('dashboard') }}">Painel</a></li>
+        <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Painel</a></li>
         <li class="breadcrumb-item active">Perfil</li>
     </ol>
 

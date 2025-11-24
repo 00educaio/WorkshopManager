@@ -9,7 +9,7 @@
 
 <x-app-layout>
     <ol class="breadcrumb">
-      <li class="breadcrumb-item active"><a href="{{ route('dashboard') }}">Painel</a></li>
+      <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Painel</a></li>
       <li class="breadcrumb-item active">Devolutivas</li>
     </ol>
     <div class="py-1">
