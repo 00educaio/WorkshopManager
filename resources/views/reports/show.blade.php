@@ -92,10 +92,10 @@
                     @endif
                                         <div class="mt-10">
                         <h2 class="text-xl font-semibold text-gray-900 mb-4">
-                            Oficinas Realizadas ({{ $report->schoolClasses->count() }})
+                            Oficinas Realizadas ({{ $report->unique_workshops_count }})
                         </h2>
 
-                        @if($report->schoolClasses->count() > 0)
+                        @if($report->unique_workshops_count > 0)
                             <div class="overflow-x-auto">
                                 <table class="min-w-full divide-y divide-gray-200">
                                     <thead class="bg-gray-50">

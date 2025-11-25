@@ -15,3 +15,5 @@
 1. show turmas e seeder de turmas nomes certos(name e grade)
 2. show oficineiros e seeder de oficineiros
 3. create, edit e trashed
+4. Cornojob das services
+5. Testar unique_workshops_count

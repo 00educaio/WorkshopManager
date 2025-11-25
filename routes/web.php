@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\InstructorController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SchoolClassController;
 use App\Http\Controllers\WorkshopReportController;
@@ -22,6 +23,9 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/reports', [WorkshopReportController::class, 'index'])->name('reports.index');
     Route::get('/reports/{report}', [WorkshopReportController::class, 'show'])->name('reports.show');
+
+    Route::get('/instructors', [InstructorController::class, 'index'])->name('instructors.index');
+    Route::get('/instructors/{instructor}', [InstructorController::class, 'show'])->name('instructors.show');
 });
 
 require __DIR__.'/auth.php';

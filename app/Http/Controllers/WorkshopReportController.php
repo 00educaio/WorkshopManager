@@ -7,14 +7,16 @@ use Illuminate\Http\Request;
 
 class WorkshopReportController extends Controller
 {
-    public function index(Request $request)
+    public function index()
     {
         $reports = WorkshopReport::all();
+        
         return view('reports.index', compact('reports'));
     }
 
     public function show(WorkshopReport $report)
     {
+        
         return view('reports.show', compact('report'));
     }
 }

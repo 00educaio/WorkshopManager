@@ -33,4 +33,13 @@ class WorkshopReport extends Model
         return $this->hasMany(WorkshopReportSchoolClass::class, 'workshop_report_id');
     }
 
+    public function getUniqueWorkshopsCountAttribute()
+    {
+        return $this->schoolClasses
+            ->pluck('time')    // pega todos os horários desse relatório
+            ->unique()         // remove duplicados
+            ->count();         // conta oficinas únicas
+    }
+
+
 }
