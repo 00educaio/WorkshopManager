@@ -29,19 +29,26 @@ class AppServiceProvider extends ServiceProvider
             $event->menu->add([
                 'text' => 'Perfil',
                 'url' => 'profile',
+                'icon' => 'fas fa-fw fa-user',
             ]);
             $event->menu->add([
                 'text' => 'Devolutivas',
                 'url' => 'reports',
+                'icon' => 'fas fa-fw fa-table',
+                'active' => ['reports*'],
             ]);
             $event->menu->add([
                 'text' => 'Turmas',
                 'url' => 'classes',
+                'icon' => 'fas fa-fw fa-book',
+                'active' => ['classes*'],
             ]);
             if ($user->role == 'admin') {
                 $event->menu->add([
-                    'text' => 'Ver Oficineiros',
+                    'text' => 'Oficineiros',
                     'url' => 'instructors',
+                    'icon' => 'fas fa-fw fa-users',
+                    'active' => ['instructors*'],
                 ]);
             }
         });   
