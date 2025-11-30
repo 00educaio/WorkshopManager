@@ -15,6 +15,17 @@ class ReportSeeder extends Seeder
         $instructorIds = DB::table('users')->where('role', 'instructor')->pluck('id')->toArray();
         $schoolClassIds = DB::table('school_classes')->pluck('id')->toArray();
 
+        $workshopThemes = [
+            'Dança',
+            'Música',
+            'Literatura',
+            'Socialização',
+            'Fotografia',
+            'Artesanato',
+            'Robotica',
+            'Tecnologia',
+        ];
+
         // Vamos criar 30 relatórios de exemplo (cerca de 6 semanas)
         for ($i = 0; $i < 30; $i++) {
             $reportDate = $faker->dateTimeBetween('-3 months', 'now')->format('d/m/Y');
@@ -45,6 +56,7 @@ class ReportSeeder extends Seeder
                 DB::table('workshop_report_school_classes')->insert([
                     'id'                 => (string) Str::uuid(),
                     'time'               => $faker->time('H:i'), // ex: 14:30
+                    'workshop_theme'     => $faker->randomElement($workshopThemes),
                     'workshop_report_id' => $reportId,
                     'school_class_id'    => $classId,
                     'created_at'         => now(),

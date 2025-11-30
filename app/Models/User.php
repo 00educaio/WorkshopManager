@@ -60,6 +60,7 @@ class User extends Authenticatable
         return $this->hasMany(WorkshopReport::class, 'instructor_id');
     }
     
+    //ENTENDER MELHOR TUDO ISSO AQUI ABAIXO
     public function workshopReportSchoolClasses()
     {
         return $this->hasManyThrough(

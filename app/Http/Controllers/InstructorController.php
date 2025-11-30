@@ -22,4 +22,9 @@ class InstructorController extends Controller
 
       return view('instructors.show', compact('instructor', 'classes'));
     }
+
+    public function create()
+    {
+        return view('instructors.create');
+    }
 }
