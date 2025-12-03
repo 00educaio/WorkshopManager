@@ -15,12 +15,23 @@ Route::get('/dashboard', function () {
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-    Route::patch('/profile/avatar', [ProfileController::class, 'updateAvatar'])->name('profile.updateAvatar');
+    Route::prefix('profile')->group(function () {
+        Route::get('/', [ProfileController::class, 'edit'])->name('profile.edit');
+        Route::patch('/', [ProfileController::class, 'update'])->name('profile.update');
+        Route::delete('/', [ProfileController::class, 'destroy'])->name('profile.destroy');
+        Route::patch('/avatar', [ProfileController::class, 'updateAvatar'])->name('profile.updateAvatar');
+    });
 
-    Route::get('/classes', [SchoolClassController::class, 'index'])->name('classes.index');
+    Route::prefix('classes')->group(function () {
+        Route::get('/', [SchoolClassController::class, 'index'])->name('classes.index');
+        Route::get('/new', [SchoolClassController::class, 'create'])->name('classes.create');
+        Route::post('/store', [SchoolClassController::class, 'store'])->name('classes.store');
+        Route::get('/{class}', [SchoolClassController::class, 'show'])->name('classes.show');
+        Route::get('/{class}/edit', [SchoolClassController::class, 'edit'])->name('classes.edit');
+        Route::put('/{class}', [SchoolClassController::class, 'update'])->name('classes.update');
+        Route::delete('/{class}', [SchoolClassController::class, 'destroy'])->name('classes.destroy');
+    });
+
 
     Route::get('/reports', [WorkshopReportController::class, 'index'])->name('reports.index');
     Route::get('/reports/{report}', [WorkshopReportController::class, 'show'])->name('reports.show');

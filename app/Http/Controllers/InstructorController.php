@@ -27,4 +27,9 @@ class InstructorController extends Controller
     {
         return view('instructors.create');
     }
+
+    public function edit(User $instructor)
+    {
+        return view('instructors.edit', compact('instructor'));
+    }
 }

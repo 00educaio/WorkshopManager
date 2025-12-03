@@ -1,4 +1,3 @@
-{{-- resources/views/instructors/create.blade.php --}}
 @extends('layouts.master')
 
 @section('title', 'Adicionar Oficineiro')
@@ -37,11 +36,11 @@
 
                         <!-- Nome completo -->
                         <div>
-                            <label for="name" class="block text-sm font-medium text-gray-700">
+                            <label for="name" class="block text-base font-medium text-gray-700">
                                 <i class="fas fa-user mr-1"></i> Nome completo
                             </label>
                             <input type="text" name="name" id="name" value="{{ old('name') }}" required
-                                   class="mt-1 block w-full rounded-md border-red-500 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm @error('name') border-red-500 @enderror"
+                                   class="mt-1 block w-full rounded-md border- shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm @error('name') border-red-500 @enderror"
                                    placeholder="Ex: Ana Clara Silva">
                             @error('name')
                                 <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
@@ -50,11 +49,11 @@
 
                         <!-- E-mail -->
                         <div>
-                            <label for="email" class="block text-sm font-medium text-gray-700">
+                            <label for="email" class="block text-base font-medium text-gray-700">
                                 <i class="fas fa-envelope mr-1"></i> E-mail
                             </label>
                             <input type="email" name="email" id="email" value="{{ old('email') }}"
-                                   class="mt-1 block w-full rounded-md border-red-500 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm @error('email') border-red-500 @enderror"
+                                   class="mt-1 block w-full rounded-md border-red-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm @error('email') border-red-500 @enderror"
                                    placeholder="exemplo@dominio.com">
                             @error('email')
                                 <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
@@ -63,47 +62,25 @@
 
                         <!-- Telefone / WhatsApp -->
                         <div>
-                            <label for="phone" class="block text-sm font-medium text-gray-700">
+                            <label for="phone" class="block text-base font-medium text-gray-700">
                                 <i class="fas fa-phone mr-1"></i> Telefone / WhatsApp
                             </label>
                             <input type="text" name="phone" id="phone" value="{{ old('phone') }}"
-                                   class="mt-1 block w-full rounded-md border-red-500 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm @error('phone') border-red-500 @enderror"
+                                   class="mt-1 block w-full rounded-md border-red-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm @error('phone') border-red-500 @enderror"
                                    placeholder="(99) 99999-9999">
                             @error('phone')
                                 <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                             @enderror
                         </div>
 
-                        <!-- CPF (opcional) -->
+                        <!-- CPF -->
                         <div>
-                            <label for="cpf" class="block text-sm font-medium text-gray-700">
-                                <i class="fas fa-id-card mr-1"></i> CPF <span class="text-gray-500 font-normal">(opcional)</span>
+                            <label for="cpf" class="block text-base font-medium text-gray-700">
+                                <i class="fas fa-id-card mr-1"></i> CPF 
                             </label>
                             <input type="text" name="cpf" id="cpf" value="{{ old('cpf') }}"
-                                   class="mt-1 block w-full rounded-md border-red-500 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                                   class="mt-1 block w-full rounded-md border-red-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                                    placeholder="000.000.000-00">
-                        </div>
-
-                        <!-- Área de atuação / Especialidade (opcional) -->
-                        <div>
-                            <label for="specialty" class="block text-sm font-medium text-gray-700">
-                                <i class="fas fa-palette mr-1"></i> Área de atuação / Especialidade <span class="text-gray-500 font-normal">(opcional)</span>
-                            </label>
-                            <textarea name="specialty" id="specialty" rows="3"
-                                      class="mt-1 block w-full rounded-md border-red-500 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                                      placeholder="Ex: Teatro, Dança Contemporânea, Artes Visuais...">{{ old('specialty') }}</textarea>
-                        </div>
-
-                        <!-- Status (Ativo / Inativo) -->
-                        <div>
-                            <label for="is_active" class="block text-sm font-medium text-gray-700">
-                                <i class="fas fa-toggle-on mr-1"></i> Status
-                            </label>
-                            <select name="is_active" id="is_active"
-                                    class="mt-1 block w-full rounded-md border-red-500 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
-                                <option value="1" {{ old('is_active', '1') == '1' ? 'selected' : '' }}>Ativo</option>
-                                <option value="0" {{ old('is_active') == '0' ? 'selected' : '' }}>Inativo</option>
-                            </select>
                         </div>
 
                         <!-- Botões de ação -->
