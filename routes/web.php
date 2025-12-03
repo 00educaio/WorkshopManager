@@ -25,7 +25,11 @@ Route::middleware('auth')->group(function () {
     Route::get('/reports/{report}', [WorkshopReportController::class, 'show'])->name('reports.show');
 
     Route::get('/instructors', [InstructorController::class, 'index'])->name('instructors.index');
+    Route::get('/instructors/new', [InstructorController::class, 'create'])->name('instructors.create');
+    Route::post('/instructors/store', [InstructorController::class, 'store'])->name('instructors.store');
+    Route::post('/instructors/update', [InstructorController::class, 'update'])->name('instructors.update');
     Route::get('/instructors/{instructor}', [InstructorController::class, 'show'])->name('instructors.show');
+    Route::get('/instructors/{instructor}/edit', [InstructorController::class, 'edit'])->name('instructors.edit');
 });
 
 require __DIR__.'/auth.php';

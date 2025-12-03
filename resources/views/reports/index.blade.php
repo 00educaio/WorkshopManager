@@ -12,16 +12,16 @@
       <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Painel</a></li>
       <li class="breadcrumb-item active">Devolutivas</li>
     </ol>
-    <div class="py-1">
+    <div class="pb-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+            <div class="bg-white overflow-hidden shadow sm:rounded-lg">
                 <div class="p-6 text-gray-900">
 
                     <!-- Título + Busca (igual ao Breeze) -->
                     <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-6">
-                        <h1 class="text-lg font-medium text-gray-900">
+                        <span class="text-xl font-semibold text-gray-900">
                             Devolutivas
-                        </h1>
+                        </span>
 
                         <!-- Form de busca (igual ao Breeze) -->
                         <form method="GET" action="{{ route('classes.index') }}" class="mt-4 sm:mt-0">
@@ -48,41 +48,61 @@
                         <table class="min-w-full divide-y divide-gray-200">
                             <thead class="bg-gray-50">
                                 <tr>
-                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    <th scope="col" class="px-6 py-3 text-left text-lg font-medium text-gray-500 uppercase tracking-wider">
                                         Data
                                     </th>
-                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    <th scope="col" class="px-6 py-3 text-left text-lg font-medium text-gray-500 uppercase tracking-wider">
+                                        Dia da Semana
+                                    </th>
+                                    <th scope="col" class="px-6 py-3 text-left text-lg font-medium text-gray-500 uppercase tracking-wider">
                                         Instrutor
                                     </th>
-                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    <th scope="col" class="px-6 py-3 text-left text-lg font-medium text-gray-500 uppercase tracking-wider">
                                         N. Oficinas
                                     </th>
-                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    <th scope="col" class="px-6 py-3 text-left text-lg font-medium text-gray-500 uppercase tracking-wider">
                                         Atividade Extra
                                     </th>
                                     <th scope="col" class="relative px-6 py-3">
-                                        <span class="sr-only">Ações</span>
+                                        
                                     </th>
                                 </tr>
                             </thead>
                             <tbody class="bg-white divide-y divide-gray-200">
                                 @forelse ($reports as $report)
                                     <tr class="hover:bg-gray-50">
-                                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                                        <td class="px-6 py-4 whitespace-nowrap text-base font-medium text-gray-900">
                                             {{ $report->report_date }}
                                         </td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                        <td class="px-6 py-4 whitespace-nowrap text-base font-medium text-gray-500">
+                                            {{ mb_strtoupper(
+                                                \Carbon\Carbon::createFromFormat('d/m/Y', $report->report_date)
+                                                    ->locale('pt_BR')
+                                                    ->isoFormat('dddd'),
+                                                'UTF-8'
+                                                )
+                                            }}
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-base text-gray-500">
                                             {{ $report->instructor->name }}
                                         </td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                        <td class="px-6 py-4 whitespace-nowrap text-base text-gray-500">
                                             {{ $report->schoolClasses->count() }}
                                         </td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                            {{ $report->extra_activity ? 'Sim' : 'Não' }}
+                                        <td class="px-6 py-4 whitespace-nowrap text-base text-gray-500">
+                                            @if ($report->extra_activity)
+                                                <span class="inline-flex items-center px-3 py-1 text-white text-sm font-semibold rounded-full" style="background-color: #28a745;">
+                                                    <i class="fas fa-check mr-2"></i> Sim
+                                                </span>
+                                            @else
+                                                <span class="inline-flex items-center px-3 py-1 bg-red-600 text-white text-sm font-semibold rounded-full">
+                                                    <i class="fas fa-times mr-2"></i> Não
+                                                </span>
+                                            @endif
                                         </td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                            <a href="{{ route('reports.show', $report) }}" class="text-indigo-600 hover:text-indigo-900">
-                                                Ver
+                                        <td class="px-6 py-4 whitespace-nowrap text-right text-base font-medium">
+                                            <a href="{{ route('reports.show', $report) }}" class="ml-2 inline-flex items-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+                                                Visualizar
                                             </a>
                                         </td>
                                     </tr>

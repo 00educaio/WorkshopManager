@@ -12,13 +12,12 @@
         <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Painel</a></li>
         <li class="breadcrumb-item active">Turmas</li>
     </ol>
-    
 
-    <div class="py-12">
+    <div class="pb-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             
             @forelse ($turmas as $turma)
-                <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg mb-6">
+                <div class="bg-white overflow-hidden shadow-md sm:rounded-lg mb-6">
                     <div class="p-6">
                         <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between">
                             <div class="flex-1">
