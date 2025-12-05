@@ -59,6 +59,11 @@ class User extends Authenticatable
     {
         return $this->hasMany(WorkshopReport::class, 'instructor_id');
     }
+
+    public function getAvatarImgAttribute()
+    {
+        return $this->avatar ? asset('storage/' . $this->avatar) : asset('default-avatar.png');
+    }
     
     //ENTENDER MELHOR TUDO ISSO AQUI ABAIXO
     public function workshopReportSchoolClasses()

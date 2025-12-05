@@ -36,14 +36,16 @@ Route::middleware('auth')->group(function () {
     Route::get('/reports', [WorkshopReportController::class, 'index'])->name('reports.index');
     Route::get('/reports/{report}', [WorkshopReportController::class, 'show'])->name('reports.show');
 
-    Route::prefix('instructors')->group(function () {
-        Route::get('/', [InstructorController::class, 'index'])->name('instructors.index');
-        Route::get('/new', [InstructorController::class, 'create'])->name('instructors.create');
-        Route::post('/store', [InstructorController::class, 'store'])->name('instructors.store');
-        Route::post('/update', [InstructorController::class, 'update'])->name('instructors.update');
-        Route::get('/{instructor}', [InstructorController::class, 'show'])->name('instructors.show');
-        Route::get('/{instructor}/edit', [InstructorController::class, 'edit'])->name('instructors.edit');
+    Route::middleware('role:admin,manager')->group(function () {
+        Route::prefix('instructors')->group(function () {
+            Route::get('/', [InstructorController::class, 'index'])->name('instructors.index');
+            Route::get('/new', [InstructorController::class, 'create'])->name('instructors.create');
+            Route::post('/store', [InstructorController::class, 'store'])->name('instructors.store');
+            Route::post('/update', [InstructorController::class, 'update'])->name('instructors.update');
+            Route::get('/{instructor}', [InstructorController::class, 'show'])->name('instructors.show');
+            Route::get('/{instructor}/edit', [InstructorController::class, 'edit'])->name('instructors.edit');
 
+        });
     });
 });
 
