@@ -21,20 +21,20 @@
 
                     <!-- Cabeçalho com título e botão voltar -->
                     <div class="flex items-center justify-between mb-8">
-                        <div class="flex flex-col gap-1 space-x-4">
-                            <h1 class="text-xl font-semibold text-gray-900">Oficineiro/a</h1>
-                            <h2 class="text-2xl font-semibold text-gray-900">{{ $instructor->name }}</h2>
+                        <div class="flex items-center gap-4">
+                            <img class="w-16 h-16 rounded-full" src="{{ $instructor->avatar_img }}" alt="{{ $instructor->name }}">
+                            <h1 class="text-xl font-semibold text-gray-900">{{ $instructor->name }}</h1>
                         </div>
-                        <div class="flex flex-col gap-1 space-x-4">
+                        <div class="flex flex-col gap-1">
                             <a href="{{ route('instructors.index') }}" 
-                               class="inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-aqueles">
-                                <i class="fas fa-arrow-left mr-2"></i>
+                               class="inline-flex items-center gap-2 px-2 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-aqueles">
+                                <i class="fas fa-arrow-left"></i>
                                 Voltar
                             </a>
 
                             <a href=" {{ route('instructors.edit', $instructor) }}"
-                               class="inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-aqueles">
-                                <i class="fas fa-edit mr-2"></i>
+                               class="inline-flex items-center gap-2 px-2 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-aqueles">
+                                <i class="fas fa-edit"></i>
                                 Editar
                             </a>
 

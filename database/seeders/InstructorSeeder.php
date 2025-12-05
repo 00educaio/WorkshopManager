@@ -36,6 +36,7 @@ class InstructorSeeder extends Seeder
               'name' => $name,
               'phone' => $fake->phoneNumber(),
               'cpf' => $fake->cpf(false),
+              'avatar' => 'avatars/default-avatar.png',
               'email' => $name . '@gmail.com',
               'password' => bcrypt('12345678'),
               'email_verified_at' => now(),
