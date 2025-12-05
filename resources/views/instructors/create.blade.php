@@ -41,7 +41,7 @@
                             </label>
                             <input type="text" name="name" id="name" value="{{ old('name') }}" required
                                    class="mt-1 block w-full rounded-md border- shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm @error('name') border-red-500 @enderror"
-                                   placeholder="Ex: Ana Clara Silva">
+                                   placeholder="Ex: Maria Clara Araujo">
                             @error('name')
                                 <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                             @enderror

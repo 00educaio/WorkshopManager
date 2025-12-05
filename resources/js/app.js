@@ -15,4 +15,11 @@ document.addEventListener("DOMContentLoaded", function () {
             mask: "000.000.000-00",
         });
     }
+
+    var $phone = document.getElementById("phone");
+    if ($phone) {
+        var $phone = IMask($phone, {
+            mask: "(00) 00000-0000",
+        });
+    }
 });

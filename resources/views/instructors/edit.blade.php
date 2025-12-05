@@ -8,10 +8,18 @@
 
 @section('content')
     <x-app-layout>
+
+           {{-- Erros gerais vindos de withErrors() --}}
+    @if ($errors->has('error'))
+        <div class="mb-4 px-4 py-3 bg-red-100 border border-red-300 text-red-800 rounded-lg shadow-sm">
+            {{ $errors->first('error') }}
+        </div>
+    @endif
+
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Painel</a></li>
             <li class="breadcrumb-item"><a href="{{ route('instructors.index') }}">Oficineiros</a></li>
-            <li class="breadcrumb-item active">Adicionar</li>
+            <li class="breadcrumb-item active">Editar</li>
         </ol>
         <div class="py-8">
             <div class="max-w-3xl mx-auto sm:px-6 lg:px-8">
@@ -29,8 +37,9 @@
                                 Voltar
                             </a>
                         </div>
-                        <form method="POST" action="{{ route('instructors.store') }}" class="space-y-6">
+                        <form method="POST" action="{{ route('instructors.update' , ['instructor' => $instructor->id]) }}" class="space-y-6">
                             @csrf
+                            @method('PUT')
                             <!-- Nome completo -->
                             <div>
                                 <label for="name" class="block text-base font-medium text-gray-700">

@@ -40,10 +40,10 @@ Route::middleware('auth')->group(function () {
         Route::prefix('instructors')->group(function () {
             Route::get('/', [InstructorController::class, 'index'])->name('instructors.index');
             Route::get('/new', [InstructorController::class, 'create'])->name('instructors.create');
-            Route::post('/store', [InstructorController::class, 'store'])->name('instructors.store');
-            Route::post('/update', [InstructorController::class, 'update'])->name('instructors.update');
             Route::get('/{instructor}', [InstructorController::class, 'show'])->name('instructors.show');
             Route::get('/{instructor}/edit', [InstructorController::class, 'edit'])->name('instructors.edit');
+            Route::post('/store', [InstructorController::class, 'store'])->name('instructors.store');
+            Route::put('/{instructor}', [InstructorController::class, 'update'])->name('instructors.update');
 
         });
     });
