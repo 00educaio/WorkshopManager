@@ -32,7 +32,6 @@ class User extends Authenticatable
         'cpf',
         'phone',
         'avatar',
-        'is_active',
 
     ];
 

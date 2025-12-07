@@ -24,7 +24,6 @@ return new class extends Migration
             $table->timestamps();
 
             $table->enum('role', ['admin', 'manager', 'instructor']);
-            $table->boolean('is_active')->default(true);
             $table->softDeletes();
         });
 

@@ -41,7 +41,6 @@ class InstructorSeeder extends Seeder
               'password' => bcrypt('12345678'),
               'email_verified_at' => now(),
               'role' => 'instructor',
-              'is_active' => true,
           ]);
       }
 

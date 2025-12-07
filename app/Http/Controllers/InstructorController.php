@@ -39,7 +39,6 @@ class InstructorController extends Controller
           $data = $request->validated();
           $data['role'] = 'instructor';
           $data['password'] = bcrypt('12345678');
-          $data['is_active'] = true;
           $data['avatar'] = 'avatars/default-avatar.png';
           $instructor = User::create($data);
           

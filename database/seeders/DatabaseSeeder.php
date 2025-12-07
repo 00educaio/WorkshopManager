@@ -25,7 +25,6 @@ class DatabaseSeeder extends Seeder
             'password' => bcrypt('password'),
             'email_verified_at' => now(),
             'role' => 'admin',
-            'is_active' => true,
         ]);
 
         $this->call([
