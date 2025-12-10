@@ -14,9 +14,12 @@
 -   [ ] 3 - Tirar delete de conta
 
 1. show oficineiros e seeder de oficineiros - Feito
-   1.1 create, edit e trashed(permissoes) - próximo
-2. show turmas e seeder de turmas nomes certos(name e grade)
+   1.1 create, edit e trashed(permissoes) - Feito
+
+2. show turmas e seeder de turmas nomes certos(name e grade) - proximo
    2.1 create, edit e trashed(permissoes)
+    # 2.2 Grafico no show, como: Com quais e quantas oficioneiros, ela teve oficina(Com A, 10. Com B, 20)
+    # 2.3 Listagem de Últimos reports que tem essas turmas
 3. Filtro por nome e data no /reports(Últimos 7 dias, mes, semestre, ano)
-4. Cornojob das services
-5. Testar unique_workshops_count
+4. Dashboard de reports
+5. Email de Nova Conta
