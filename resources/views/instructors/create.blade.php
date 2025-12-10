@@ -8,6 +8,14 @@
 @section('content')
 
 <x-app-layout>
+    @if ($errors->any())
+        <div class="mb-4 px-4 py-3 bg-red-100 border border-red-300 text-red-800 rounded-lg shadow-sm">
+            @foreach ($errors->all() as $error)
+                <p>{{ $error }}</p>
+            @endforeach
+        </div>
+    @endif
+
     <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Painel</a></li>
         <li class="breadcrumb-item"><a href="{{ route('instructors.index') }}">Oficineiros</a></li>

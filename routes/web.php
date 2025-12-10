@@ -14,7 +14,7 @@ Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::middleware('auth')->group(function () {
+Route::middleware(['auth', 'verified'])->group(function () {
     Route::prefix('profile')->group(function () {
         Route::get('/', [ProfileController::class, 'edit'])->name('profile.edit');
         Route::patch('/', [ProfileController::class, 'update'])->name('profile.update');
@@ -24,12 +24,15 @@ Route::middleware('auth')->group(function () {
 
     Route::prefix('classes')->group(function () {
         Route::get('/', [SchoolClassController::class, 'index'])->name('classes.index');
-        Route::get('/new', [SchoolClassController::class, 'create'])->name('classes.create');
-        Route::post('/store', [SchoolClassController::class, 'store'])->name('classes.store');
         Route::get('/{class}', [SchoolClassController::class, 'show'])->name('classes.show');
-        Route::get('/{class}/edit', [SchoolClassController::class, 'edit'])->name('classes.edit');
-        Route::put('/{class}', [SchoolClassController::class, 'update'])->name('classes.update');
-        Route::delete('/{class}', [SchoolClassController::class, 'destroy'])->name('classes.destroy');
+
+        Route::middleware('role:admin,manager')->group(function () {
+            Route::post('/store', [SchoolClassController::class, 'store'])->name('classes.store');
+            Route::get('/new', [SchoolClassController::class, 'create'])->name('classes.create');
+            Route::get('/{class}/edit', [SchoolClassController::class, 'edit'])->name('classes.edit');
+            Route::put('/{class}', [SchoolClassController::class, 'update'])->name('classes.update');
+            Route::delete('/{class}', [SchoolClassController::class, 'destroy'])->name('classes.destroy');
+        });
     });
 
 

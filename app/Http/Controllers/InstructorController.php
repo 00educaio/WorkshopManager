@@ -5,8 +5,12 @@ namespace App\Http\Controllers;
 use App\Http\Requests\InstructorStoreRequest;
 use App\Http\Requests\InstructorUpdateRequest;
 use App\Models\User;
+use Illuminate\Auth\Events\Registered;
 use Illuminate\Support\Facades\Log;
 
+//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+//LEMBRAR DE MUDAR OS LOGS DE ERRO EM PRODUÇÃO
+//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 class InstructorController extends Controller
 {
     public function index()
@@ -40,19 +44,22 @@ class InstructorController extends Controller
           $data['role'] = 'instructor';
           $data['password'] = bcrypt('12345678');
           $data['avatar'] = 'avatars/default-avatar.png';
-          $instructor = User::create($data);
           
+          $instructor = User::create($data);
+          event(new Registered($instructor));
+
           return redirect()
                  ->route('instructors.show', $instructor)
                  ->with('success', 'Instrutor Criado Com Sucesso.'); //Colocar na view
       }
       catch (\Exception $e) {
           Log::error('Erro creating instructor: ' . $e->getMessage());
-          
+
           return back()
-                 ->withErrors(['error' => 'Um erro ocorreu ao criar o instrutor.'])
-                 ->withInput();
+              ->withErrors(['error' => 'Erro: ' . $e->getMessage()])
+              ->withInput();
       }
+
     }
 
     public function update(InstructorUpdateRequest $request, User $instructor)
@@ -67,10 +74,10 @@ class InstructorController extends Controller
       }
       catch (\Exception $e) {
           Log::error('Erro updating instructor: ' . $e->getMessage());
-          
+
           return back()
-                 ->withErrors(['error' => 'Um erro ocorreu ao atualizar o instrutor.'])
-                 ->withInput();
+              ->withErrors(['error' => 'Erro: ' . $e->getMessage()])
+              ->withInput();
       }
 
     }
@@ -89,9 +96,10 @@ class InstructorController extends Controller
       }
       catch (\Exception $e) {
           Log::error('Erro deleting instructor: ' . $e->getMessage());
-          
+
           return back()
-                 ->withErrors(['error' => 'Um erro ocorreu ao excluir o instrutor.']);
+              ->withErrors(['error' => 'Erro: ' . $e->getMessage()])
+              ->withInput();
       }
     }
 
@@ -116,9 +124,10 @@ class InstructorController extends Controller
       }
       catch (\Exception $e) {
           Log::error('Erro restoring instructor: ' . $e->getMessage());
-          
+
           return back()
-                 ->withErrors(['error' => 'Um erro ocorreu ao restaurar o instrutor.']);
-      }
+              ->withErrors(['error' => 'Erro: ' . $e->getMessage()])
+              ->withInput();
     }
+}
 }
