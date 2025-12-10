@@ -74,4 +74,51 @@ class InstructorController extends Controller
       }
 
     }
+
+    public function destroy(User $instructor)
+    {
+      try {
+          $instructor->delete();
+          
+          return redirect()
+                 ->route('instructors.index')
+                 ->with('status', [
+                    'type' => 'deleted',
+                    'message' => 'Instrutor Excluído Com Sucesso.'
+                 ]);
+      }
+      catch (\Exception $e) {
+          Log::error('Erro deleting instructor: ' . $e->getMessage());
+          
+          return back()
+                 ->withErrors(['error' => 'Um erro ocorreu ao excluir o instrutor.']);
+      }
+    }
+
+    public function trashed()
+    {
+      $instructors = User::onlyTrashed()->where('role', 'instructor')->get();
+
+      return view('instructors.trashed', compact('instructors'));
+    }
+
+    public function restore(User $instructor)
+    {
+      try {          
+          $instructor->restore();
+          
+          return redirect()
+                 ->route('instructors.index')
+                 ->with('status', [
+                    'type' => 'restored',
+                    'message' => 'Instrutor Restaurado Com Sucesso.'
+                 ]); //Colocar na view
+      }
+      catch (\Exception $e) {
+          Log::error('Erro restoring instructor: ' . $e->getMessage());
+          
+          return back()
+                 ->withErrors(['error' => 'Um erro ocorreu ao restaurar o instrutor.']);
+      }
+    }
 }

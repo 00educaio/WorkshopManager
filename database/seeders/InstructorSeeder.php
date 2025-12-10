@@ -29,6 +29,10 @@ class InstructorSeeder extends Seeder
             'Mirella',
             'Genival',
             'Higor',
+            'Roberta',
+            'Caio',
+            'Bruna',
+            
         ];
 
         foreach ($instructorNames as $name) {

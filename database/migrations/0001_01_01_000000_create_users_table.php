@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('phone');
             $table->string('cpf')->unique();
             $table->string('email')->unique();
-            $table->timestamp('email_verified_at')->nullable(); // Remover nullable em produção
+            $table->timestamp('email_verified_at');
             $table->string('password');
             $table->string('avatar')->nullable();
             $table->rememberToken();

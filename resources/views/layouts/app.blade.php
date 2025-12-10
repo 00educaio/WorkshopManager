@@ -24,6 +24,7 @@
                     </div>
                 </header>
             @endisset
+    <script src="//unpkg.com/alpinejs" defer></script>
 
             <!-- Page Content -->
             <main>
