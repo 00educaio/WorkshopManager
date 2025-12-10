@@ -1,13 +1,4 @@
-@extends('layouts.master')
-
-@section('title', 'Adicionar Turma')
-
-@section('content_header')
-@stop
-
-@section('content')
-
-<x-app-layout>
+<x-main-view sectionTitle="Turmas - Adicionar">
     <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Painel</a></li>
         <li class="breadcrumb-item"><a href="{{ route('classes.index') }}">Turmas</a></li>
@@ -96,6 +87,4 @@
             </div>
         </div>
     </div>
-</x-app-layout>
-
-@stop
+</x-main-view>

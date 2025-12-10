@@ -36,7 +36,10 @@ class SchoolClassController extends Controller
             
             return redirect()
                    ->route('classes.show', $class)
-                   ->with('success', 'Turma Criada Com Sucesso.');
+                   ->with('status', [
+                      'type' => 'success',
+                      'message' => 'Turma Criada Com Sucesso.'
+                   ]);
         }
         catch (\Exception $e) {
             Log::error('Erro creating class: ' . $e->getMessage());
@@ -59,7 +62,10 @@ class SchoolClassController extends Controller
             
             return redirect()
                    ->route('classes.show', $class)
-                   ->with('success', 'Turma Atualizada Com Sucesso.');
+                   ->with('status', [
+                      'type' => 'success',
+                      'message' => 'Turma Atualizada Com Sucesso.'
+                   ]);
         }
         catch (\Exception $e) {
             Log::error('Erro updating class: ' . $e->getMessage());
@@ -77,7 +83,10 @@ class SchoolClassController extends Controller
             
             return redirect()
                    ->route('classes.index')
-                   ->with('success', 'Turma Deletada Com Sucesso.');
+                   ->with('status', [
+                      'type' => 'deleted',
+                      'message' => 'Turma Deletada Com Sucesso.'
+                   ]);
         }
         catch (\Exception $e) {
             Log::error('Erro deleting class: ' . $e->getMessage());
@@ -91,6 +100,26 @@ class SchoolClassController extends Controller
     {
         $classes = SchoolClass::onlyTrashed()->get();
         return view('classes.trashed', compact('classes'));
+    }
+
+    public function restore(SchoolClass $class)
+    {
+        try {
+            $class->restore();
+            
+            return redirect()
+                   ->route('classes.index')
+                   ->with('status', [
+                      'type' => 'restored',
+                      'message' => 'Turma Restaurada Com Sucesso.'
+                   ]);
+        }
+        catch (\Exception $e) {
+            Log::error('Erro restoring class: ' . $e->getMessage());
+            
+            return back()
+                   ->withErrors(['error' => 'Um erro ocorreu ao restaurar a turma.']);
+        }
     }
 
 }

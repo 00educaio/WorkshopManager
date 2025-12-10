@@ -1,102 +1,86 @@
-@extends('layouts.master')
 
-@section('title', 'Adicionar Oficineiro')
+<x-main-view sectionTitle="Oficineiros - Editar">
 
-@section('content_header')
-
-@stop
-
-@section('content')
-    <x-app-layout>
-
-           {{-- Erros gerais vindos de withErrors() --}}
-    @if ($errors->has('error'))
-        <div class="mb-4 px-4 py-3 bg-red-100 border border-red-300 text-red-800 rounded-lg shadow-sm">
-            {{ $errors->first('error') }}
-        </div>
-    @endif
-
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Painel</a></li>
-            <li class="breadcrumb-item"><a href="{{ route('instructors.index') }}">Oficineiros</a></li>
-            <li class="breadcrumb-item active">Editar</li>
-        </ol>
-        <div class="py-8">
-            <div class="max-w-3xl mx-auto sm:px-6 lg:px-8">
-                <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                    <div class="p-6 lg:p-8">
-                        <div class="flex justify-between mb-4">
-                            <h2 class="text-xl font-semibold text-gray-900">
-                                Novo Oficineiro
-                            </h2>
-                            <a href="{{ route('instructors.index') }}" 
-                               class="inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-aqueles">
-                                <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
-                                </svg>
-                                Voltar
-                            </a>
-                        </div>
-                        <form method="POST" action="{{ route('instructors.update' , ['instructor' => $instructor->id]) }}" class="space-y-6">
-                            @csrf
-                            @method('PUT')
-                            <!-- Nome completo -->
-                            <div>
-                                <label for="name" class="block text-base font-medium text-gray-700">
-                                    <i class="fas fa-user mr-1"></i> Nome completo
-                                </label>
-                                <input type="text" name="name" id="name" value="{{ $instructor->name }}" required
-                                      class="mt-1 block w-full rounded-md border-red-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm @error('name') border-red-500 @enderror"
-                                      placeholder="Ex: Ana Clara Silva">
-                                @error('name')
-                                    <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
-                                @enderror
-                            </div>
-                            <!-- E-mail -->
-                            <div>
-                                <label for="email" class="block text-base font-medium text-gray-700">
-                                    <i class="fas fa-envelope mr-1"></i> E-mail
-                                </label>
-                                <input type="email" name="email" id="email" value="{{ $instructor->email }}" 
-                                      class="mt-1 block w-full rounded-md border-red-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm @error('email') border-red-500 @enderror"
-                                      placeholder="exemplo@dominio.com">
-                                @error('email')
-                                    <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
-                                @enderror
-                            </div>
-                            <!-- Telefone / WhatsApp -->
-                            <div>
-                                <label for="phone" class="block text-base font-medium text-gray-700">
-                                    <i class="fas fa-phone mr-1"></i> Telefone / WhatsApp
-                                </label>
-                                <input type="text" name="phone" id="phone" value="{{ $instructor->phone }}" 
-                                      class="mt-1 block w-full rounded-md border-red-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm @error('phone') border-red-500 @enderror"
-                                      placeholder="(99) 99999-9999">
-                                @error('phone')
-                                    <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
-                                @enderror
-                            </div>
-                            <!-- CPF -->
-                            <div>
-                                <label for="cpf" class="block text-base font-medium text-gray-700">
-                                    <i class="fas fa-id-card mr-1"></i> CPF
-                                </label>
-                                <input type="text" name="cpf" id="cpf" value="{{ $instructor->cpf }}" 
-                                      class="mt-1 block w-full rounded-md border-red-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                                      placeholder="000.000.000-00">
-                            </div>
-                            <!-- Botões de ação -->
-                            <div class="flex items-center justify-end space-x-4 pt-6 border-t border-gray-200">
-                                <button type="submit" 
-                                    class="inline-flex items-center px-5 py-2 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition">
-                                    <i class="fas fa-save mr-2"></i>
-                                    Salvar Oficineiro
-                                </button>
-                            </div>
-                        </form>
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Painel</a></li>
+        <li class="breadcrumb-item"><a href="{{ route('instructors.index') }}">Oficineiros</a></li>
+        <li class="breadcrumb-item active">Editar</li>
+    </ol>
+    <div class="py-8">
+        <div class="max-w-3xl mx-auto sm:px-6 lg:px-8">
+            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+                <div class="p-6 lg:p-8">
+                    <div class="flex justify-between mb-4">
+                        <h2 class="text-xl font-semibold text-gray-900">
+                            Novo Oficineiro
+                        </h2>
+                        <a href="{{ route('instructors.index') }}" 
+                            class="inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-aqueles">
+                            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+                            </svg>
+                            Voltar
+                        </a>
                     </div>
+                    <form method="POST" action="{{ route('instructors.update' , ['instructor' => $instructor->id]) }}" class="space-y-6">
+                        @csrf
+                        @method('PUT')
+                        <!-- Nome completo -->
+                        <div>
+                            <label for="name" class="block text-base font-medium text-gray-700">
+                                <i class="fas fa-user mr-1"></i> Nome completo
+                            </label>
+                            <input type="text" name="name" id="name" value="{{ $instructor->name }}" required
+                                    class="mt-1 block w-full rounded-md border-red-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm @error('name') border-red-500 @enderror"
+                                    placeholder="Ex: Ana Clara Silva">
+                            @error('name')
+                                <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                            @enderror
+                        </div>
+                        <!-- E-mail -->
+                        <div>
+                            <label for="email" class="block text-base font-medium text-gray-700">
+                                <i class="fas fa-envelope mr-1"></i> E-mail
+                            </label>
+                            <input type="email" name="email" id="email" value="{{ $instructor->email }}" 
+                                    class="mt-1 block w-full rounded-md border-red-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm @error('email') border-red-500 @enderror"
+                                    placeholder="exemplo@dominio.com">
+                            @error('email')
+                                <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                            @enderror
+                        </div>
+                        <!-- Telefone / WhatsApp -->
+                        <div>
+                            <label for="phone" class="block text-base font-medium text-gray-700">
+                                <i class="fas fa-phone mr-1"></i> Telefone / WhatsApp
+                            </label>
+                            <input type="text" name="phone" id="phone" value="{{ $instructor->phone }}" 
+                                    class="mt-1 block w-full rounded-md border-red-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm @error('phone') border-red-500 @enderror"
+                                    placeholder="(99) 99999-9999">
+                            @error('phone')
+                                <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                            @enderror
+                        </div>
+                        <!-- CPF -->
+                        <div>
+                            <label for="cpf" class="block text-base font-medium text-gray-700">
+                                <i class="fas fa-id-card mr-1"></i> CPF
+                            </label>
+                            <input type="text" name="cpf" id="cpf" value="{{ $instructor->cpf }}" 
+                                    class="mt-1 block w-full rounded-md border-red-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                                    placeholder="000.000.000-00">
+                        </div>
+                        <!-- Botões de ação -->
+                        <div class="flex items-center justify-end space-x-4 pt-6 border-t border-gray-200">
+                            <button type="submit" 
+                                class="inline-flex items-center px-5 py-2 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition">
+                                <i class="fas fa-save mr-2"></i>
+                                Salvar Oficineiro
+                            </button>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
-    </x-app-layout>
-@stop
+    </div>
+</x-main-view>

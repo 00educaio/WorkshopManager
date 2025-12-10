@@ -1,13 +1,4 @@
-@extends('layouts.master')
-
-@section('title', 'Adicionar Oficineiro')
-
-@section('content_header')
-@stop
-
-@section('content')
-
-<x-app-layout>
+<x-main-view sectionTitle="Oficineiros - Adicionar">
     <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Painel</a></li>
         <li class="breadcrumb-item"><a href="{{ route('instructors.index') }}">Oficineiros</a></li>
@@ -92,6 +83,4 @@
             </div>
         </div>
     </div>
-</x-app-layout>
-
-@stop
+</x-main-view>

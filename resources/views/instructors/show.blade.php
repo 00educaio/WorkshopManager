@@ -1,13 +1,4 @@
-@extends('layouts.master')
-
-@section('title', 'Devolutiva - Detalhes')
-
-@section('content_header')
-@stop
-
-@section('content')
-
-<x-app-layout>
+<x-main-view sectionTitle="Devolutiva - Detalhes">
 
     @if (session('success'))
         <div class="mb-4 px-4 py-3 bg-green-100 border border-green-300 text-green-800 rounded-lg shadow-sm">
@@ -163,14 +154,4 @@
 
         </div>
     </div>
-</x-app-layout>
-@endsection
-
-@section('css')
-    {{-- estilos extras se precisar --}}
-@endsection
-
-@section('js')
-    {{-- Se por algum motivo o Alpine não estiver carregando globalmente, descomente a linha abaixo --}}
-    {{-- <script src="//unpkg.com/alpinejs" defer></script> --}}
-@endsection
+</x-main-view>

@@ -1,29 +1,4 @@
-@extends('layouts.master')
-
-@section('title', 'Perfil')
-
-@section('content_header')
-@stop
-
-@section('content')
-
-<x-app-layout>
-    @if(session('status'))
-        @php
-            $status = session('status');
-            $color = match ($status['type']) {
-                'deleted'  => 'bg-red-100 text-red-800 border-red-300',
-                'restored' => 'bg-yellow-100 text-yellow-800 border-yellow-300',
-                default    => 'bg-gray-100 text-gray-800 border-gray-300',
-            };
-        @endphp
-    
-        <div class="p-4 mb-4 border rounded-lg {{ $color }}">
-            {{ $status['message'] }}
-                <button onclick="this.parentElement.style.display='none'" class="float-right font-bold"><i class="fa fa-times"></i></button>
-        </div>
-    @endif
-
+<x-main-view sectionTitle="Oficineiros">
     <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Painel</a></li>
         <li class="breadcrumb-item active">Oficineiros</li>
@@ -107,6 +82,4 @@
             </div>
         </div>
     </div>
-</x-app-layout>
-
-@stop
+</x-main-view>
