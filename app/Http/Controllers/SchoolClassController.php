@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\ClassStoreRequest;
 use App\Http\Requests\ClassUpdateRequest;
 use App\Models\SchoolClass;
+use App\Models\SchoolClassOrigin;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
@@ -12,13 +13,14 @@ class SchoolClassController extends Controller
 {
     public function index(Request $request)
     {
-        $turmas = SchoolClass::all();
-        return view('classes.index', compact('turmas'));
+        $classes = SchoolClass::all();
+        return view('classes.index', compact('classes'));
     }
 
     public function create()
     {
-        return view('classes.create');
+        $origins = SchoolClassOrigin::all();
+        return view('classes.create', compact('origins'));
     }
 
     public function show(SchoolClass $class)
@@ -66,6 +68,29 @@ class SchoolClassController extends Controller
                    ->withErrors(['error' => 'Um erro ocorreu ao atualizar a turma.'])
                    ->withInput();
         }
+    }
+
+    public function destroy(SchoolClass $class)
+    {
+        try {
+            $class->delete();
+            
+            return redirect()
+                   ->route('classes.index')
+                   ->with('success', 'Turma Deletada Com Sucesso.');
+        }
+        catch (\Exception $e) {
+            Log::error('Erro deleting class: ' . $e->getMessage());
+            
+            return back()
+                   ->withErrors(['error' => 'Um erro ocorreu ao deletar a turma.']);
+        }
+    }
+
+    public function trashed()
+    {
+        $classes = SchoolClass::onlyTrashed()->get();
+        return view('classes.trashed', compact('classes'));
     }
 
 }
