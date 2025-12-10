@@ -26,10 +26,11 @@
                 </div>
                 
                 <a href="{{ route('instructors.index') }}" 
-                   class="inline-flex items-center gap-2 px-3 py-2 border border-gray-300 text-base font-medium rounded-md shadow-sm text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition">
+                    class="inline-flex items-center gap-2 px-2 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-aqueles">
                     <i class="fas fa-arrow-left"></i>
-                    Voltar para Lista
+                    Voltar
                 </a>
+
             </div>
 
             @forelse ($instructors as $instructor)
@@ -39,8 +40,8 @@
                     <!-- Faixa lateral indicando status -->
                     <div class="absolute left-0 top-0 bottom-0 w-1 bg-red-400"></div>
 
-                    <div class="p-6 pl-8"> <!-- Padding left maior por causa da faixa -->
-                        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between">
+                    <div class="p-6 pl-8"> 
+                        <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
                             <div class="flex-1">
                                 <div class="flex items-center gap-2">
                                     <h3 class="text-lg font-semibold text-gray-900 line-through decoration-red-500">
@@ -48,35 +49,31 @@
                                     </h3>
                                     <span class="text-xs text-red-600 bg-red-200 px-2 py-0.5 rounded">Excluído</span>
                                 </div>
-
-                                <p class="mt-2 text-sm text-gray-600">
-                                    <i class="fas fa-calendar-times mr-1 text-red-400"></i>
-                                    Data da exclusão: <strong>{{ $instructor->deleted_at->format('d/m/Y H:i') }}</strong>
-                                </p>
-
-                                <div class="mt-2 flex gap-4 text-sm text-gray-500 opacity-75">
-                                    <span>
-                                        <i class="fas fa-book mr-1"></i>
-                                        Oficinas: {{ $instructor->unique_workshops_count ?? 0 }}
-                                    </span>
+                                <div class="mt-3 flex flex-col gap-2">
+                                    <p class="mt-2 text-sm text-gray-600">
+                                        <i class="fas fa-calendar-times mr-1 text-red-400"></i>
+                                        Data da exclusão: <strong>{{ $instructor->deleted_at->format('d/m/Y H:i') }}</strong>
+                                    </p>
+                                    <p class="text-sm text-gray-600 flex items-center">
+                                        <i class="fas fa-chalkboard-teacher mr-2 text-gray-400 w-4 text-center"></i>
+                                        Oficinas:
+                                        <strong class="ml-1 text-gray-800">{{ $instructor->unique_workshops_count }}</strong>
+                                    </p>
                                 </div>
+
                             </div>
 
-                            <!-- Botões de Ação -->
-                            <div class="mt-4 sm:mt-0 sm:ml-6 flex items-center gap-3">
-                                
-                                <!-- Botão Restaurar -->
-                                <form action="{{ route('instructors.restore', $instructor->id) }}" method="POST">
-                                    @csrf
-                                    @method('PATCH')
-                                    <button type="submit" 
-                                            class="inline-flex items-center gap-2 px-4 py-2 border border-transparent text-sm font-medium rounded-md text-green-700 bg-green-100 hover:bg-green-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transition"
-                                            title="Recuperar oficineiro">
-                                        <i class="fas fa-trash-restore"></i>
-                                        Restaurar
-                                    </button>
-                                </form>
-                            </div>
+                            <form action="{{ route('instructors.restore', $instructor->id) }}" method="POST" class="flex items-center">
+                                @csrf
+                                @method('PATCH')
+                                <button type="submit" 
+                                        class="w-full sm:w-auto inline-flex justify-center items-center gap-2 px-3 py-3 sm:py-2 border border-transparent text-sm font-medium rounded-md text-green-700 bg-green-100 hover:bg-green-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transition"
+                                        title="Recuperar oficineiro">
+                                    <i class="fas fa-trash-restore"></i>
+                                    Restaurar
+                                </button>
+                            </form>
+                            
                         </div>
                     </div>
 

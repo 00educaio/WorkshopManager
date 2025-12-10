@@ -61,17 +61,20 @@
                                 </h3>
 
                                 <!-- Container de Estatísticas (Grid para melhor visualização) -->
-                                <div class="mt-3 grid grid-cols-1 sm:grid-cols-2 gap-y-2 gap-x-6">
+                                <div class="mt-3 flex flex-col gap-2">
                                     <p class="text-sm text-gray-600 flex items-center">
                                         <i class="fas fa-file-alt mr-2 text-gray-400 w-4 text-center"></i>
-                                        Devolutivas: <strong class="ml-1 text-gray-800">{{ $instructor->workshopReports->count() }}</strong>
+                                        Devolutivas: 
+                                        <strong class="ml-1 text-gray-800">{{ $instructor->workshopReports->count() }}</strong>
                                     </p>
 
                                     <p class="text-sm text-gray-600 flex items-center">
                                         <i class="fas fa-chalkboard-teacher mr-2 text-gray-400 w-4 text-center"></i>
-                                        Oficinas: <strong class="ml-1 text-gray-800">{{ $instructor->unique_workshops_count }}</strong>
+                                        Oficinas:
+                                        <strong class="ml-1 text-gray-800">{{ $instructor->unique_workshops_count }}</strong>
                                     </p>
                                 </div>
+
                             </div>
 
                             <!-- Botão de Ação -->
