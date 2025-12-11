@@ -6,6 +6,15 @@
 
     <div class="pb-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+
+            <div class="flex justify-between mb-6 mt-8">
+                <div class="flex items-center gap-3">
+                    <span class="text-3xl font-bold text-gray-900">Turmas</span>
+                </div>
+                <x-create-button href="{{ route('classes.create') }}">
+                    Turma
+                </x-create-button>
+            </div>
             
             @forelse ($classes as $class)
                 <div class="bg-white overflow-hidden shadow-md sm:rounded-lg mb-6">
@@ -46,6 +55,10 @@
                     </div>
                 </div>
             @endforelse
+
+            <x-trashed-button href="{{ route('classes.trashed') }}">
+                Turmas Excluídas
+            </x-trashed-button>
         </div>
     </div>
 </x-main-view>

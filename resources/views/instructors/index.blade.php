@@ -14,11 +14,9 @@
                         {{ $instructors->count() }} Ativos
                     </span>
                 </div>
-                <a href="{{ route('instructors.create') }}" 
-                   class="inline-flex items-center gap-2 px-3 py-2 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-400 transition">
-                    <i class="fas fa-plus"></i>
+                <x-create-button href="{{ route('instructors.create') }}">
                     Oficineiro
-                </a>
+                </x-create-button>
             </div>
 
             @forelse ($instructors as $instructor)
@@ -73,13 +71,9 @@
                 </div>
             @endforelse
 
-            <div class="flex items-center justify-end space-x-4 pt-6 border-t border-gray-200">
-                <a href="{{ route('instructors.trashed') }}"
-                        class="inline-flex items-center gap-2 px-3 py-2 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition">
-                    <i class="fas fa-trash"></i>
-                    Oficineiro Inativos
-                </a>
-            </div>
+            <x-trashed-button href="{{ route('instructors.trashed') }}">
+                Oficineiros Excluídos
+            </x-trashed-button>
         </div>
     </div>
 </x-main-view>

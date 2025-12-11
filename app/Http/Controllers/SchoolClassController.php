@@ -51,7 +51,8 @@ class SchoolClassController extends Controller
     }
     public function edit(SchoolClass $class)
     {
-        return view('classes.edit', compact('class'));
+        $origins = SchoolClassOrigin::all();
+        return view('classes.edit', compact('class', 'origins'));
     }
 
     public function update(ClassUpdateRequest $request, SchoolClass $class)

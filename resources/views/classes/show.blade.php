@@ -1,19 +1,4 @@
-@extends('layouts.master')
-
-@section('title', 'Turma - Detalhes')
-
-@section('content_header')
-@stop
-
-@section('content')
-
-<x-app-layout>
-
-    @if (session('success'))
-        <div class="mb-4 px-4 py-3 bg-green-100 border border-green-300 text-green-800 rounded-lg shadow-sm">
-            {{ session('success') }}
-        </div>
-    @endif
+<x-main-view sectionTitle="Turmas - Detalhes">
 
     <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Painel</a></li>
@@ -191,13 +176,4 @@
 
         </div>
     </div>
-</x-app-layout>
-@endsection
-
-@section('css')
-    {{-- estilos extras se precisar --}}
-@endsection
-
-@section('js')
-    {{-- <script src="//unpkg.com/alpinejs" defer></script> --}}
-@endsection
+</x-main-view>

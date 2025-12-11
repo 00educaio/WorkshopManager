@@ -91,7 +91,7 @@
                                         </td>
                                         <td class="px-6 py-4 whitespace-nowrap text-base text-gray-500">
                                             @if ($report->extra_activity)
-                                                <span class="inline-flex items-center px-3 py-1 text-white text-sm font-semibold rounded-full" style="background-color: #28a745;">
+                                                <span class="inline-flex items-center px-3 py-1 text-white text-sm font-semibold rounded-full">
                                                     <i class="fas fa-check mr-2"></i> Sim
                                                 </span>
                                             @else
