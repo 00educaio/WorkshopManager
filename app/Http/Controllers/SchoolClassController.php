@@ -32,14 +32,14 @@ class SchoolClassController extends Controller
     {   
         try {
             $data = $request->validated();
-            $class = SchoolClass::create($data);
+            SchoolClass::create($data);
             
             return redirect()
-                   ->route('classes.show', $class)
-                   ->with('status', [
-                      'type' => 'success',
-                      'message' => 'Turma Criada Com Sucesso.'
-                   ]);
+                    ->route('classes.index')
+                    ->with('status', [
+                        'type' => 'success',
+                        'message' => 'Turma Criada Com Sucesso.'
+                    ]);
         }
         catch (\Exception $e) {
             Log::error('Erro creating class: ' . $e->getMessage());

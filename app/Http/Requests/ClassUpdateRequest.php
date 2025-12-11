@@ -11,7 +11,7 @@ class ClassUpdateRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,6 @@ class ClassUpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
-
             'name' => 'sometimes|required|string|max:255',
             'grade' => 'sometimes|required|string',
             'school_class_origin_id' => "sometimes|required|exists:school_class_origins,id",

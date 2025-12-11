@@ -53,7 +53,7 @@ class InstructorController extends Controller
           Log::error('Erro creating instructor: ' . $e->getMessage());
           
           return back()
-                 ->withErrors(['error' =>  $e->getMessage()])
+                 ->withErrors(['error' => 'Um erro ocorreu ao criar o instrutor.'])
                  ->withInput();
       }
     }

@@ -28,6 +28,7 @@ Route::middleware('auth')->group(function () {
     Route::prefix('classes')->group(function () {
         Route::get('/', [SchoolClassController::class, 'index'])->name('classes.index');
         Route::get('/new', [SchoolClassController::class, 'create'])->name('classes.create');
+        
         Route::middleware('role:admin,manager')->group(function () {
             Route::post('/store', [SchoolClassController::class, 'store'])->name('classes.store');
             Route::get('/trashed', [SchoolClassController::class, 'trashed'])->name('classes.trashed');

@@ -16,7 +16,7 @@
                         <x-back-button href="{{ route('classes.index') }}"></x-back-button>
                     </div>
 
-                    <x-form-post-classes href="{{ route('classes.update', $class->id) }}" :origins="$origins" :class="$class"></x-form-post-classes>
+                    <x-form-post-classes href="{{ route('classes.update' , ['class' => $class->id]) }}" :origins="$origins" :class="$class"></x-form-post-classes>
                 </div>
             </div>
         </div>

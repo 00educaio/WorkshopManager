@@ -1,7 +1,7 @@
-<x-main-view sectionTitle="Oficineiros - Lixeira">
+<x-main-view sectionTitle="Turmas - Lixeira">
     <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Painel</a></li>
-        <li class="breadcrumb-item"><a href="{{ route('instructors.index') }}">Oficineiros</a></li>
+        <li class="breadcrumb-item"><a href="{{ route('classes.index') }}">Turmas</a></li>
         <li class="breadcrumb-item active">Lixeira</li>
     </ol>
     
@@ -12,12 +12,11 @@
                 <div class="flex items-center gap-3">
                     <span class="text-3xl font-bold text-gray-900">Lixeira</span>
                     <span class="px-2 py-1 text-xs font-semibold text-red-700 bg-red-100 rounded-full">
-                        {{ $instructors->count() }} Inativos
+                        {{ $classes->count() }} Inativos
                     </span>
                 </div>
                 
-                <x-back-button href="{{ route('classes.index') }}"> </x-back-button>
-
+                <x-back-button href="{{ route('classes.index') }}"></x-back-button>
 
             </div>
 

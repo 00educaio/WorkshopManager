@@ -1,10 +1,4 @@
 <x-main-view sectionTitle="Devolutiva - Detalhes">
-
-    @if (session('success'))
-        <div class="mb-4 px-4 py-3 bg-green-100 border border-green-300 text-green-800 rounded-lg shadow-sm">
-            {{ session('success') }}
-        </div>
-    @endif
     <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Painel</a></li>
         <li class="breadcrumb-item"><a href="{{ route('instructors.index') }}">Oficineiros</a></li>
