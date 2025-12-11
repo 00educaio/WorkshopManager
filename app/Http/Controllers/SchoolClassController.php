@@ -6,7 +6,9 @@ use App\Http\Requests\ClassStoreRequest;
 use App\Http\Requests\ClassUpdateRequest;
 use App\Models\SchoolClass;
 use App\Models\SchoolClassOrigin;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 
 class SchoolClassController extends Controller
@@ -25,9 +27,23 @@ class SchoolClassController extends Controller
 
     public function show(SchoolClass $class)
     {
-        $class = SchoolClass::with(['instructorsWithWorkshopCount'])->findOrFail($class->id);
+        $classInfo = SchoolClass::with(['instructorsWithWorkshopCount'])->findOrFail($class->id);
         
-        return view('classes.show', compact('class'));
+        // Se for instrutor, carrega os workshops recentes dele
+        if (Auth::user()->role == 'instructor') {
+            $classInfo->load(['recentWorkshopsByUser' => function ($query) {
+                $query->where('instructor_id', Auth::id())
+                    ->orderBy('report_date', 'desc')
+                    ->limit(7);
+            }]);
+            
+            $classInfo->recentWorkshopsByUser->each(function ($report) {
+                $report->report_date = Carbon::parse($report->report_date)->format('d/m/Y');
+            });
+        }
+
+        
+        return view('classes.show', compact('class', 'classInfo'));
     }
 
     public function store(ClassStoreRequest $request)

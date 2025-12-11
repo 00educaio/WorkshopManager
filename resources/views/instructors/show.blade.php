@@ -15,15 +15,11 @@
                             <img class="w-16 h-16 rounded-full" src="{{ $instructor->avatar_img }}" alt="{{ $instructor->name }}">
                             <h1 class="text-xl font-semibold text-gray-900">{{ $instructor->name }}</h1>
                         </div>
-                        <div class="flex flex-col gap-1" x-data="{ showDeleteModal: false }">
-                            <a href="{{ route('instructors.index') }}" 
-                               class="inline-flex items-center gap-2 px-2 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-aqueles">
-                                <i class="fas fa-arrow-left"></i>
-                                Voltar
-                            </a>
+                        {{-- <div class="flex flex-col gap-1" x-data="{ showDeleteModal: false }">
+                            <x-back-button href="{{ route('instructors.index') }}"></x-back-button>
 
                             <a href=" {{ route('instructors.edit', $instructor) }}"
-                               class="inline-flex items-center gap-2 px-2 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-aqueles">
+                               class="inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-aqueles">
                                 <i class="fas fa-edit"></i>
                                 Editar
                             </a>
@@ -87,7 +83,13 @@
 
                             <!-- FIM DO MODAL -->
 
-                        </div>
+                        </div> --}}
+                        <x-deletion-modal
+                                backHref="{{ route('instructors.index') }}"
+                                editHref="{{ route('instructors.edit', $instructor) }}"
+                                deleteHref="{{ route('instructors.destroy', $instructor) }}"> 
+                            Tem certeza que deseja apagar <strong>{{ $instructor->name }}</strong>?
+                        </x-deletion-modal>
                     </div>
 
                     <!-- Card com informações principais -->

@@ -23,73 +23,12 @@
                             </div>
                         </div>
 
-                        <div class="flex flex-col gap-1" x-data="{ showDeleteModal: false }">
-                            <x-back-button href="{{ route('classes.index') }}"></x-back-button>
-
-                            <a href="{{ route('classes.edit', $class) }}"
-                               class="inline-flex items-center gap-2 px-2 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-aqueles">
-                                <i class="fas fa-edit"></i>
-                                Editar
-                            </a>
-
-                            <!-- Botão de Apagar -->
-                            <button @click="showDeleteModal = true"
-                                    type="button"
-                                    class="inline-flex items-center gap-2 px-2 py-2 bg-red-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 transition ease-in-out duration-aqueles">
-                                <i class="fas fa-trash"></i>
-                                Apagar
-                            </button>
-
-                            <!-- Modal de Confirmação -->
-                            <div x-show="showDeleteModal"
-                                x-transition.opacity
-                                class="fixed inset-0 z-50 flex items-start justify-center pt-20 bg-black bg-opacity-50"
-                                style="display: none;">
-
-                                <!-- Caixa do modal -->
-                                <div @click.away="showDeleteModal = false"
-                                    x-transition
-                                    class="bg-white rounded-lg shadow-xl w-full max-w-lg">
-
-                                    <!-- Header -->
-                                    <div class="flex items-start justify-between px-6 py-4 border-b">
-                                        <h2 class="text-lg font-semibold text-gray-900">
-                                            Tem certeza que deseja apagar esta turma?
-                                        </h2>
-
-                                        <button @click="showDeleteModal = false" class="text-gray-400 hover:text-gray-600">
-                                            <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                    d="M6 18L18 6M6 6l12 12"/>
-                                            </svg>
-                                        </button>
-                                    </div>
-
-                                    <!-- Footer -->
-                                    <div class="px-6 py-4 bg-gray-50 flex justify-end gap-3">
-
-                                        <!-- Botão cancelar -->
-                                        <button @click="showDeleteModal = false"
-                                                type="button"
-                                                class="px-4 py-2 text-sm bg-white border rounded-md shadow-sm hover:bg-gray-100">
-                                            Cancelar
-                                        </button>
-
-                                        <!-- Botão apagar -->
-                                        <form action="{{ route('classes.destroy', $class) }}" method="POST">
-                                            @csrf
-                                            @method('DELETE')
-
-                                            <button type="submit"
-                                                    class="px-4 py-2 text-sm bg-red-600 text-white rounded-md shadow-sm hover:bg-red-700">
-                                                Sim, Apagar
-                                            </button>
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- FIM DO MODAL -->
-                        </div>
+                        <x-deletion-modal
+                                backHref="{{ route('classes.index') }}"
+                                editHref="{{ route('classes.edit', $class) }}"
+                                deleteHref="{{ route('classes.destroy', $class) }}"> 
+                            Tem certeza que deseja apagar <strong>{{ $class->name }}</strong>?
+                        </x-deletion-modal>
                     </div>
 
                     <!-- Card com informações principais -->
@@ -113,38 +52,108 @@
                             </dd>
                         </div>
                     </div>
-                    <div class="mt-10">
-                        <h2 class="text-xl font-semibold text-gray-900 mb-4">
-                            Atendidos por {{$class->instructorsWithWorkshopCount->count()}} Oficineiros
-                        </h2>
-                       
-                        <div class="overflow-x-auto mt-4">
-                            <table class="min-w-full divide-y divide-gray-200">
-                                <thead class="bg-gray-50">
-                                  <tr>
-                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                      Oficineiro
+
+                    @if(Auth::user()->role == 'instructor')
+                    <h2 class="text-xl font-semibold text-gray-900 mb-4 mt-10">
+                        Qtde de Devolutivas {{$classInfo->recentWorkshopsByUser->count()}}
+                    </h2>
+                     <div class="overflow-x-auto">
+                        <table class="min-w-full divide-y divide-gray-200">
+                            <thead class="bg-gray-50">
+                                <tr>
+                                    <th scope="col" class="px-6 py-3 text-left text-lg font-medium text-gray-500 uppercase tracking-wider">
+                                        Data
                                     </th>
-                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                      Qtde Oficinas
+                                    <th scope="col" class="px-6 py-3 text-left text-lg font-medium text-gray-500 uppercase tracking-wider">
+                                        Dia da Semana
                                     </th>
-                                  </tr>
-                                </thead>
-                                <tbody class="bg-white divide-y divide-gray-200">
-                                  @foreach($class->instructorsWithWorkshopCount as $instructor)
-                                    <tr>
-                                      <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                                        {{ $instructor->instructor->name }}
-                                      </td>
-                                      <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                        {{ $instructor->total_workshops }}
-                                      </td>
+                                    <th scope="col" class="px-6 py-3 text-left text-lg font-medium text-gray-500 uppercase tracking-wider">
+                                        N. Oficinas
+                                    </th>
+                                    <th scope="col" class="px-6 py-3 text-left text-lg font-medium text-gray-500 uppercase tracking-wider">
+                                        Atividade Extra
+                                    </th>
+                                    <th scope="col" class="relative px-6 py-3">
+                                        
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody class="bg-white divide-y divide-gray-200">
+                                @forelse($classInfo->recentWorkshopsByUser ?? [] as $report)
+                                    <tr class="hover:bg-gray-50">
+                                        <td class="px-6 py-4 whitespace-nowrap text-base font-medium text-gray-900">
+                                            {{ $report->report_date }}
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-base font-medium text-gray-500">
+                                            {{ mb_strtoupper(
+                                                \Carbon\Carbon::createFromFormat('d/m/Y', $report->report_date)
+                                                    ->locale('pt_BR')
+                                                    ->isoFormat('dddd'),
+                                                'UTF-8'
+                                                )
+                                            }}
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-base text-gray-500">
+                                            {{ $report->schoolClasses->count() }}
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-base text-gray-500">
+                                            @if ($report->extra_activity)
+                                                <span class="inline-flex items-center px-3 py-1 text-white text-sm font-semibold rounded-full">
+                                                    <i class="fas fa-check mr-2"></i> Sim
+                                                </span>
+                                            @else
+                                                <span class="inline-flex items-center px-3 py-1 bg-red-600 text-white text-sm font-semibold rounded-full">
+                                                    <i class="fas fa-times mr-2"></i> Não
+                                                </span>
+                                            @endif
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-right text-base font-medium">
+                                            <a href="{{ route('reports.show', $report) }}" class="ml-2 inline-flex items-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+                                                Visualizar
+                                            </a>
+                                        </td>
                                     </tr>
-                                  @endforeach
-                                </tbody>
-                            </table>
-                        </div>
+                                @empty
+                                    <tr>
+                                        <td colspan="6" class="px-6 py-12 text-center text-gray-500">
+                                            @if(request('search'))
+                                                Nenhuma oficina encontrada para "{{ request('search') }}"
+                                            @else
+                                                Nenhuma oficina cadastrada ainda.
+                                            @endif
+                                        </td>
+                                    </tr>
+                                @endforelse
+                            </tbody>
+                        </table>
                     </div>
+            
+                    @else
+                    <h2 class="text-xl font-semibold text-gray-900 mb-4 mt-10">
+                        Oficineiros e Total de Oficinas
+                    </h2>
+                        {{-- Mostrar todos os instrutores e contagem --}}
+                        <table class="min-w-full divide-y divide-gray-200">
+                            <thead>
+                                <tr>
+                                    <th>Oficineiro</th>
+                                    <th>Total de Oficinas</th>
+                                </tr>
+                            </thead>
+                            <tbody class="bg-white divide-y divide-gray-200">
+                                @foreach($classInfo->instructorsWithWorkshopCount as $instructor)
+                                    <tr>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                                            {{ $instructor->instructor_name }} {{-- Corrigido: não é $instructor->instructor->name --}}
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                            {{ $instructor->total_workshops }}
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    @endif
                     
                 </div>
             </div>

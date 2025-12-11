@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class SchoolClass extends Model
@@ -48,6 +49,23 @@ class SchoolClass extends Model
             DB::raw('COUNT(DISTINCT workshop_reports.id) as total_workshops')
         )
         ->groupBy('workshop_reports.instructor_id', 'users.name');
+    }
+
+    public function recentWorkshopsByUser($limit = 7)
+    {
+        $userId = Auth::user()->id;
+        return $this->hasManyThrough(
+            WorkshopReport::class,
+            WorkshopReportSchoolClass::class,
+            'school_class_id',
+            'id',
+            'id',
+            'workshop_report_id'
+        )
+        ->where('workshop_reports.instructor_id', $userId)
+        ->orderBy('workshop_reports.report_date', 'desc')
+        ->limit($limit)
+        ->select('workshop_reports.*');
     }
 
 }
