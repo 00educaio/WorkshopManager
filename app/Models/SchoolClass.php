@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\DB;
 
 class SchoolClass extends Model
 {
@@ -28,6 +29,25 @@ class SchoolClass extends Model
     public function reports()
     {
         return $this->hasMany(WorkshopReportSchoolClass::class, 'school_class_id');
+    }
+
+    public function instructorsWithWorkshopCount()
+    {
+        return $this->hasManyThrough(
+            WorkshopReport::class,
+            WorkshopReportSchoolClass::class,
+            'school_class_id', // FK em WorkshopReportSchoolClass
+            'id', // FK em WorkshopReport (id do workshop_report)
+            'id', // PK SchoolClass
+            'workshop_report_id' // PK WorkshopReportSchoolClass
+        )
+        ->join('users', 'workshop_reports.instructor_id', '=', 'users.id')
+        ->select(
+            'workshop_reports.instructor_id',
+            'users.name as instructor_name', // Adicionando o nome do oficineiro
+            DB::raw('COUNT(DISTINCT workshop_reports.id) as total_workshops')
+        )
+        ->groupBy('workshop_reports.instructor_id', 'users.name');
     }
 
 }

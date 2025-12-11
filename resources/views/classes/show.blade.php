@@ -24,7 +24,6 @@
                         </div>
 
                         <div class="flex flex-col gap-1" x-data="{ showDeleteModal: false }">
-                            
                             <x-back-button href="{{ route('classes.index') }}"></x-back-button>
 
                             <a href="{{ route('classes.edit', $class) }}"
@@ -116,51 +115,35 @@
                     </div>
                     <div class="mt-10">
                         <h2 class="text-xl font-semibold text-gray-900 mb-4">
-                            Informações Relacionadas
+                            Atendidos por {{$class->instructorsWithWorkshopCount->count()}} Oficineiros
                         </h2>
-                        
-                        <div class="bg-yellow-50 border-l-4 border-amber-400 p-4">
-                            <div class="flex">
-                                <div class="flex-shrink-0">
-                                    <i class="fas fa-info-circle text-amber-400"></i>
-                                </div>
-                                <div class="ml-3">
-                                    <p class="text-sm text-amber-700">
-                                        Aqui terá um gráfico com quais e quantas oficioneiros, ela teve oficina(Com A, 10. Com B, 20).
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-
-                        {{-- Estrutura de tabela pronta para uso caso tenha dados --}}
-                        {{-- 
+                       
                         <div class="overflow-x-auto mt-4">
                             <table class="min-w-full divide-y divide-gray-200">
                                 <thead class="bg-gray-50">
                                   <tr>
                                     <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                      Nome
+                                      Oficineiro
                                     </th>
                                     <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                      Detalhe
+                                      Qtde Oficinas
                                     </th>
                                   </tr>
                                 </thead>
                                 <tbody class="bg-white divide-y divide-gray-200">
-                                  @foreach($class->students as $student)
+                                  @foreach($class->instructorsWithWorkshopCount as $instructor)
                                     <tr>
                                       <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                                        {{ $student->name }}
+                                        {{ $instructor->instructor->name }}
                                       </td>
                                       <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                        ...
+                                        {{ $instructor->total_workshops }}
                                       </td>
                                     </tr>
                                   @endforeach
                                 </tbody>
                             </table>
                         </div>
-                        --}}
                     </div>
                     
                 </div>

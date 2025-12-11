@@ -25,6 +25,8 @@ class SchoolClassController extends Controller
 
     public function show(SchoolClass $class)
     {
+        $class = SchoolClass::with(['instructorsWithWorkshopCount'])->findOrFail($class->id);
+        
         return view('classes.show', compact('class'));
     }
 
