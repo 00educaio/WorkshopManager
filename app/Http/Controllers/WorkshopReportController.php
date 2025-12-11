@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\WorkshopReport;
-use Illuminate\Http\Request;
 use Carbon\Carbon;
 
 class WorkshopReportController extends Controller

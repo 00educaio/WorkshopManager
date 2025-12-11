@@ -1,7 +1,7 @@
-<x-main-view sectionTitle="Oficineiros - Adicionar">
+<x-main-view sectionTitle="Turmas - Adicionar">
     <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Painel</a></li>
-        <li class="breadcrumb-item"><a href="{{ route('instructors.index') }}">Oficineiros</a></li>
+        <li class="breadcrumb-item"><a href="{{ route('classes.index') }}">Turmas</a></li>
         <li class="breadcrumb-item active">Adicionar</li>
     </ol>
 
@@ -11,12 +11,13 @@
                 <div class="p-6 lg:p-8">
                     <div class="flex justify-between mb-4">
                         <h2 class="text-xl font-semibold text-gray-900">
-                            Novo Oficineiro
+                            Nova Turma
                         </h2>
-                        <x-back-button href="{{ route('instructors.index') }}"></x-back-button>
+                        <x-back-button href="{{ route('classes.index') }}"></x-back-button>
                     </div>
 
-                    <x-form-post-instructors href="{{ route('instructors.store') }}"></x-form-post-instructors>
+                    <x-form-post-classes href="{{ route('classes.store') }}" :origins="$origins"></x-form-post-classes>
+                    
 
                 </div>
             </div>

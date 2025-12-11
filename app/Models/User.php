@@ -57,6 +57,11 @@ class User extends Authenticatable implements MustVerifyEmail
         ];
     }
 
+    public function hasAnyRole(array $roles): bool
+    {
+        return in_array($this->role, $roles);
+    }
+
     public function workshopReports()
     {
         return $this->hasMany(WorkshopReport::class, 'instructor_id');

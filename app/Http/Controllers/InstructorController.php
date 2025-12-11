@@ -50,7 +50,10 @@ class InstructorController extends Controller
 
           return redirect()
                  ->route('instructors.show', $instructor)
-                 ->with('success', 'Instrutor Criado Com Sucesso.'); //Colocar na view
+                 ->with('status', [
+                    'type' => 'success',
+                    'message' => 'Instrutor Criado Com Sucesso.'
+                 ]);
       }
       catch (\Exception $e) {
           Log::error('Erro creating instructor: ' . $e->getMessage());
@@ -70,7 +73,10 @@ class InstructorController extends Controller
           
           return redirect()
                  ->route('instructors.show', $instructor)
-                 ->with('success', 'Instrutor Atualizado Com Sucesso.'); //Colocar na view
+                 ->with('status', [
+                    'type' => 'success',
+                    'message' => 'Instrutor Atualizado Com Sucesso.'
+                 ]);
       }
       catch (\Exception $e) {
           Log::error('Erro updating instructor: ' . $e->getMessage());

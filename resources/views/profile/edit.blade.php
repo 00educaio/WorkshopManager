@@ -14,6 +14,11 @@
 
     <div class="pb-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
+            <div class="flex justify-between mb-4">
+                <h2 class="text-xl font-semibold text-gray-900">
+                    Perfil
+                </h2>
+            </div>
             <div class="p-4 sm:p-8 bg-white shadow-md sm:rounded-lg">
                 <div class="max-w-xl">
                     @include('profile.partials.avatar-upload-form')

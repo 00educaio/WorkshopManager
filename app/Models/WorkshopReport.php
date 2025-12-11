@@ -34,7 +34,9 @@ class WorkshopReport extends Model
     }
 
     public function getUniqueWorkshopsCountAttribute()
-    {
+    {   
+        // Conta o número de oficinas únicas baseadas no horário no mes atual
+    
         return $this->schoolClasses
             ->pluck('time')    // pega todos os horários desse relatório
             ->unique()         // remove duplicados

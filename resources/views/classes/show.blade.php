@@ -1,50 +1,63 @@
-@extends('layouts.master')
+<x-main-view sectionTitle="Turmas - Detalhes">
 
-@section('title', 'Perfil')
-
-@section('content_header')
-@stop
-
-@section('content')
-
-<x-app-layout>
     <ol class="breadcrumb">
-      <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Painel</a></li>
-      <li class="breadcrumb-item active">Devolutivas</li>
+        <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Painel</a></li>
+        <li class="breadcrumb-item"><a href="{{ route('classes.index') }}">Turmas</a></li>
+        <li class="breadcrumb-item active">Detalhes</li>
     </ol>
-    <div class="pb-12">
+
+    <div class="py-1">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow sm:rounded-lg">
+            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900">
+                    
+                    <div class="flex items-center justify-between mb-8">
+                        <div class="flex items-center gap-4">
+                            <div class="w-16 h-16 rounded-full bg-gray-200 flex items-center justify-center text-gray-600 text-2xl">                              
+                              <img class="w-16 h-16 rounded-full" src="{{ asset('storage/avatars/default-avatar.png') }}" alt="Ícone da Turma">
 
-                    <!-- Título + Busca (igual ao Breeze) -->
-                    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-6">
-                        <span class="text-xl font-semibold text-gray-900">
-                            Devolutivas
-                        </span>
-
-                        <!-- Form de busca (igual ao Breeze) -->
-                        <form method="GET" action="{{ route('classes.index') }}" class="mt-4 sm:mt-0">
-                            <div class="flex rounded-md shadow-sm">
-                                <input 
-                                    type="text" 
-                                    name="search" 
-                                    value="{{ request('search') }}"
-                                    placeholder="Buscar por título ou instrutor..."
-                                    class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                                />
-                                <button type="submit"
-                                    class="ml-2 inline-flex items-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
-                                    <svg class="-ml-0.5 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
-                                    </svg>
-                                </button>
                             </div>
-                        </form>
+                            <div>
+                                <h1 class="text-xl font-semibold text-gray-900">{{ $class->name }}</h1>
+                                <span class="text-sm text-gray-500">{{ $class->grade ?? 'Série não informada' }}</span>
+                            </div>
+                        </div>
+
+                        <x-deletion-modal
+                                backHref="{{ route('classes.index') }}"
+                                editHref="{{ route('classes.edit', $class) }}"
+                                deleteHref="{{ route('classes.destroy', $class) }}"> 
+                            Tem certeza que deseja apagar <strong>{{ $class->name }}</strong>?
+                        </x-deletion-modal>
                     </div>
 
-                    <!-- Tabela responsiva (igual ao Breeze) -->
-                    <div class="overflow-x-auto">
+                    <!-- Card com informações principais -->
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                        <div class="bg-gray-50 rounded-lg p-4">
+                            <dt class="text-sm font-medium text-gray-500">Nome da Turma</dt>
+                            <dd class="mt-1 text-lg font-semibold text-gray-900">{{ $class->name }}</dd>
+                        </div>
+
+                        <div class="bg-gray-50 rounded-lg p-4">
+                            <dt class="text-sm font-medium text-gray-500">Série / Grau</dt>
+                            <dd class="mt-1 text-lg font-semibold text-gray-900">
+                                {{ $class->grade ?? '-' }}
+                            </dd>
+                        </div>
+
+                        <div class="bg-gray-50 rounded-lg p-4">
+                            <dt class="text-sm font-medium text-gray-500">ID Origem (Escola/Sist.)</dt>
+                            <dd class="mt-1 text-lg font-semibold text-gray-900">
+                                {{ $class->origin->name }}
+                            </dd>
+                        </div>
+                    </div>
+
+                    @if(Auth::user()->role == 'instructor')
+                    <h2 class="text-xl font-semibold text-gray-900 mb-4 mt-10">
+                        Qtde de Devolutivas {{$classInfo->recentWorkshopsByUser->count()}}
+                    </h2>
+                     <div class="overflow-x-auto">
                         <table class="min-w-full divide-y divide-gray-200">
                             <thead class="bg-gray-50">
                                 <tr>
@@ -53,9 +66,6 @@
                                     </th>
                                     <th scope="col" class="px-6 py-3 text-left text-lg font-medium text-gray-500 uppercase tracking-wider">
                                         Dia da Semana
-                                    </th>
-                                    <th scope="col" class="px-6 py-3 text-left text-lg font-medium text-gray-500 uppercase tracking-wider">
-                                        Instrutor
                                     </th>
                                     <th scope="col" class="px-6 py-3 text-left text-lg font-medium text-gray-500 uppercase tracking-wider">
                                         N. Oficinas
@@ -69,7 +79,7 @@
                                 </tr>
                             </thead>
                             <tbody class="bg-white divide-y divide-gray-200">
-                                @forelse ($reports as $report)
+                                @forelse($classInfo->recentWorkshopsByUser ?? [] as $report)
                                     <tr class="hover:bg-gray-50">
                                         <td class="px-6 py-4 whitespace-nowrap text-base font-medium text-gray-900">
                                             {{ $report->report_date }}
@@ -82,9 +92,6 @@
                                                 'UTF-8'
                                                 )
                                             }}
-                                        </td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-base text-gray-500">
-                                            {{ $report->instructor->name }}
                                         </td>
                                         <td class="px-6 py-4 whitespace-nowrap text-base text-gray-500">
                                             {{ $report->schoolClasses->count() }}
@@ -120,24 +127,37 @@
                             </tbody>
                         </table>
                     </div>
-
-                    <!-- Paginação (exatamente como no Breeze) -->
-                    {{-- <div class="mt-6">
-                        {{ $reports->onEachSide(1)->links() }}
-                    </div> --}}
+            
+                    @else
+                    <h2 class="text-xl font-semibold text-gray-900 mb-4 mt-10">
+                        Oficineiros e Total de Oficinas
+                    </h2>
+                        {{-- Mostrar todos os instrutores e contagem --}}
+                        <table class="min-w-full divide-y divide-gray-200">
+                            <thead>
+                                <tr>
+                                    <th>Oficineiro</th>
+                                    <th>Total de Oficinas</th>
+                                </tr>
+                            </thead>
+                            <tbody class="bg-white divide-y divide-gray-200">
+                                @foreach($classInfo->instructorsWithWorkshopCount as $instructor)
+                                    <tr>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                                            {{ $instructor->instructor_name }} {{-- Corrigido: não é $instructor->instructor->name --}}
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                            {{ $instructor->total_workshops }}
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    @endif
+                    
                 </div>
             </div>
+
         </div>
     </div>
-</x-app-layout>
-
-@stop
-
-@section('css')
-    {{-- Add here extra stylesheets --}}
-    {{-- <link rel="stylesheet" href="/css/admin_custom.css"> --}}
-@stop
-
-@section('js')
-    <script> console.log("Hi, I'm using the Laravel-AdminLTE package!"); </script>
-@stop
+</x-main-view>

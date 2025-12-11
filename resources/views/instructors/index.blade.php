@@ -1,29 +1,4 @@
-@extends('layouts.master')
-
-@section('title', 'Perfil')
-
-@section('content_header')
-@stop
-
-@section('content')
-
-<x-app-layout>
-    @if(session('status'))
-        @php
-            $status = session('status');
-            $color = match ($status['type']) {
-                'deleted'  => 'bg-red-100 text-red-800 border-red-300',
-                'restored' => 'bg-yellow-100 text-yellow-800 border-yellow-300',
-                default    => 'bg-gray-100 text-gray-800 border-gray-300',
-            };
-        @endphp
-    
-        <div class="p-4 mb-4 border rounded-lg {{ $color }}">
-            {{ $status['message'] }}
-                <button onclick="this.parentElement.style.display='none'" class="float-right font-bold"><i class="fa fa-times"></i></button>
-        </div>
-    @endif
-
+<x-main-view sectionTitle="Oficineiros">
     <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Painel</a></li>
         <li class="breadcrumb-item active">Oficineiros</li>
@@ -39,11 +14,9 @@
                         {{ $instructors->count() }} Ativos
                     </span>
                 </div>
-                <a href="{{ route('instructors.create') }}" 
-                   class="inline-flex items-center gap-2 px-3 py-2 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-400 transition">
-                    <i class="fas fa-plus"></i>
+                <x-create-button href="{{ route('instructors.create') }}">
                     Oficineiro
-                </a>
+                </x-create-button>
             </div>
 
             @forelse ($instructors as $instructor)
@@ -61,17 +34,20 @@
                                 </h3>
 
                                 <!-- Container de Estatísticas (Grid para melhor visualização) -->
-                                <div class="mt-3 grid grid-cols-1 sm:grid-cols-2 gap-y-2 gap-x-6">
+                                <div class="mt-3 flex flex-col gap-2">
                                     <p class="text-sm text-gray-600 flex items-center">
                                         <i class="fas fa-file-alt mr-2 text-gray-400 w-4 text-center"></i>
-                                        Devolutivas: <strong class="ml-1 text-gray-800">{{ $instructor->workshopReports->count() }}</strong>
+                                        Devolutivas: 
+                                        <strong class="ml-1 text-gray-800">{{ $instructor->workshopReports->count() }}</strong>
                                     </p>
 
                                     <p class="text-sm text-gray-600 flex items-center">
                                         <i class="fas fa-chalkboard-teacher mr-2 text-gray-400 w-4 text-center"></i>
-                                        Oficinas: <strong class="ml-1 text-gray-800">{{ $instructor->unique_workshops_count }}</strong>
+                                        Oficinas:
+                                        <strong class="ml-1 text-gray-800">{{ $instructor->unique_workshops_count }}</strong>
                                     </p>
                                 </div>
+
                             </div>
 
                             <!-- Botão de Ação -->
@@ -95,15 +71,9 @@
                 </div>
             @endforelse
 
-            <div class="flex items-center justify-end space-x-4 pt-6 border-t border-gray-200">
-                <a href="{{ route('instructors.trashed') }}"
-                        class="inline-flex items-center gap-2 px-3 py-2 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition">
-                    <i class="fas fa-trash"></i>
-                    Oficineiro Inativos
-                </a>
-            </div>
+            <x-trashed-button href="{{ route('instructors.trashed') }}">
+                Oficineiros Excluídos
+            </x-trashed-button>
         </div>
     </div>
-</x-app-layout>
-
-@stop
+</x-main-view>
