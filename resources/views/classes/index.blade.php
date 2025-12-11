@@ -11,9 +11,11 @@
                 <div class="flex items-center gap-3">
                     <span class="text-3xl font-bold text-gray-900">Turmas</span>
                 </div>
-                <x-create-button href="{{ route('classes.create') }}">
-                    Turma
-                </x-create-button>
+                @if(auth()->user()->hasAnyRole(['admin', 'manager']))
+                    <x-create-button href="{{ route('classes.create') }}">
+                        Turma
+                    </x-create-button>
+                @endif
             </div>
             
             @forelse ($classes as $class)
@@ -55,10 +57,13 @@
                     </div>
                 </div>
             @endforelse
-
-            <x-trashed-button href="{{ route('classes.trashed') }}">
-                Turmas Excluídas
-            </x-trashed-button>
+            
+            @if(auth()->user()->hasAnyRole(['admin', 'manager']))
+                <x-trashed-button href="{{ route('classes.trashed') }}">
+                    Turmas Excluídas
+                </x-trashed-button>
+                
+            @endif
         </div>
     </div>
 </x-main-view>
