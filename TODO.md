@@ -13,10 +13,11 @@
 
 3. crud de reports - a fazer
    3.1 create, edit e trashed(permissoes)
-   3.2 Filtro por nome e data no /reports(Últimos 7 dias, mes, semestre, ano)
+   3.2 Filtro por nome e data no /reports - Feito
 
 4. Dashboard
    4.1 Grafico de Acompanhamento de Turmas e Series. Quantas oficinas por turmas e por series.
    4.2 Grafico de Acompanhamento de oficineiros. Quantas oficinas por oficinero comparando quem deu mais e menos oficinas.
    4.4 Oficineiro - Grafico de Acompanhamento de turmas. Quantas deu no mês e pra quais turmas.
-5. Email de Nova Conta
+
+5. Email de Nova Conta - Feito \*/-

@@ -1,44 +1,82 @@
-@extends('layouts.master')
-
-@section('title', 'Perfil')
-
-@section('content_header')
-@stop
-
-@section('content')
-
-<x-app-layout>
+<x-main-view sectionTitle="Devolutivas">
     <ol class="breadcrumb">
       <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Painel</a></li>
       <li class="breadcrumb-item active">Devolutivas</li>
     </ol>
     <div class="pb-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+             <div class="flex justify-between mb-6 mt-8">
+                <div class="flex items-center gap-3">
+                    <span class="text-3xl font-bold text-gray-900">Devolutivas</span>
+                </div>
+                <x-create-button href="{{ route('classes.create') }}">
+                    Devolutiva
+                </x-create-button>
+            </div>
             <div class="bg-white overflow-hidden shadow sm:rounded-lg">
                 <div class="p-6 text-gray-900">
 
-                    <!-- Título + Busca (igual ao Breeze) -->
-                    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-6">
-                        <span class="text-xl font-semibold text-gray-900">
-                            Devolutivas
-                        </span>
+                    <div class="mb-6">
+                        <form method="GET" action="{{ route('reports.index') }}" class="w-full">
+                            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
 
-                        <!-- Form de busca (igual ao Breeze) -->
-                        <form method="GET" action="{{ route('classes.index') }}" class="mt-4 sm:mt-0">
-                            <div class="flex rounded-md shadow-sm">
-                                <input 
-                                    type="text" 
-                                    name="search" 
-                                    value="{{ request('search') }}"
-                                    placeholder="Buscar por título ou instrutor..."
-                                    class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                                />
-                                <button type="submit"
-                                    class="ml-2 inline-flex items-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
-                                    <svg class="-ml-0.5 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
-                                    </svg>
-                                </button>
+                                <!-- Data início -->
+                                <div class="w-full">
+                                    <label class="block text-sm font-medium text-gray-700">Data início</label>
+                                    <input
+                                        type="date"
+                                        name="start_date"
+                                        value="{{ request('start_date') }}"
+                                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+                                    >
+                                </div>
+
+                                <!-- Data fim -->
+                                <div class="w-full">
+                                    <label class="block text-sm font-medium text-gray-700">Data fim</label>
+                                    <input
+                                        type="date"
+                                        name="end_date"
+                                        value="{{ request('end_date') }}"
+                                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+                                    >
+                                </div>
+
+                                @if(auth()->user()->hasAnyRole(['admin', 'manager']))
+                                <div class="w-full">
+                                    <label class="block text-sm font-medium text-gray-700">Instrutor</label>
+                                    <input
+                                        type="text"
+                                        name="instructor"
+                                        value="{{ request('instructor') }}"
+                                        placeholder="Nome do oficineiro"
+                                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+                                    >
+                                </div>
+                                @else
+                                <!-- Div vazia apenas para manter alinhamento no desktop se necessário, 
+                                    ou remova se quiser que os botões "puxem" para a esquerda -->
+                                <div class="hidden lg:block"></div>
+                                @endif
+
+                                <div class="flex items-end gap-2 h-full">
+                                    <button
+                                        type="submit"
+                                        class="flex-1 lg:flex-none justify-center inline-flex items-center gap-2 rounded-md bg-indigo-600 px-4 py-2 text-white font-semibold hover:bg-indigo-500 transition duration-150 ease-in-out"
+                                    >
+                                        <i class="fas fa-search"></i>
+                                        Buscar
+                                    </button>
+                                    
+                                    <a
+                                        href="{{ route('reports.index') }}"
+                                        class="flex-1 lg:flex-none justify-center inline-flex items-center gap-2 rounded-md bg-gray-300 px-4 py-2 text-gray-800 font-semibold hover:bg-gray-400 transition duration-150 ease-in-out"
+                                    >
+                                        <i class="fas fa-eraser"></i>
+                                        Limpar
+                                    </a>
+                                </div>
+
                             </div>
                         </form>
                     </div>
@@ -121,23 +159,11 @@
                         </table>
                     </div>
 
-                    <!-- Paginação (exatamente como no Breeze) -->
-                    {{-- <div class="mt-6">
+                    <div class="mt-6">
                         {{ $reports->onEachSide(1)->links() }}
-                    </div> --}}
+                    </div> 
                 </div>
             </div>
         </div>
     </div>
-</x-app-layout>
-
-@stop
-
-@section('css')
-    {{-- Add here extra stylesheets --}}
-    {{-- <link rel="stylesheet" href="/css/admin_custom.css"> --}}
-@stop
-
-@section('js')
-    <script> console.log("Hi, I'm using the Laravel-AdminLTE package!"); </script>
-@stop
+</x-main-view>

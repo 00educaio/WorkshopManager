@@ -10,9 +10,6 @@
             <div class="flex justify-between mb-6 mt-8">
                 <div class="flex items-center gap-3">
                     <span class="text-3xl font-bold text-gray-900">Oficineiros</span>
-                    <span class="px-2 py-1 text-xs text-white font-semibold bg-red-100 rounded-full" style="background-color: #28a745;">
-                        {{ $instructors->count() }} Ativos
-                    </span>
                 </div>
                 <x-create-button href="{{ route('instructors.create') }}">
                     Oficineiro
