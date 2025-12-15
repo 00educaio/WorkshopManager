@@ -2,13 +2,14 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class WorkshopReportSchoolClass extends Model
 {
     /** @use HasFactory<\Database\Factories\WorkshopReportSchoolClassFactory> */
-    use HasFactory;
+    use HasFactory, HasUuids;
 
     public $incrementing = false;
     protected $keyType = 'string';
@@ -17,7 +18,7 @@ class WorkshopReportSchoolClass extends Model
         'time',
         'workshop_report_id',
         'school_class_id',
-
+        'workshop_theme',
     ];
 
     public function workshopReport()

@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('workshop_reports', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->date('report_date'); // Date of the week?
+            $table->date('report_date'); 
             $table->timestamps();
 
             $table->boolean('extra_activities')->default(false);

@@ -20,9 +20,16 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::delete('/', [ProfileController::class, 'destroy'])->name('profile.destroy');
         Route::patch('/avatar', [ProfileController::class, 'updateAvatar'])->name('profile.updateAvatar');
     });
-    
-    Route::get('/reports', [WorkshopReportController::class, 'index'])->name('reports.index');
-    Route::get('/reports/{report}', [WorkshopReportController::class, 'show'])->name('reports.show');
+
+    Route::prefix('reports')->group(function () {
+        Route::get('/', [WorkshopReportController::class, 'index'])->name('reports.index');
+        Route::get('/new', [WorkshopReportController::class, 'create'])->name('reports.create');
+        Route::post('/store', [WorkshopReportController::class, 'store'])->name('reports.store');
+        Route::get('/{report}', [WorkshopReportController::class, 'show'])->name('reports.show');
+        Route::delete('/{report}', [WorkshopReportController::class, 'destroy'])->name('reports.destroy');
+        Route::get('/{report}/edit', [WorkshopReportController::class, 'edit'])->name('reports.edit');
+        Route::put('/{report}', [WorkshopReportController::class, 'update'])->name('reports.update');
+    });
     
     Route::prefix('classes')->group(function () {
         Route::get('/', [SchoolClassController::class, 'index'])->name('classes.index');

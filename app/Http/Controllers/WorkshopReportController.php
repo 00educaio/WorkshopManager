@@ -2,10 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ReportStoreRequest;
+use App\Models\SchoolClass;
+use App\Models\User;
 use App\Models\WorkshopReport;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class WorkshopReportController extends Controller
 {
@@ -47,9 +51,6 @@ class WorkshopReportController extends Controller
 
         return view('reports.index', compact('reports'));
     }
-
-
-
     public function show(WorkshopReport $report)
     {
         $report->report_date = Carbon::parse($report->report_date)->format('d/m/Y');
@@ -58,4 +59,68 @@ class WorkshopReportController extends Controller
         
         return view('reports.show', compact('report'));
     }
+    public function create()
+    {
+        $instructors = User::where('role', 'instructor')->get();
+        $schoolClasses = SchoolClass::all();
+        return view('reports.create', compact('instructors', 'schoolClasses'));
+    }
+
+    public function store(ReportStoreRequest $request)
+    {
+        try {
+            // O DB::transaction executa o bloco. Se der erro, desfaz tudo. Se der certo, retorna o resultado.
+            $report = DB::transaction(function () use ($request) {
+                
+                $reportData = $request->safe()->except(['workshops']);
+                $workshopsData = $request->safe()->only(['workshops'])['workshops'];
+
+                $report = WorkshopReport::create($reportData);
+
+                $report->schoolClasses()->createMany($workshopsData);
+
+                return $report;
+            });
+
+            return redirect()->route('reports.show', $report->id)
+                            ->with('status', [
+                                'type' => 'success',
+                                'message' => 'Relatório criado com sucesso!'
+                            ]);
+
+        } catch (\Exception $e) {        
+            return back()->withErrors(['error' => 'Erro ao criar o relatório: ' . $e->getMessage()])
+                        ->withInput();
+        }
+    }
+
+    public function edit(WorkshopReport $report)
+    {
+        $instructors = User::where('role', 'instructor')->get();
+        $schoolClasses = SchoolClass::all();
+        return view('reports.edit', compact('report', 'instructors', 'schoolClasses'));
+    }
+
+    public function update(ReportStoreRequest $request, WorkshopReport $report)
+    {
+        $report->update($request->safe()->except(['workshops']));
+        $report->schoolClasses()->delete();
+        $report->schoolClasses()->createMany($request->safe()->only(['workshops'])['workshops']);
+        return redirect()->route('reports.show', $report->id)
+                        ->with('status', [
+                            'type' => 'success',
+                            'message' => 'Relatório atualizado com sucesso!'
+                        ]);
+    }
+
+    public function destroy(WorkshopReport $report)
+    {
+        $report->delete();
+        return redirect()->route('reports.index')
+                        ->with('status', [
+                            'type' => 'deleted',
+                            'message' => 'Relatório excluído com sucesso!'
+                        ]);
+    }
+
 }

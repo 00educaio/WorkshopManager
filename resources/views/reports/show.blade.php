@@ -1,13 +1,4 @@
-@extends('layouts.master')
-
-@section('title', 'Devolutiva - Detalhes')
-
-@section('content_header')
-@stop
-
-@section('content')
-
-<x-app-layout>
+<x-main-view sectionTitle="Devolutivas - Detalhes">
     <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Painel</a></li>
         <li class="breadcrumb-item"><a href="{{ route('reports.index') }}">Devolutivas</a></li>
@@ -24,7 +15,12 @@
                         <h1 class="text-2xl font-semibold text-gray-900">
                             Devolutiva - {{ $report->report_date }}
                         </h1>
-                        <x-back-button href="{{ route('reports.index') }}"></x-back-button>
+                        <x-deletion-modal
+                                backHref="{{ route('reports.index') }}"
+                                editHref="{{ route('reports.edit', $report) }}"
+                                deleteHref="{{ route('reports.destroy', $report) }}"> 
+                            Tem certeza que deseja apagar essa devolutiva?
+                        </x-deletion-modal>
                     </div>
 
                     <!-- Card com informações principais -->
@@ -129,13 +125,4 @@
             </div>
         </div>
     </div>
-</x-app-layout>
-@endsection
-
-@section('css')
-    {{-- estilos extras se precisar --}}
-@endsection
-
-@section('js')
-    {{-- scripts extras se precisar --}}
-@endsection
+</x-main-view>

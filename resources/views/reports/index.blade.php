@@ -9,7 +9,7 @@
                 <div class="flex items-center gap-3">
                     <span class="text-3xl font-bold text-gray-900">Devolutivas</span>
                 </div>
-                <x-create-button href="{{ route('classes.create') }}">
+                <x-create-button href="{{ route('reports.create') }}">
                     Devolutiva
                 </x-create-button>
             </div>
