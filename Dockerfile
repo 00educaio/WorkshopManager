@@ -7,10 +7,8 @@ WORKDIR /app
 COPY package*.json vite.config.js ./
 RUN npm install
 
-# Copia apenas o necessário para o build
 COPY resources/ ./resources/
 COPY public/ ./public/
-# Garante que não existe arquivo "hot" residual
 RUN rm -rf public/hot
 RUN npm run build
 
@@ -19,32 +17,32 @@ RUN npm run build
 # =========================
 FROM serversideup/php:8.2-fpm-nginx
 
-# Configurações de Ambiente
 ENV PHP_OPCACHE_ENABLE=1
 ENV AUTORUN_ENABLED=true
 
-# Troca para root para poder instalar dependências e mudar permissões
+# Troca para root para configurar
 USER root
 
 WORKDIR /var/www/html
 
-# 1. Copiar arquivos de dependência
+# 1. Dependências
 COPY composer.json composer.lock ./
 RUN composer install --no-dev --no-scripts --no-autoloader
 
-# 2. Copiar o código da aplicação
+# 2. Código
 COPY . .
 
-# 3. Copiar o build do frontend (CSS/JS)
+# 3. Frontend Build
 COPY --from=frontend /app/public/build ./public/build
 
 # 4. Ajustes Finais
 RUN rm -rf public/hot
 RUN composer dump-autoload --optimize
 
-# --- A CORREÇÃO ESTÁ AQUI ---
-# Mudamos de 'webuser' para 'www-data' que é o padrão universal
-RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
+# --- CORREÇÃO AQUI ---
+# Mudamos para garantir que o www-data seja dono de TUDO dentro do html.
+# Isso permite criar o symlink na pasta public e escrever logs/cache sem erro.
+RUN chown -R www-data:www-data /var/www/html
 
-# Define o usuário que vai rodar o container (Não rodar como root)
+# Define o usuário de execução
 USER www-data
