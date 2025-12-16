@@ -16,5 +16,5 @@
 
 5. crud de reports
    3.1 Filtro por nome e data no /index - Feito
-   3.2 create, edit e trashed(permissoes) - a fazer
-   obs: Sem soft delete e cascade no WorkshopReportSchoolClass
+   3.2 create, edit e trashed(permissoes) - Feito
+   3.3 Alterar as views seguindo a "regra de negócio" dos oficineiros

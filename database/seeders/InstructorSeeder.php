@@ -36,7 +36,7 @@ class InstructorSeeder extends Seeder
         ];
 
         foreach ($instructorNames as $name) {
-          User::factory()->create([
+          User::create([
               'name' => $name,
               'phone' => $fake->phoneNumber(),
               'cpf' => $fake->cpf(false),

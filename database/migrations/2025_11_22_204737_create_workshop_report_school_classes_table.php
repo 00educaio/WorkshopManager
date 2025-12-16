@@ -15,7 +15,7 @@ return new class extends Migration
             $table->uuid('id')->primary();
             $table->time('time');
             $table->uuid('workshop_report_id');
-            $table->uuid('school_class_id');
+            $table->foreignId('school_class_id');
             $table->string('workshop_theme');
 
             $table->foreign('workshop_report_id')

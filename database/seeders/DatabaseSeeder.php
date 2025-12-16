@@ -17,7 +17,7 @@ class DatabaseSeeder extends Seeder
     {
         // User::factory(10)->create();
 
-        User::factory()->create([
+        User::create([
             'name' => 'Camila',
             'phone' => '11999999999',
             'cpf' => '148.097.744-65',
@@ -27,10 +27,10 @@ class DatabaseSeeder extends Seeder
             'role' => 'admin',
         ]);
 
-        $this->call([
-            InstructorSeeder::class,
-            ClassSeeder::class,
-            ReportSeeder::class,
-        ]);
+        // $this->call([
+        //     InstructorSeeder::class,
+        //     ClassSeeder::class,
+        //     ReportSeeder::class,
+        // ]);
     }
 }

@@ -11,6 +11,15 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('/session-test', function () {
+    session(['teste' => 'funcionou']);
+    return 'Sessão gravada. <a href="/session-check">Checar</a>';
+});
+
+Route::get('/session-check', function () {
+    return session('teste', 'FALHA: Sessão perdida');
+});
+
 Route::get('/dashboard', [DashboardController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware(['auth', 'verified'])->group(function () {
