@@ -17,18 +17,18 @@ RUN npm run build
 # =========================
 # Estágio 2: Backend (Produção com Nginx)
 # =========================
-# Usamos esta imagem que já vem com Nginx + PHP-FPM configurados para Laravel
 FROM serversideup/php:8.2-fpm-nginx
 
-# Configurações de Ambiente para Produção
+# Configurações de Ambiente
 ENV PHP_OPCACHE_ENABLE=1
 ENV AUTORUN_ENABLED=true
-# Usuário padrão desta imagem
+
+# Troca para root para poder instalar dependências e mudar permissões
 USER root
 
 WORKDIR /var/www/html
 
-# 1. Copiar arquivos de dependência primeiro (Cache do Docker)
+# 1. Copiar arquivos de dependência
 COPY composer.json composer.lock ./
 RUN composer install --no-dev --no-scripts --no-autoloader
 
@@ -39,15 +39,12 @@ COPY . .
 COPY --from=frontend /app/public/build ./public/build
 
 # 4. Ajustes Finais
-# Remove o arquivo hot caso tenha vindo no COPY . .
 RUN rm -rf public/hot
-# Gera o autoloader otimizado
 RUN composer dump-autoload --optimize
-# Garante permissões corretas (para o usuário webuser da imagem)
-RUN chown -R webuser:webuser /var/www/html/storage /var/www/html/bootstrap/cache
 
-# Volta para o usuário não-root (segurança)
-USER webuser
+# --- A CORREÇÃO ESTÁ AQUI ---
+# Mudamos de 'webuser' para 'www-data' que é o padrão universal
+RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
 
-# O Entrypoint dessa imagem já roda as migrations automaticamente se você quiser
-# Mas para garantir no Render, vamos definir o comando de boot:
+# Define o usuário que vai rodar o container (Não rodar como root)
+USER www-data
