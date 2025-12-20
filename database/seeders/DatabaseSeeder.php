@@ -24,13 +24,22 @@ class DatabaseSeeder extends Seeder
             'email' => 'camila@gmail.com',
             'password' => bcrypt('password'),
             'email_verified_at' => now(),
+            'role' => 'manager',
+        ]);
+        User::create([
+            'name' => 'Admin',
+            'phone' => '11999999999',
+            'cpf' => '148.097.744-60',
+            'email' => 'admin@gmail.com',
+            'password' => bcrypt('password'),
+            'email_verified_at' => now(),
             'role' => 'admin',
         ]);
 
-        // $this->call([
-        //     InstructorSeeder::class,
-        //     ClassSeeder::class,
-        //     ReportSeeder::class,
-        // ]);
+        $this->call([
+            InstructorSeeder::class,
+            ClassSeeder::class,
+            ReportSeeder::class,
+        ]);
     }
 }

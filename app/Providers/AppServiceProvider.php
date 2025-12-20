@@ -47,7 +47,7 @@ class AppServiceProvider extends ServiceProvider
                 'icon' => 'fas fa-fw fa-book',
                 'active' => ['classes*'],
             ]);
-            if ($user->role == 'admin') {
+            if ($user->role == ('admin' || 'manager')) {
                 $event->menu->add([
                     'text' => 'Oficineiros',
                     'url' => 'instructors',

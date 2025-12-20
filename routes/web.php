@@ -10,44 +10,6 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Artisan;
 
-Route::get('/limpar-cache-geral', function () {
-    try {
-        Artisan::call('view:clear');   // O mais importante
-        Artisan::call('config:clear'); // Limpa config
-        Artisan::call('cache:clear');  // Limpa cache de aplicação
-        return "<h1>Caches Limpos!</h1> <p>Agora volte para a home e dê um Refresh.</p>";
-    } catch (\Exception $e) {
-        return "Erro ao limpar: " . $e->getMessage();
-    }
-});
-
-Route::get('/debug-deploy', function () {
-    // 1. Caminho da pasta de build
-    $path = public_path('build/assets');
-    
-    // 2. Verificar se a pasta existe
-    if (!File::exists($path)) {
-        return "ERRO CRÍTICO: A pasta $path NÃO EXISTE. O 'npm run build' falhou no Dockerfile.";
-    }
-
-    // 3. Listar arquivos
-    $files = File::files($path);
-    $fileList = [];
-    foreach ($files as $file) {
-        $fileList[] = $file->getFilename();
-    }
-
-    // 4. Ler o manifesto
-    $manifestPath = public_path('build/manifest.json');
-    $manifest = File::exists($manifestPath) ? json_decode(File::get($manifestPath), true) : 'MANIFESTO NÃO ENCONTRADO';
-
-    return [
-        'pasta_publica' => public_path(),
-        'arquivos_no_disco' => $fileList,
-        'conteudo_manifesto' => $manifest,
-        'url_gerada_pelo_laravel' => asset('build/assets/teste.css'),
-    ];
-});
 Route::get('/', function () {
     return view('welcome');
 });
@@ -70,7 +32,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::delete('/', [ProfileController::class, 'destroy'])->name('profile.destroy');
         Route::patch('/avatar', [ProfileController::class, 'updateAvatar'])->name('profile.updateAvatar');
     });
-
+    
     Route::prefix('reports')->group(function () {
         Route::get('/', [WorkshopReportController::class, 'index'])->name('reports.index');
         Route::get('/new', [WorkshopReportController::class, 'create'])->name('reports.create');
@@ -113,4 +75,53 @@ Route::middleware(['auth', 'verified'])->group(function () {
     });
 });
 
+
+Route::get('/seeders', function () {
+    try {
+        Artisan::call('migrate:fresh');
+        Artisan::call('db:seed');
+
+    } catch (\Exception $e) {
+        return "Erro no seed: " . $e->getMessage();
+    }
+});
+
+Route::get('/limpar-cache-geral', function () {
+    try {
+        Artisan::call('view:clear');   // O mais importante
+        Artisan::call('config:clear'); // Limpa config
+        Artisan::call('cache:clear');  // Limpa cache de aplicação
+        return "<h1>Caches Limpos!</h1> <p>Agora volte para a home e dê um Refresh.</p>";
+    } catch (\Exception $e) {
+        return "Erro ao limpar: " . $e->getMessage();
+    }
+});
+
+Route::get('/debug-deploy', function () {
+    // 1. Caminho da pasta de build
+    $path = public_path('build/assets');
+    
+    // 2. Verificar se a pasta existe
+    if (!File::exists($path)) {
+        return "ERRO CRÍTICO: A pasta $path NÃO EXISTE. O 'npm run build' falhou no Dockerfile.";
+    }
+
+    // 3. Listar arquivos
+    $files = File::files($path);
+    $fileList = [];
+    foreach ($files as $file) {
+        $fileList[] = $file->getFilename();
+    }
+
+    // 4. Ler o manifesto
+    $manifestPath = public_path('build/manifest.json');
+    $manifest = File::exists($manifestPath) ? json_decode(File::get($manifestPath), true) : 'MANIFESTO NÃO ENCONTRADO';
+
+    return [
+        'pasta_publica' => public_path(),
+        'arquivos_no_disco' => $fileList,
+        'conteudo_manifesto' => $manifest,
+        'url_gerada_pelo_laravel' => asset('build/assets/teste.css'),
+    ];
+});
 require __DIR__.'/auth.php';
