@@ -1,16 +1,4 @@
 # -------------------------------------------
-# Estágio 1: Frontend (Node)
-# -------------------------------------------
-FROM node:20-alpine as frontend
-WORKDIR /app
-COPY package*.json vite.config.js ./
-RUN npm install
-COPY resources/ ./resources/
-COPY public/ ./public/
-RUN rm -rf public/hot
-RUN npm run build
-
-# -------------------------------------------
 # Estágio 2: Backend (PHP + Nginx)
 # -------------------------------------------
 FROM serversideup/php:8.2-fpm-nginx
