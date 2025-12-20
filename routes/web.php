@@ -8,6 +8,18 @@ use App\Http\Controllers\WorkshopReportController;
 use Illuminate\Support\Facades\Route;
 
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Artisan;
+
+Route::get('/limpar-cache-geral', function () {
+    try {
+        Artisan::call('view:clear');   // O mais importante
+        Artisan::call('config:clear'); // Limpa config
+        Artisan::call('cache:clear');  // Limpa cache de aplicação
+        return "<h1>Caches Limpos!</h1> <p>Agora volte para a home e dê um Refresh.</p>";
+    } catch (\Exception $e) {
+        return "Erro ao limpar: " . $e->getMessage();
+    }
+});
 
 Route::get('/debug-deploy', function () {
     // 1. Caminho da pasta de build
