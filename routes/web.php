@@ -7,6 +7,35 @@ use App\Http\Controllers\SchoolClassController;
 use App\Http\Controllers\WorkshopReportController;
 use Illuminate\Support\Facades\Route;
 
+use Illuminate\Support\Facades\File;
+
+Route::get('/debug-deploy', function () {
+    // 1. Caminho da pasta de build
+    $path = public_path('build/assets');
+    
+    // 2. Verificar se a pasta existe
+    if (!File::exists($path)) {
+        return "ERRO CRÍTICO: A pasta $path NÃO EXISTE. O 'npm run build' falhou no Dockerfile.";
+    }
+
+    // 3. Listar arquivos
+    $files = File::files($path);
+    $fileList = [];
+    foreach ($files as $file) {
+        $fileList[] = $file->getFilename();
+    }
+
+    // 4. Ler o manifesto
+    $manifestPath = public_path('build/manifest.json');
+    $manifest = File::exists($manifestPath) ? json_decode(File::get($manifestPath), true) : 'MANIFESTO NÃO ENCONTRADO';
+
+    return [
+        'pasta_publica' => public_path(),
+        'arquivos_no_disco' => $fileList,
+        'conteudo_manifesto' => $manifest,
+        'url_gerada_pelo_laravel' => asset('build/assets/teste.css'),
+    ];
+});
 Route::get('/', function () {
     return view('welcome');
 });
