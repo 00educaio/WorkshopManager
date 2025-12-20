@@ -26,24 +26,35 @@ class DashboardController extends Controller
     }
 
     /**
-     * Retorna as sintaxes SQL corretas dependendo do banco (SQLite ou MySQL)
+     * Retorna as sintaxes SQL corretas dependendo do banco (Postgres, SQLite ou MySQL)
      */
     private function getSqlSyntax()
     {
         $driver = DB::connection()->getDriverName();
-        $isSqlite = $driver === 'sqlite';
 
-        return [
-            // SQLite usa strftime, MySQL usa DATE_FORMAT
-            'month_format' => $isSqlite 
-                ? 'strftime("%Y-%m", report_date)' 
-                : 'DATE_FORMAT(report_date, "%Y-%m")',
-            
-            // SQLite não aceita COUNT(DISTINCT col1, col2), precisa concatenar
-            'count_distinct_workshops' => $isSqlite 
-                ? 'COUNT(DISTINCT classes.workshop_report_id || "-" || classes.time)' 
-                : 'COUNT(DISTINCT classes.workshop_report_id, classes.time)',
+        // Configuração padrão (MySQL/MariaDB)
+        $syntax = [
+            'month_format' => 'DATE_FORMAT(report_date, "%Y-%m")',
+            'count_distinct_workshops' => 'COUNT(DISTINCT classes.workshop_report_id, classes.time)',
         ];
+
+        if ($driver === 'pgsql') {
+            $syntax = [
+                // Postgres usa TO_CHAR
+                'month_format' => "TO_CHAR(report_date, 'YYYY-MM')",
+                // Postgres suporta contagem de tuplas com parênteses extras: COUNT(DISTINCT (col1, col2))
+                // Ou podemos concatenar para garantir compatibilidade se houver nulos de forma estranha,
+                // mas a tupla é o jeito "Postgres".
+                'count_distinct_workshops' => 'COUNT(DISTINCT (classes.workshop_report_id, classes.time))',
+            ];
+        } elseif ($driver === 'sqlite') {
+            $syntax = [
+                'month_format' => 'strftime("%Y-%m", report_date)',
+                'count_distinct_workshops' => 'COUNT(DISTINCT classes.workshop_report_id || "-" || classes.time)',
+            ];
+        }
+
+        return $syntax;
     }
 
     private function getWorkshopsByMonth(Carbon $startDate): array
@@ -56,7 +67,7 @@ class DashboardController extends Controller
             ->leftJoin('workshop_report_school_classes as classes', 'workshop_reports.id', '=', 'classes.workshop_report_id')
             ->selectRaw("{$sql['count_distinct_workshops']} as total_workshops")
             ->where('report_date', '>=', $startDate)
-            ->groupBy('month_key')
+            ->groupBy('month_key') // Postgres permite agrupar pelo alias da seleção na maioria das versões recentes
             ->orderBy('month_key')
             ->get()
             ->keyBy('month_key');
@@ -82,13 +93,17 @@ class DashboardController extends Controller
     {
         $sql = $this->getSqlSyntax();
 
+        // Nota: Postgres é estrito no GROUP BY. Todas as colunas no SELECT que não são agregadas
+        // devem estar no GROUP BY. O Laravel lida bem com isso, mas se tiver erro de "column must appear in GROUP BY",
+        // teríamos que adicionar users.name no groupBy ou usar uma função de agregação.
+        // Abaixo, estamos agrupando por instructor_id e pegando o nome via relacionamento 'with', o que evita esse erro no SQL principal.
+
         return WorkshopReport::query()
             ->select('instructor_id')
             ->selectRaw('COUNT(*) as total_reports')
             ->selectRaw("{$sql['count_distinct_workshops']} as total_workshops")
-            ->join('users', 'users.id', '=', 'workshop_reports.instructor_id')
             ->leftJoin('workshop_report_school_classes as classes', 'workshop_reports.id', '=', 'classes.workshop_report_id')
-            ->with('instructor:id,name')
+            ->with('instructor:id,name') // Carrega o nome separadamente para evitar problemas de Group By no SQL principal
             ->groupBy('instructor_id')
             ->orderByDesc('total_reports')
             ->limit(5)
@@ -104,7 +119,6 @@ class DashboardController extends Controller
 
     private function getFeedbackDistribution(): array
     {
-        // Mantido igual (já é compatível com ambos)
         $withFeedback = WorkshopReport::whereNotNull('feedback')->where('feedback', '!=', '')->count();
         $total = WorkshopReport::count();
 
@@ -117,7 +131,6 @@ class DashboardController extends Controller
 
     private function getExtraActivitiesData(): array
     {
-        // Mantido igual
         $withExtras = WorkshopReport::where('extra_activities', 1)->count();
         $total = WorkshopReport::count();
         
@@ -130,7 +143,6 @@ class DashboardController extends Controller
 
     private function getMaterialsData(): array
     {
-        // Mantido igual
         $withMaterials = WorkshopReport::where('materials_provided', 1)->count();
         $total = WorkshopReport::count();
 
@@ -143,16 +155,17 @@ class DashboardController extends Controller
 
     private function getSummaryCards(Carbon $startOfMonth): array
     {
-        // Correção para SQLite na contagem distinta de múltiplas colunas
         $driver = DB::connection()->getDriverName();
         
+        // Lógica para contar workshops únicos (ID do relatório + Horário da turma)
         if ($driver === 'sqlite') {
-            // SQLite: Concatena colunas para distinct
             $totalWorkshops = DB::table('workshop_report_school_classes')
                 ->selectRaw('COUNT(DISTINCT workshop_report_id || "-" || time) as total')
                 ->value('total');
         } else {
-            // MySQL
+            // PostgreSQL e MySQL funcionam bem com esta sintaxe do Laravel Builder.
+            // O Laravel converte isso internamente para "select count(*) from (select distinct ...)"
+            // o que é válido no Postgres.
             $totalWorkshops = DB::table('workshop_report_school_classes')
                 ->distinct(DB::raw('workshop_report_id, time'))
                 ->count();
@@ -160,6 +173,7 @@ class DashboardController extends Controller
 
         return [
             'total_reports' => WorkshopReport::count(),
+            // Distinct simples funciona igual em todos
             'total_instructors' => WorkshopReport::distinct('instructor_id')->count('instructor_id'),
             'reports_this_month' => WorkshopReport::whereYear('report_date', $startOfMonth->year)
                 ->whereMonth('report_date', $startOfMonth->month)
