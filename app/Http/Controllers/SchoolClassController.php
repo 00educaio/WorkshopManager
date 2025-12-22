@@ -6,6 +6,7 @@ use App\Http\Requests\ClassStoreRequest;
 use App\Http\Requests\ClassUpdateRequest;
 use App\Models\SchoolClass;
 use App\Models\SchoolClassOrigin;
+use App\Models\WorkshopReport;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -27,23 +28,22 @@ class SchoolClassController extends Controller
 
     public function show(SchoolClass $class)
     {
-        $classInfo = SchoolClass::with(['instructorsWithWorkshopCount'])->findOrFail($class->id);
-        
-        // Se for instrutor, carrega os workshops recentes dele
+        $classInfo = $class->instructorsWithWorkshopCount();
+        $recentWorkshops = null;
+
         if (Auth::user()->role == 'instructor') {
-            $classInfo->load(['recentWorkshopsByUser' => function ($query) {
-                $query->where('instructor_id', Auth::id())
-                    ->orderBy('report_date', 'desc')
-                    ->limit(7);
-            }]);
-            
-            $classInfo->recentWorkshopsByUser->each(function ($report) {
-                $report->report_date = Carbon::parse($report->report_date)->format('d/m/Y');
+            $recentWorkshops = WorkshopReport::whereHas('schoolClasses', function ($q) use ($class) {
+                $q->where('school_class_id', $class->id); 
+            })
+            ->where('instructor_id', Auth::id())
+            ->orderBy('report_date', 'desc')
+            ->get()
+            ->each(function ($report) {
+                $report->report_date = \Carbon\Carbon::parse($report->report_date)->format('d/m/Y');
             });
         }
 
-        
-        return view('classes.show', compact('class', 'classInfo'));
+        return view('classes.show', compact('class', 'classInfo', 'recentWorkshops'));
     }
 
     public function store(ClassStoreRequest $request)

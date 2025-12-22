@@ -34,21 +34,22 @@ class SchoolClass extends Model
 
     public function instructorsWithWorkshopCount()
     {
-        return $this->hasManyThrough(
-            WorkshopReport::class,
-            WorkshopReportSchoolClass::class,
-            'school_class_id', // FK em WorkshopReportSchoolClass
-            'id', // FK em WorkshopReport (id do workshop_report)
-            'id', // PK SchoolClass
-            'workshop_report_id' // PK WorkshopReportSchoolClass
-        )
-        ->join('users', 'workshop_reports.instructor_id', '=', 'users.id')
-        ->select(
-            'workshop_reports.instructor_id',
-            'users.name as instructor_name', // Adicionando o nome do oficineiro
-            DB::raw('COUNT(DISTINCT workshop_reports.id) as total_workshops')
-        )
-        ->groupBy('workshop_reports.instructor_id', 'users.name');
+        return DB::table('workshop_reports')
+            ->join(
+                'workshop_report_school_classes',
+                'workshop_report_school_classes.workshop_report_id',
+                '=',
+                'workshop_reports.id'
+            )
+            ->join('users', 'workshop_reports.instructor_id', '=', 'users.id')
+            ->where('workshop_report_school_classes.school_class_id', $this->id)
+            ->select(
+                'workshop_reports.instructor_id',
+                'users.name as instructor_name',
+                DB::raw('COUNT(DISTINCT workshop_reports.id) as total_workshops')
+            )
+            ->groupBy('workshop_reports.instructor_id', 'users.name')
+            ->get();
     }
 
     public function recentWorkshopsByUser($limit = 7)

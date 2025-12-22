@@ -29,4 +29,9 @@ class WorkshopReportSchoolClass extends Model
     {
         return $this->belongsTo(SchoolClass::class, 'school_class_id');
     }
+
+    public function getTimeAttribute($value)
+    {
+        return date('H:i', strtotime($value));
+    }
 }

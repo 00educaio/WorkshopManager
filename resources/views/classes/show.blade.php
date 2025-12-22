@@ -53,9 +53,9 @@
                         </div>
                     </div>
 
-                    @if(Auth::user()->role == 'instructor')
+                    @if($recentWorkshops)
                     <h2 class="text-xl font-semibold text-gray-900 mb-4 mt-10">
-                        Qtde de Devolutivas {{$classInfo->recentWorkshopsByUser->count()}}
+                        Qtde de Devolutivas {{$recentWorkshops->count()}}
                     </h2>
                      <div class="overflow-x-auto">
                         <table class="min-w-full divide-y divide-gray-200">
@@ -79,7 +79,7 @@
                                 </tr>
                             </thead>
                             <tbody class="bg-white divide-y divide-gray-200">
-                                @forelse($classInfo->recentWorkshopsByUser ?? [] as $report)
+                                @forelse($recentWorkshops as $report)
                                     <tr class="hover:bg-gray-50">
                                         <td class="px-6 py-4 whitespace-nowrap text-base font-medium text-gray-900">
                                             {{ $report->report_date }}
@@ -141,7 +141,7 @@
                                 </tr>
                             </thead>
                             <tbody class="bg-white divide-y divide-gray-200">
-                                @foreach($classInfo->instructorsWithWorkshopCount as $instructor)
+                                @foreach($classInfo as $instructor)
                                     <tr>
                                         <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
                                             {{ $instructor->instructor_name }} {{-- Corrigido: não é $instructor->instructor->name --}}

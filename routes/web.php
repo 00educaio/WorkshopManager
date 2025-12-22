@@ -80,6 +80,7 @@ Route::get('/seeders', function () {
     try {
         Artisan::call('migrate:fresh');
         Artisan::call('db:seed');
+        return "<h1>Seeders executados!</h1> <p>Agora volte para a home e dê um Refresh.</p>";
 
     } catch (\Exception $e) {
         return "Erro no seed: " . $e->getMessage();
