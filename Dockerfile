@@ -22,13 +22,8 @@ COPY . .
 RUN rm -rf public/hot
 RUN composer dump-autoload --optimize
 
-COPY entrypoint.sh /usr/local/bin/entrypoint.sh
-RUN chmod +x /usr/local/bin/entrypoint.sh
-
 # 4. Garante permissões (Isso é crucial)
 RUN chown -R www-data:www-data /var/www/html
 
 # 5. Define usuário final
 USER www-data
-
-ENTRYPOINT [ "/usr/local/bin/entrypoint.sh" ]
