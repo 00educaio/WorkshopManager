@@ -12,7 +12,7 @@
                     <!-- Cabeçalho com título e botões -->
                     <div class="flex items-center justify-between mb-8">
                         <div class="flex items-center gap-4">
-                            <img class="w-16 h-16 rounded-full" src="{{ $instructor->avatar_img }}" alt="{{ $instructor->name }}">
+                            <img class="w-16 h-16 rounded-full" src="{{ asset('/avatars/default-avatar.png') }}" alt="{{ $instructor->name }}">
                             <h1 class="text-xl font-semibold text-gray-900">{{ $instructor->name }}</h1>
                         </div>
                         {{-- <div class="flex flex-col gap-1" x-data="{ showDeleteModal: false }">

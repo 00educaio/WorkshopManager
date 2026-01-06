@@ -14,7 +14,7 @@
                     <div class="flex items-center justify-between mb-8">
                         <div class="flex items-center gap-4">
                             <div class="w-16 h-16 rounded-full bg-gray-200 flex items-center justify-center text-gray-600 text-2xl">                              
-                              <img class="w-16 h-16 rounded-full" src="{{ asset('storage/avatars/default-avatar.png') }}" alt="Ícone da Turma">
+                              <img class="w-16 h-16 rounded-full" src="{{ asset('/avatars/default-avatar.png') }}" alt="Ícone da Turma">
 
                             </div>
                             <div>
