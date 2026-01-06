@@ -98,18 +98,14 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function schoolClassesWithCount()
     {
-        return $this->hasManyThrough(
-            WorkshopReportSchoolClass::class,
-            WorkshopReport::class,
-            'instructor_id', // FK em WorkshopReport
-            'workshop_report_id', // FK em WorkshopReportSchoolClass
-            'id', // PK User
-            'id'  // PK WorkshopReport
-        )
+        return $this->workshopReportSchoolClasses()
         ->select(
             'school_class_id',
             DB::raw("COUNT(DISTINCT workshop_report_id || '_' || time) as total")
         )
-        ->groupBy('school_class_id');
+        ->groupBy(
+            'school_class_id', 
+            'instructor_id'
+        );
     }
 }

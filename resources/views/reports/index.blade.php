@@ -54,8 +54,7 @@
                                     >
                                 </div>
                                 @else
-                                <!-- Div vazia apenas para manter alinhamento no desktop se necessário, 
-                                    ou remova se quiser que os botões "puxem" para a esquerda -->
+                                <!-- Div vazia apenas para manter alinhamento  -->
                                 <div class="hidden lg:block"></div>
                                 @endif
 
@@ -125,7 +124,7 @@
                                             {{ $report->instructor->name }}
                                         </td>
                                         <td class="px-6 py-4 whitespace-nowrap text-base text-gray-500">
-                                            {{ $report->schoolClasses->count() }}
+                                            {{ $report->unique_workshops_count }}
                                         </td>
                                         <td class="px-6 py-4 whitespace-nowrap text-base text-gray-500">
                                             @if ($report->extra_activity)
