@@ -81,7 +81,7 @@
             <!-- Atividade Extra (Com lógica condicional) -->
             <div>
                 <label for="extra_activities" class="block text-sm font-medium text-gray-700">Houve Atividade Extra?</label>
-                <select name="extra_activities" id="extra_activities" x-model="extraActivity"
+                <select name="extra_activities" id="extra_activities" x-model="extraActivities"
                         class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md">
                     <option value="0">Não</option>
                     <option value="1">Sim</option>
@@ -90,7 +90,7 @@
         </div>
 
         <!-- Descrição da Atividade Extra (Condicional) -->
-        <div x-show="extraActivity == '1'" x-transition class="sm:col-span-6">
+        <div x-show="extraActivities == '1'" x-transition class="sm:col-span-6">
             <label for="extra_activities_description" class="block text-sm font-medium text-gray-700">Descrição da Atividade Extra</label>
             <div class="mt-1">
                 <textarea id="extra_activities_description" name="extra_activities_description" rows="2" 
@@ -214,7 +214,7 @@
 <script>
     function reportForm() {
         return {
-            extraActivity: '{{ old('extra_activities', $report->extra_activities ?? 0) }}',
+            extraActivities: '{{ old('extra_activities', $report->extra_activities ?? 0) }}',
             workshops: @json(old('workshops', isset($report) && $report->schoolClasses ? $report->schoolClasses : [])),
             
             addWorkshop() {

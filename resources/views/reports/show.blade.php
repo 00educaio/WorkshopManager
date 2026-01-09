@@ -40,8 +40,8 @@
                         <div class="bg-gray-50 rounded-lg p-1">
                             <dt class="text-sm font-medium text-gray-500">Atividade extra</dt>
                             <dd class="mt-1 text-lg font-semibold text-gray-900">
-                                <span class="{{ $report->extra_activity ? 'text-green-600' : 'text-red-600' }}">
-                                    {{ $report->extra_activity ? 'Sim' : 'Não' }}
+                                <span class="{{ $report->extra_activities ? 'text-green-600' : 'text-red-600' }}">
+                                    {{ $report->extra_activities ? 'Sim' : 'Não' }}
                                 </span>
                             </dd>
                         </div>

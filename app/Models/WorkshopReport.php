@@ -14,6 +14,13 @@ class WorkshopReport extends Model
     public $incrementing = false;
     protected $keyType = 'string';
 
+    protected $casts = [
+        'extra_activities'    => 'boolean',
+        'materials_provided' => 'boolean',
+        'grid_provided'       => 'boolean',
+    ];
+
+
     protected $fillable = [
         'report_date',
         'extra_activities',

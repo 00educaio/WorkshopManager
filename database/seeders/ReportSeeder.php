@@ -2,6 +2,8 @@
 
 namespace Database\Seeders;
 
+use App\Models\WorkshopReport;
+use App\Models\WorkshopReportSchoolClass;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
@@ -63,14 +65,14 @@ class ReportSeeder extends Seeder
             $reportDate = Carbon::now()->subDays(rand(0, 90))->format('Y-m-d');
             
             // Sorteio de booleanos com peso (ex: 30% de chance de ter extra)
-            $hasExtra = (rand(1, 100) <= 30);
+            $hasExtra = (bool) (rand(1, 100) <= 30); // 30% true
             
             $reportId = (string) Str::uuid();
 
-            DB::table('workshop_reports')->insert([
+            WorkshopReport::create([
                 'id'                     => $reportId,
                 'report_date'            => $reportDate,
-                'extra_activities'       => $hasExtra,
+                'extra_activities'       => false,
                 'extra_activities_description' => $hasExtra ? $texts['extras'][array_rand($texts['extras'])] : null,
                 'materials_provided'     => (rand(1, 100) <= 90), // 90% true
                 'grid_provided'          => (rand(1, 100) <= 85), // 85% true
@@ -89,7 +91,7 @@ class ReportSeeder extends Seeder
             $selectedClasses = array_slice($shuffledClasses, 0, rand(2, 5));
 
             foreach ($selectedClasses as $classId) {
-                DB::table('workshop_report_school_classes')->insert([
+                WorkshopReportSchoolClass::create([
                     'id'                 => (string) Str::uuid(),
                     'time'               => $workshopTimes[array_rand($workshopTimes)],
                     'workshop_theme'     => $workshopThemes[array_rand($workshopThemes)],

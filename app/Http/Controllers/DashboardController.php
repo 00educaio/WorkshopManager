@@ -93,7 +93,8 @@ class DashboardController extends Controller
 
     private function getExtraActivitiesData(): array
     {
-        $withExtras = WorkshopReport::where('extra_activities', 1)->count();
+        $withExtras = WorkshopReport::whereRaw('extra_activities IS TRUE')->count();
+
         $total = WorkshopReport::count();
         
         return [
@@ -105,7 +106,7 @@ class DashboardController extends Controller
 
     private function getMaterialsData(): array
     {
-        $withMaterials = WorkshopReport::where('materials_provided', 1)->count();
+        $withMaterials = WorkshopReport::whereRaw('materials_provided IS TRUE')->count();
         $total = WorkshopReport::count();
 
         return [
@@ -134,7 +135,7 @@ class DashboardController extends Controller
                 ->where('feedback', '!=', '')
                 ->count(),
             'total_workshops' => $totalWorkshops,
-            'reports_with_extras' => WorkshopReport::where('extra_activities', 1)->count(),
+            'reports_with_extras' => WorkshopReport::whereRaw('extra_activities IS TRUE')->count(),
         ];
     }
 }
