@@ -31,7 +31,7 @@
                                 <div class="mt-3 flex flex-col gap-2">
                                     <p class="text-sm text-gray-600 flex items-center">
                                         <i class="fas fa-school mr-2 text-gray-400 w-4 text-center"></i>
-                                        {{ $class->origin->name ?? 'N/A' }}
+                                        {{ $class->origin_name ?? 'N/A' }}
                                     </p>
                                 </div>
 

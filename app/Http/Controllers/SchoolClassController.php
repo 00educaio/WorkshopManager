@@ -16,7 +16,8 @@ class SchoolClassController extends Controller
 {
     public function index(Request $request)
     {
-        $classes = SchoolClass::all();
+        $classes = SchoolClass::with('origin')->get();
+
         return view('classes.index', compact('classes'));
     }
 
@@ -32,15 +33,14 @@ class SchoolClassController extends Controller
         $recentWorkshops = null;
 
         if (Auth::user()->role == 'instructor') {
+
             $recentWorkshops = WorkshopReport::whereHas('schoolClasses', function ($q) use ($class) {
                 $q->where('school_class_id', $class->id); 
             })
             ->where('instructor_id', Auth::id())
             ->orderBy('report_date', 'desc')
-            ->get()
-            ->each(function ($report) {
-                $report->report_date = \Carbon\Carbon::parse($report->report_date)->format('d/m/Y');
-            });
+            ->paginate(5);
+
         }
 
         return view('classes.show', compact('class', 'classInfo', 'recentWorkshops'));

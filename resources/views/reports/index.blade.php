@@ -109,16 +109,10 @@
                                 @forelse ($reports as $report)
                                     <tr class="hover:bg-gray-50">
                                         <td class="px-6 py-4 whitespace-nowrap text-base font-medium text-gray-900">
-                                            {{ $report->report_date }}
+                                            {{ $report->formatted_report_date ?? '-' }}
                                         </td>
                                         <td class="px-6 py-4 whitespace-nowrap text-base font-medium text-gray-500">
-                                            {{ mb_strtoupper(
-                                                \Carbon\Carbon::createFromFormat('d/m/Y', $report->report_date)
-                                                    ->locale('pt_BR')
-                                                    ->isoFormat('dddd'),
-                                                'UTF-8'
-                                                )
-                                            }}
+                                            {{ $report->day_of_week }}
                                         </td>
                                         <td class="px-6 py-4 whitespace-nowrap text-base text-gray-500">
                                             {{ $report->instructor->name }}

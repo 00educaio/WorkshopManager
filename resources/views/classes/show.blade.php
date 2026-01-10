@@ -54,85 +54,82 @@
                     </div>
 
                     @if($recentWorkshops)
-                    <h2 class="text-xl font-semibold text-gray-900 mb-4 mt-10">
-                        Qtde de Devolutivas {{$recentWorkshops->count()}}
-                    </h2>
-                     <div class="overflow-x-auto">
-                        <table class="min-w-full divide-y divide-gray-200">
-                            <thead class="bg-gray-50">
-                                <tr>
-                                    <th scope="col" class="px-6 py-3 text-left text-lg font-medium text-gray-500 uppercase tracking-wider">
-                                        Data
-                                    </th>
-                                    <th scope="col" class="px-6 py-3 text-left text-lg font-medium text-gray-500 uppercase tracking-wider">
-                                        Dia da Semana
-                                    </th>
-                                    <th scope="col" class="px-6 py-3 text-left text-lg font-medium text-gray-500 uppercase tracking-wider">
-                                        N. Oficinas
-                                    </th>
-                                    <th scope="col" class="px-6 py-3 text-left text-lg font-medium text-gray-500 uppercase tracking-wider">
-                                        Atividade Extra
-                                    </th>
-                                    <th scope="col" class="relative px-6 py-3">
-                                        
-                                    </th>
-                                </tr>
-                            </thead>
-                            <tbody class="bg-white divide-y divide-gray-200">
-                                @forelse($recentWorkshops as $report)
-                                    <tr class="hover:bg-gray-50">
-                                        <td class="px-6 py-4 whitespace-nowrap text-base font-medium text-gray-900">
-                                            {{ $report->report_date }}
-                                        </td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-base font-medium text-gray-500">
-                                            {{ mb_strtoupper(
-                                                \Carbon\Carbon::createFromFormat('d/m/Y', $report->report_date)
-                                                    ->locale('pt_BR')
-                                                    ->isoFormat('dddd'),
-                                                'UTF-8'
-                                                )
-                                            }}
-                                        </td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-base text-gray-500">
-                                            {{ $report->schoolClasses->count() }}
-                                        </td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-base text-gray-500">
-                                            @if ($report->extra_activities)
-                                                <span class="inline-flex items-center px-3 py-1 text-white text-sm font-semibold rounded-full">
-                                                    <i class="fas fa-check mr-2"></i> Sim
-                                                </span>
-                                            @else
-                                                <span class="inline-flex items-center px-3 py-1 bg-red-600 text-white text-sm font-semibold rounded-full">
-                                                    <i class="fas fa-times mr-2"></i> Não
-                                                </span>
-                                            @endif
-                                        </td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-right text-base font-medium">
-                                            <a href="{{ route('reports.show', $report) }}" class="ml-2 inline-flex items-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
-                                                Visualizar
-                                            </a>
-                                        </td>
-                                    </tr>
-                                @empty
+                        <h2 class="text-xl font-semibold text-gray-900 mb-4 mt-10">
+                            Qtde de Devolutivas {{$recentWorkshops->count()}}
+                        </h2>
+                        <div class="overflow-x-auto">
+                            <table class="min-w-full divide-y divide-gray-200">
+                                <thead class="bg-gray-50">
                                     <tr>
-                                        <td colspan="6" class="px-6 py-12 text-center text-gray-500">
-                                            @if(request('search'))
-                                                Nenhuma oficina encontrada para "{{ request('search') }}"
-                                            @else
-                                                Nenhuma oficina cadastrada ainda.
-                                            @endif
-                                        </td>
+                                        <th scope="col" class="px-6 py-3 text-left text-lg font-medium text-gray-500 uppercase tracking-wider">
+                                            Data
+                                        </th>
+                                        <th scope="col" class="px-6 py-3 text-left text-lg font-medium text-gray-500 uppercase tracking-wider">
+                                            Dia da Semana
+                                        </th>
+                                        <th scope="col" class="px-6 py-3 text-left text-lg font-medium text-gray-500 uppercase tracking-wider">
+                                            N. Oficinas
+                                        </th>
+                                        <th scope="col" class="px-6 py-3 text-left text-lg font-medium text-gray-500 uppercase tracking-wider">
+                                            Atividade Extra
+                                        </th>
+                                        <th scope="col" class="relative px-6 py-3">
+                                            
+                                        </th>
                                     </tr>
-                                @endforelse
-                            </tbody>
-                        </table>
-                    </div>
+                                </thead>
+                                <tbody class="bg-white divide-y divide-gray-200">
+                                    @forelse($recentWorkshops as $report)
+                                        <tr class="hover:bg-gray-50">
+                                            <td class="px-6 py-4 whitespace-nowrap text-base font-medium text-gray-900">
+                                                {{ $report->formatted_report_date ?? '-' }}
+                                            </td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-base font-medium text-gray-500">
+                                                {{ $report->day_of_week }}
+                                            </td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-base text-gray-500">
+                                                {{ $report->schoolClasses->count() }}
+                                            </td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-base text-gray-500">
+                                                @if ($report->extra_activities)
+                                                    <span class="inline-flex items-center px-3 py-1 bg-green-600 text-white text-sm font-semibold rounded-full">
+                                                        <i class="fas fa-check mr-2"></i> Sim
+                                                    </span>
+                                                @else
+                                                    <span class="inline-flex items-center px-3 py-1 bg-red-600 text-white text-sm font-semibold rounded-full">
+                                                        <i class="fas fa-times mr-2"></i> Não
+                                                    </span>
+                                                @endif
+                                            </td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-right text-base font-medium">
+                                                <a href="{{ route('reports.show', $report) }}" class="ml-2 inline-flex items-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+                                                    Visualizar
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    @empty
+                                        <tr>
+                                            <td colspan="6" class="px-6 py-12 text-center text-gray-500">
+                                                @if(request('search'))
+                                                    Nenhuma oficina encontrada para "{{ request('search') }}"
+                                                @else
+                                                    Nenhuma oficina cadastrada ainda.
+                                                @endif
+                                            </td>
+                                        </tr>
+                                    @endforelse
+                                </tbody>
+                            </table>
+                            <div class="mt-4">
+                                {{ $recentWorkshops->onEachSide(1)->links() }}
+                            </div>
+                        </div>
             
                     @else
-                    <h2 class="text-xl font-semibold text-gray-900 mb-4 mt-10">
-                        Oficineiros e Total de Oficinas
-                    </h2>
-                        {{-- Mostrar todos os instrutores e contagem --}}
+                        <h2 class="text-xl font-semibold text-gray-900 mb-4 mt-10">
+                            Oficineiros e Total de Oficinas
+                        </h2>
+                            {{-- Mostrar todos os instrutores e contagem --}}
                         <table class="min-w-full divide-y divide-gray-200">
                             <thead>
                                 <tr>
@@ -157,6 +154,7 @@
                     
                 </div>
             </div>
+
 
         </div>
     </div>

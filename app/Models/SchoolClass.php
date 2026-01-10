@@ -26,6 +26,11 @@ class SchoolClass extends Model
     {
         return $this->belongsTo(SchoolClassOrigin::class, 'school_class_origin_id');
     }
+
+    public function getOriginNameAttribute()
+    {
+        return $this->origin ? $this->origin->name : "N/A";
+    }
     
     public function reports()
     {
@@ -52,21 +57,21 @@ class SchoolClass extends Model
             ->get();
     }
 
-    public function recentWorkshopsByUser($limit = 7)
-    {
-        $userId = Auth::user()->id;
-        return $this->hasManyThrough(
-            WorkshopReport::class,
-            WorkshopReportSchoolClass::class,
-            'school_class_id',
-            'id',
-            'id',
-            'workshop_report_id'
-        )
-        ->where('workshop_reports.instructor_id', $userId)
-        ->orderBy('workshop_reports.report_date', 'desc')
-        ->limit($limit)
-        ->select('workshop_reports.*');
-    }
+    // public function recentWorkshopsByUser($limit = 7)
+    // {
+    //     $userId = Auth::user()->id;
+    //     return $this->hasManyThrough(
+    //         WorkshopReport::class,
+    //         WorkshopReportSchoolClass::class,
+    //         'school_class_id',
+    //         'id',
+    //         'id',
+    //         'workshop_report_id'
+    //     )
+    //     ->where('workshop_reports.instructor_id', $userId)
+    //     ->orderBy('workshop_reports.report_date', 'desc')
+    //     ->limit($limit)
+    //     ->select('workshop_reports.*');
+    // }
 
 }

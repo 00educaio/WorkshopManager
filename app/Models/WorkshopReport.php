@@ -51,5 +51,19 @@ class WorkshopReport extends Model
             ->count();         // conta oficinas únicas
     }
 
+    public function getDayofWeekAttribute()
+    {
+         return mb_strtoupper(
+            \Carbon\Carbon::parse($this->report_date)
+                ->locale('pt_BR')
+                ->isoFormat('dddd')
+        );
+
+    }
+    public function getFormattedReportDateAttribute()
+    {
+        return \Carbon\Carbon::parse($this->report_date)->format('d/m/Y');
+    }
+
 
 }

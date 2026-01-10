@@ -45,16 +45,10 @@ class WorkshopReportController extends Controller
                          ->paginate(10)
                          ->withQueryString();
 
-        $reports->each(function ($report) {
-            $report->report_date = Carbon::parse($report->report_date)->format('d/m/Y');
-        });
-
         return view('reports.index', compact('reports'));
     }
     public function show(WorkshopReport $report)
     {
-        $report->report_date = Carbon::parse($report->report_date)->format('d/m/Y');
-
         $report->schoolClasses = $report->schoolClasses->sortBy('time');
         
         return view('reports.show', compact('report'));

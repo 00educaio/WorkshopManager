@@ -13,7 +13,7 @@
                     <!-- Cabeçalho com título e botão voltar -->
                     <div class="flex items-center justify-between mb-8">
                         <h1 class="text-2xl font-semibold text-gray-900">
-                            Devolutiva - {{ $report->report_date }}
+                            Devolutiva - {{ $report->formatted_report_date ?? '-' }}
                         </h1>
                         <x-deletion-modal
                                 backHref="{{ route('reports.index') }}"
@@ -33,7 +33,7 @@
                         <div class="bg-gray-50 rounded-lg p-1">
                             <dt class="text-sm font-medium text-gray-500">Data da devolutiva</dt>
                             <dd class="mt-1 text-lg font-semibold text-gray-900">
-                                {{ $report->report_date }}
+                                {{ $report->formatted_report_date ?? '-' }}
                             </dd>
                         </div>
 
