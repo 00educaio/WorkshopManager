@@ -29,10 +29,15 @@ class SchoolClassController extends Controller
 
     public function show(SchoolClass $class)
     {
-        $classInfo = $class->instructorsWithWorkshopCount();
+        $classInfo = null;
         $recentWorkshops = null;
+        $userRole = Auth::user()->role;
 
-        if (Auth::user()->role == 'instructor') {
+        if ($userRole == 'manager' || $userRole == 'admin') {
+            $classInfo = $class->instructorsWithWorkshopCount();
+        }
+
+        elseif ($userRole == 'instructor') {
 
             $recentWorkshops = WorkshopReport::whereHas('schoolClasses', function ($q) use ($class) {
                 $q->where('school_class_id', $class->id); 
@@ -40,7 +45,9 @@ class SchoolClassController extends Controller
             ->where('instructor_id', Auth::id())
             ->orderBy('report_date', 'desc')
             ->paginate(5);
-
+        }
+        else{
+            abort(403, 'Acesso Negado');
         }
 
         return view('classes.show', compact('class', 'classInfo', 'recentWorkshops'));

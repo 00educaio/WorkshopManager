@@ -12,13 +12,13 @@
                 <div class="p-6 text-gray-900">
                     
                     <div class="flex items-center justify-between mb-8">
-                        <div class="flex items-center gap-4">
+                        <div class="flex items-center gap-4 min-w-0">
                             <div class="w-16 h-16 rounded-full bg-gray-200 flex items-center justify-center text-gray-600 text-2xl">                              
                               <img class="w-16 h-16 rounded-full" src="{{ asset('/avatars/default-avatar.png') }}" alt="Ícone da Turma">
 
                             </div>
-                            <div>
-                                <h1 class="text-xl font-semibold text-gray-900">{{ $class->name }}</h1>
+                            <div class="min-w-0">
+                                <h1 class="text-xl font-semibold text-gray-900 truncate">{{ $class->name }}</h1>
                                 <span class="text-sm text-gray-500">{{ $class->grade ?? 'Série não informada' }}</span>
                             </div>
                         </div>
@@ -55,7 +55,7 @@
 
                     @if($recentWorkshops)
                         <h2 class="text-xl font-semibold text-gray-900 mb-4 mt-10">
-                            Qtde de Devolutivas {{$recentWorkshops->count()}}
+                            Devolutivas Recentes
                         </h2>
                         <div class="overflow-x-auto">
                             <table class="min-w-full divide-y divide-gray-200">
@@ -120,12 +120,12 @@
                                     @endforelse
                                 </tbody>
                             </table>
-                            <div class="mt-4">
+                            <div class="mt-6">
                                 {{ $recentWorkshops->onEachSide(1)->links() }}
                             </div>
                         </div>
             
-                    @else
+                    @elseif($classInfo)
                         <h2 class="text-xl font-semibold text-gray-900 mb-4 mt-10">
                             Oficineiros e Total de Oficinas
                         </h2>
@@ -141,7 +141,7 @@
                                 @foreach($classInfo as $instructor)
                                     <tr>
                                         <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                                            {{ $instructor->instructor_name }} {{-- Corrigido: não é $instructor->instructor->name --}}
+                                            {{ $instructor->instructor_name }} 
                                         </td>
                                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                                             {{ $instructor->total_workshops }}
