@@ -35,8 +35,7 @@ class SchoolClassController extends Controller
 
         if ($userRole == 'manager' || $userRole == 'admin') {
             $classInfo = $class->instructorsWithWorkshopCount();
-        }
-
+        } 
         elseif ($userRole == 'instructor') {
 
             $recentWorkshops = WorkshopReport::whereHas('schoolClasses', function ($q) use ($class) {

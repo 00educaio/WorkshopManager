@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -54,7 +55,7 @@ class WorkshopReport extends Model
     public function getDayofWeekAttribute()
     {
          return mb_strtoupper(
-            \Carbon\Carbon::parse($this->report_date)
+            Carbon::parse($this->report_date)
                 ->locale('pt_BR')
                 ->isoFormat('dddd')
         );
@@ -62,7 +63,7 @@ class WorkshopReport extends Model
     }
     public function getFormattedReportDateAttribute()
     {
-        return \Carbon\Carbon::parse($this->report_date)->format('d/m/Y');
+        return Carbon::parse($this->report_date)->format('d/m/Y');
     }
 
 

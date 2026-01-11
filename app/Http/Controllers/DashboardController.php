@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\WorkshopReport;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\View\View;
 
@@ -11,6 +12,9 @@ class DashboardController extends Controller
 {
     public function index(): View
     {
+        if (Auth::user()->role == 'instructor') {
+            return view('home');
+        }
         $now = Carbon::now();
         $startOfMonth = $now->copy()->startOfMonth();
         $sixMonthsAgo = $now->copy()->subMonths(5)->startOfMonth();
