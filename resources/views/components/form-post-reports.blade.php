@@ -29,14 +29,7 @@
             <!-- Data do Relatório -->
             <div class="sm:col-span-3">
                 <x-input-label for="report_date" :value="__('Data do Relatório')" icon="fas fa-calendar-alt" />
-                <div class="mt-1 relative rounded-md shadow-sm">
-                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                        <i class="fas fa-calendar-alt text-gray-400"></i>
-                    </div>
-                    <input type="date" name="report_date" id="report_date" 
-                           value="{{ old('report_date', $report->report_date ?? date('Y-m-d')) }}" required
-                           class="focus:ring-indigo-500 focus:border-indigo-500 block w-full pl-10 sm:text-sm border-gray-300 rounded-md">
-                </div>
+                <x-text-input id="report_date" name="report_date" type="date" class="mt-1 block w-full" :value="old('report_date', $report->report_date)" required autocomplete="report_date" />
                 @error('report_date') <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
             </div>
 
@@ -55,7 +48,7 @@
         <div class="grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-3 bg-gray-50 p-4 rounded-lg">
             <!-- Materiais Fornecidos -->
             <div>
-                <label for="materials_provided" class="block text-sm font-medium text-gray-700">Materiais Fornecidos?</label>
+                <x-input-label for="materials_provided" :value="__('Materiais Fornecidos?')" size="sm"/>
                 <select id="materials_provided" name="materials_provided"
                         class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                     <option value="1" {{ old('materials_provided', $report->materials_provided ?? '') == '1' ? 'selected' : '' }}>Sim</option>
@@ -94,7 +87,7 @@
                 <textarea id="extra_activities_description" name="extra_activities_description" rows="2" 
                           class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border border-gray-300 rounded-md">{{ old('extra_activities_description', $report->extra_activities_description ?? '') }}</textarea>
             </div>
-            @error('extra_activities_description') <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
+            <x-input-error class="mt-2" :messages="$errors->get('extra_activities_description')" />
         </div>
 
         <hr class="border-gray-200">

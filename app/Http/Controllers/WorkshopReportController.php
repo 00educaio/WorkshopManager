@@ -55,7 +55,13 @@ class WorkshopReportController extends Controller
     }
     public function create()
     {
-        $instructors = User::where('role', 'instructor')->get();
+        $user = Auth::user();
+        if ($user->role != 'instructor') {
+            $instructors = User::where('role', 'instructor')->get('id', 'name');
+        }
+        else {
+            $instructors = User::where('id', $user->id)->get(['id', 'name']);
+        }
         $schoolClasses = SchoolClass::all();
         return view('reports.create', compact('instructors', 'schoolClasses'));
     }
