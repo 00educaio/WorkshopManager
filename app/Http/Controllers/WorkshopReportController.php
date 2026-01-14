@@ -63,12 +63,10 @@ class WorkshopReportController extends Controller
     public function store(ReportStoreRequest $request)
     {
         try {
-            // O DB::transaction executa o bloco. Se der erro, desfaz tudo. Se der certo, retorna o resultado.
             $report = DB::transaction(function () use ($request) {
                 
                 $reportData = $request->safe()->except(['workshops']);
                 $workshopsData = $request->safe()->only(['workshops'])['workshops'];
-
                 $report = WorkshopReport::create($reportData);
 
                 $report->schoolClasses()->createMany($workshopsData);

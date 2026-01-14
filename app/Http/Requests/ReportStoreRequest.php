@@ -8,7 +8,7 @@ class ReportStoreRequest extends FormRequest
 {
     public function authorize(): bool
     {
-        return true; // Perfeito, isso resolve o erro 403
+        return true; 
     }
 
     public function rules(): array
@@ -44,6 +44,7 @@ class ReportStoreRequest extends FormRequest
             'workshops.required' => 'É necessário adicionar pelo menos uma turma.',
             'workshops.*.school_class_id.required' => 'Selecione a turma em todas as linhas adicionadas.',
             'workshops.*.time.required' => 'Defina o horário para todas as turmas.',
+            'workshops.*.workshop_theme' => 'Defina o tema para todas as turmas.',
             'extra_activities_description.required_if' => 'A descrição é obrigatória quando houver atividade extra.',
         ];
     }

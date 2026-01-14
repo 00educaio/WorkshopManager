@@ -1,8 +1,8 @@
 <x-main-view sectionTitle="Relatórios - Adicionar">
     <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Painel</a></li>
-        <li class="breadcrumb-item"><a href="{{ route('reports.index') }}">Relatórios</a></li>
-        <li class="breadcrumb-item active">Devolutivas</li>
+        <li class="breadcrumb-item"><a href="{{ route('reports.index') }}">Devolutivas</a></li>
+        <li class="breadcrumb-item active">Adicionar</li>
     </ol>
 
     <div class="py-8">
@@ -11,7 +11,7 @@
                 <div class="p-6 lg:p-8">
                     <div class="flex justify-between mb-4">
                         <h2 class="text-xl font-semibold text-gray-900">
-                            Novo Relatório
+                            Nova Devolutiva
                         </h2>
                         <x-back-button href="{{ route('reports.index') }}"></x-back-button>
                     </div>

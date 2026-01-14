@@ -24,7 +24,7 @@ class InstructorStoreRequest extends FormRequest
         return [
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'cpf' => ['required', 'string', 'max:14', 'unique:users'],
+            'cpf' => ['required', 'string', 'max:14', 'min:11', 'unique:users'],
             'phone' => ['required', 'string', 'max:15'],
         ];
     }

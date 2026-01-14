@@ -28,7 +28,7 @@
             
             <!-- Data do Relatório -->
             <div class="sm:col-span-3">
-                <label for="report_date" class="block text-sm font-medium text-gray-700">Data da Devolutiva</label>
+                <x-input-label for="report_date" :value="__('Data do Relatório')" icon="fas fa-calendar-alt" />
                 <div class="mt-1 relative rounded-md shadow-sm">
                     <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                         <i class="fas fa-calendar-alt text-gray-400"></i>
@@ -42,50 +42,48 @@
 
             <!-- Instrutor -->
             <div class="sm:col-span-3">
-                <label for="instructor_id" class="block text-sm font-medium text-gray-700">Instrutor</label>
-                <select name="instructor_id" id="instructor_id" required
-                        class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                    <option value="">Selecione...</option>
-                    @foreach($instructors as $instructor)
-                        <option value="{{ $instructor->id }}" 
-                            {{ old('instructor_id', $report->instructor_id ?? '') == $instructor->id ? 'selected' : '' }}>
-                            {{ $instructor->name }}
-                        </option>
-                    @endforeach
-                </select>
+                <x-input-label for="instructor_id" :value="__('Instrutor')" icon="fas fa-chalkboard-teacher" />
+                <x-select-form id="instructor_id" 
+                               name="instructor_id"
+                               :options="$instructors"
+                               :selected="old('instructor_id', $report->instructor_id ?? '')" />
                 @error('instructor_id') <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
             </div>
         </div>
 
         <!-- Grupo: Checkboxes e Booleanos -->
         <div class="grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-3 bg-gray-50 p-4 rounded-lg">
-            
             <!-- Materiais Fornecidos -->
             <div>
                 <label for="materials_provided" class="block text-sm font-medium text-gray-700">Materiais Fornecidos?</label>
-                <select name="materials_provided" id="materials_provided" class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md">
+                <select id="materials_provided" name="materials_provided"
+                        class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                     <option value="1" {{ old('materials_provided', $report->materials_provided ?? '') == '1' ? 'selected' : '' }}>Sim</option>
                     <option value="0" {{ old('materials_provided', $report->materials_provided ?? '') == '0' ? 'selected' : '' }}>Não</option>
                 </select>
+                <x-input-error class="mt-2" :messages="$errors->get('materials_provided')" />
             </div>
 
             <!-- Acordo com a Grade -->
             <div>
                 <label for="grid_provided" class="block text-sm font-medium text-gray-700">De acordo com a Grade?</label>
-                <select name="grid_provided" id="grid_provided" class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md">
+                <select id="grid_provided" name="grid_provided"
+                        class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                     <option value="1" {{ old('grid_provided', $report->grid_provided ?? '') == '1' ? 'selected' : '' }}>Sim</option>
                     <option value="0" {{ old('grid_provided', $report->grid_provided ?? '') == '0' ? 'selected' : '' }}>Não</option>
                 </select>
+                <x-input-error class="mt-2" :messages="$errors->get('grid_provided')" />
             </div>
 
             <!-- Atividade Extra (Com lógica condicional) -->
             <div>
                 <label for="extra_activities" class="block text-sm font-medium text-gray-700">Houve Atividade Extra?</label>
-                <select name="extra_activities" id="extra_activities" x-model="extraActivities"
-                        class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md">
-                    <option value="0">Não</option>
-                    <option value="1">Sim</option>
+                <select id="extra_activities" name="extra_activities" x-model="extraActivities"
+                        class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                    <option value="0" {{ old('extra_activities', $report->extra_activities ?? '') == '0' ? 'selected' : '' }}>Não</option>
+                    <option value="1" {{ old('extra_activities', $report->extra_activities ?? '') == '1' ? 'selected' : '' }}>Sim</option>
                 </select>
+                <x-input-error class="mt-2" :messages="$errors->get('extra_activities')" />
             </div>
         </div>
 
@@ -166,6 +164,8 @@
                     Nenhuma turma adicionada a este relatório. Clique em "Adicionar Turma".
                 </div>
             </div>
+
+            <x-input-error class="mt-2" :messages="$errors->get('workshops.*')" />
         </div>
 
         <hr class="border-gray-200">
@@ -202,6 +202,7 @@
                 Cancelar
             </button>
             <button type="submit"
+                    onclick="this.disabled=true; this.form.submit();"
                     class="ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                 <i class="fas fa-save mr-2 mt-0.5"></i>
                 {{ isset($report->id) ? 'Atualizar Relatório' : 'Salvar Relatório' }}

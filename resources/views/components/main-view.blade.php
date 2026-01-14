@@ -21,7 +21,11 @@
             };
         @endphp
     
-        <div class="p-4 mb-4 border rounded-lg {{ $color }}">
+        <div class="p-4 mb-4 border rounded-lg {{ $color }}"
+            x-data="{ show: true }"
+            x-show="show"
+            x-transition
+            x-init="setTimeout(() => show = false, 4000)">
             {{ $status['message'] }}
                 <button onclick="this.parentElement.style.display='none'" class="float-right font-bold"><i class="fa fa-times"></i></button>
         </div>
