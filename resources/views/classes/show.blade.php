@@ -26,7 +26,7 @@
                         <x-deletion-modal
                                 :backHref="route('classes.index')"
                                 :editHref="route('classes.edit', $class)"
-                                :deleteHref="route('classes.destroy', $class) }}"> 
+                                :deleteHref="route('classes.destroy', $class)"> 
                             Tem certeza que deseja apagar <strong>{{ $class->name }}</strong>?
                         </x-deletion-modal>
                     </div>
@@ -140,8 +140,11 @@
                             <tbody class="bg-white divide-y divide-gray-200">
                                 @foreach($classInfo as $instructor)
                                     <tr>
-                                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium {{ $instructor->trashed ? 'text-red-500' : 'text-gray-900' }}">
                                             {{ $instructor->instructor_name }} 
+                                            @if($instructor->trashed)
+                                                <span class="text-xs italic">(Inativo)</span>
+                                            @endif
                                         </td>
                                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                                             {{ $instructor->total_workshops }}

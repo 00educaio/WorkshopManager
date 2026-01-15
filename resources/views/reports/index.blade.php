@@ -114,8 +114,11 @@
                                         <td class="px-6 py-4 whitespace-nowrap text-base font-medium text-gray-500">
                                             {{ $report->day_of_week }}
                                         </td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-base text-gray-500">
-                                            {{ $report->instructor->name }}
+                                        <td class="px-6 py-4 whitespace-nowrap text-base {{ $report->instructor->trashed() ? 'text-red-500' : 'text-gray-500' }}">
+                                            {{ $report->instructor_name }}
+                                            @if($report->instructor->trashed())
+                                                <span class="text-xs italic">(Inativo)</span>
+                                            @endif
                                         </td>
                                         <td class="px-6 py-4 whitespace-nowrap text-base text-gray-500">
                                             {{ $report->unique_workshops_count }}

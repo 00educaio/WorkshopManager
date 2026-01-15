@@ -16,29 +16,29 @@ class WorkshopReportController extends Controller
 {
     public function index(Request $request)
     {
-        $query = WorkshopReport::query();
-        
+        $query = WorkshopReport::query()
+            ->with(['instructor' => function ($q) {
+                $q->withTrashed();
+            }]);
+                                        
         if (Auth::user()->role == 'instructor') {
             $query->where('instructor_id', Auth::id());
         }
 
-        // 1. Filtro por Data de Início
         if ($request->filled('start_date')) {
             $query->whereDate('report_date', '>=', $request->start_date);
         }
 
-        // 2. Filtro por Data de Término
         if ($request->filled('end_date')) {
             $query->whereDate('report_date', '<=', $request->end_date);
         }
 
-        // 3. Filtro por Nome do Oficineiro (Instrutor)
         if ($request->filled('instructor')) {
             $search = $request->instructor;
 
-            // Busca pelo nome do instrutor
             $query->whereHas('instructor', function ($q) use ($search) {
-                $q->where('name', 'like', "%{$search}%");
+                $q->withTrashed()
+                  ->where('name', 'like', "%{$search}%");
             });
             
         }
@@ -50,7 +50,7 @@ class WorkshopReportController extends Controller
     }
     public function show(WorkshopReport $report)
     {
-        $report->schoolClasses = $report->schoolClasses->sortBy('time');
+        $report->schoolClassesSorted = $report->schoolClasses->sortBy('time');
         
         return view('reports.show', compact('report'));
     }

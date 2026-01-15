@@ -16,9 +16,9 @@
                             Devolutiva - {{ $report->formatted_report_date ?? '-' }}
                         </h1>
                         <x-deletion-modal
-                                ;backHref="route('reports.index')"
-                                ;editHref="route('reports.edit', $report)"
-                                ;deleteHref="route('reports.delete', $report)"> 
+                                :backHref="route('reports.index')"
+                                :editHref="route('reports.edit', $report)"
+                                :deleteHref="route('reports.delete', $report)"> 
                             Tem certeza que deseja apagar essa devolutiva?
                         </x-deletion-modal>
                     </div>
@@ -27,7 +27,7 @@
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
                         <div class="bg-gray-50 rounded-lg p-1">
                             <dt class="text-sm font-medium text-gray-500">Instrutor</dt>
-                            <dd class="mt-1 text-lg font-semibold text-gray-900">{{ $report->instructor->name }}</dd>
+                            <dd class="mt-1 text-lg font-semibold text-gray-900">{{ $report->instructor_name }}</dd>
                         </div>
 
                         <div class="bg-gray-50 rounded-lg p-1">
@@ -97,7 +97,7 @@
                                         </tr>
                                     </thead>
                                     <tbody class="bg-white divide-y divide-gray-200">
-                                        @foreach($report->schoolClasses as $class)
+                                        @foreach($report->schoolClassesSorted as $class)
                                             <tr class="hover:bg-gray-50">
                                                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                                                     {{ $class->schoolClass->name }}

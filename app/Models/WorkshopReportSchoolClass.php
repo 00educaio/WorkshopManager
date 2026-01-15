@@ -27,7 +27,8 @@ class WorkshopReportSchoolClass extends Model
     }
     public function schoolClass()
     {
-        return $this->belongsTo(SchoolClass::class, 'school_class_id');
+        return $this->belongsTo(SchoolClass::class, 'school_class_id')
+                    ->withTrashed();
     }
 
     public function getTimeAttribute($value)

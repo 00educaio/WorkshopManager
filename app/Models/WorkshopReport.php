@@ -35,7 +35,12 @@ class WorkshopReport extends Model
 
     public function instructor()
     {
-        return $this->belongsTo(User::class, 'instructor_id');
+        return $this->belongsTo(User::class, 'instructor_id')
+                    ->withTrashed();
+    }
+
+    public function getInstructorNameAttribute(){
+        return $this->instructor ? $this->instructor->name : 'Instrutor não encontrado';
     }
     public function schoolClasses()
     {

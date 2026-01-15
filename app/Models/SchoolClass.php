@@ -51,9 +51,10 @@ class SchoolClass extends Model
             ->select(
                 'workshop_reports.instructor_id',
                 'users.name as instructor_name',
+                'users.deleted_at as trashed',
                 DB::raw('COUNT(DISTINCT workshop_reports.id) as total_workshops')
             )
-            ->groupBy('workshop_reports.instructor_id', 'users.name')
+            ->groupBy('workshop_reports.instructor_id', 'users.name', 'trashed')
             ->get();
     }
 

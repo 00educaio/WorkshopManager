@@ -4,13 +4,11 @@
 -   Oficineiros - ok
 -   Devolutivas - falta
 
-2. Implementação de Email de Nova Conta
+2. Landing Page
 
-3. Landing Page
+3. Mudar os ids de int pra uuid em todas as tabelas
 
-4. Mudar os ids de int pra uuid em todas as tabelas
-
-5. Criar indices no bd
+4. Criar indices no bd
 
 -   Turmas - ok
 -   Oficineiros - falta
