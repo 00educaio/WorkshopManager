@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Notifications\VerifyNewUserEmail;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -107,5 +108,10 @@ class User extends Authenticatable implements MustVerifyEmail
             'school_class_id', 
             'instructor_id'
         );
+    }
+
+    public function sendEmailVerificationNotification()
+    {
+        $this->notify(new VerifyNewUserEmail);        
     }
 }

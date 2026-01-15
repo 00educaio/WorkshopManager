@@ -102,6 +102,7 @@ return [
                 PDO::ATTR_PERSISTENT => false,
 
             ],
+            'timezone'  => env('APP_TIMEZONE', 'America/Sao_Paulo'),
         ],
 
         'sqlsrv' => [

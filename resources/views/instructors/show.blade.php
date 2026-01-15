@@ -85,9 +85,9 @@
 
                         </div> --}}
                         <x-deletion-modal
-                                backHref="{{ route('instructors.index') }}"
-                                editHref="{{ route('instructors.edit', $instructor) }}"
-                                deleteHref="{{ route('instructors.destroy', $instructor) }}"> 
+                                :backHref="route('instructors.index')"
+                                :editHref="route('instructors.edit', $instructor)"
+                                :deleteHref="route('instructors.destroy', $instructor)"> 
                             Tem certeza que deseja apagar <strong>{{ $instructor->name }}</strong>?
                         </x-deletion-modal>
                     </div>

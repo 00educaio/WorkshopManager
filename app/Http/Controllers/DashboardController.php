@@ -66,10 +66,12 @@ class DashboardController extends Controller
         return WorkshopReport::query()
             ->select('instructor_id')
             ->selectRaw('COUNT(*) as total_reports')
-            // Postgres: Count Distinct de tupla (col1, col2)
             ->selectRaw('COUNT(DISTINCT (classes.workshop_report_id, classes.time)) as total_workshops')
             ->leftJoin('workshop_report_school_classes as classes', 'workshop_reports.id', '=', 'classes.workshop_report_id')
-            ->with('instructor:id,name')
+            ->with('instructor', function ($q) {
+                $q->withTrashed()->select('id', 'name');
+            })
+            // ->with('instructor:id,name')
             ->groupBy('instructor_id')
             ->orderByDesc('total_reports')
             ->limit(5)

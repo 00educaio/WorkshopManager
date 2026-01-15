@@ -36,12 +36,12 @@ class InstructorController extends Controller
 
     public function store(InstructorStoreRequest $request)
     {
-      try {
+      try {          
           $data = $request->validated();
           $data['role'] = 'instructor';
           $data['password'] = bcrypt('12345678');
           $data['avatar'] = 'avatars/default-avatar.png';
-          
+      
           $instructor = User::create($data);
           event(new Registered($instructor));
 
@@ -56,7 +56,7 @@ class InstructorController extends Controller
           Log::error('Erro creating instructor: ' . $e->getMessage());
 
           return back()
-              ->withErrors(['error' => 'Erro ao criar Oficineiro']);
+              ->withErrors(['error' => 'Erro ao criar Oficineiro'. $e->getMessage()]);
       }
 
     }
@@ -140,8 +140,8 @@ class InstructorController extends Controller
                  ->route('instructors.index')
                  ->with('status', [
                     'type' => 'deleted',
-                    'message' => 'Oficineiro Deletado Com Sucesso.'
-                 ]); //Colocar na view
+                    'message' => 'Oficineiro Deletado Permanente Com Sucesso.'
+                 ]); 
       }
       catch (\Exception $e) {
           Log::error('Erro deleting instructor: ' . $e->getMessage());

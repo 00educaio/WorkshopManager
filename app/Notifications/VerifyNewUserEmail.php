@@ -2,10 +2,13 @@
 
 namespace App\Notifications;
 
+use Carbon\Carbon;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
+use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\URL;
 
 class VerifyNewUserEmail extends Notification
 {
@@ -34,10 +37,23 @@ class VerifyNewUserEmail extends Notification
      */
     public function toMail(object $notifiable): MailMessage
     {
+        $verificationUrl = URL::temporarySignedRoute(
+            'verification.verify',
+            Carbon::now()->addDays(7),
+            [
+                'id' => $notifiable->getKey(),
+                'hash' => sha1($notifiable->getEmailForVerification()),
+            ]
+        );
         return (new MailMessage)
-            ->line('The introduction to the notification.')
-            ->action('Notification Action', url('/'))
-            ->line('Thank you for using our application!');
+            ->subject('Verifique seu endereço de e-mail')
+            ->view(
+                'auth.verify-new-user-email',
+                [
+                    'url' => $verificationUrl,
+                    'user' => $notifiable,
+                ]
+            );
     }
 
     /**

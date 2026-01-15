@@ -54,7 +54,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
             Route::get('/{class}/edit', [SchoolClassController::class, 'edit'])->name('classes.edit');
             Route::put('/{class}', [SchoolClassController::class, 'update'])->name('classes.update');
             Route::delete('/{class}', [SchoolClassController::class, 'destroy'])->name('classes.destroy');
-            Route::delete('/{class}/delete', [SchoolClassController::class, 'delete'])->name('classes.delete');
+            Route::delete('/{class}/delete', [SchoolClassController::class, 'delete'])->name('classes.delete')->withTrashed();
             
         });
         Route::get('/{class}', [SchoolClassController::class, 'show'])->name('classes.show');
@@ -72,7 +72,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
             Route::put('/{instructor}', [InstructorController::class, 'update'])->name('instructors.update');
             Route::delete('/{instructor}', [InstructorController::class, 'destroy'])->name('instructors.destroy');
             Route::patch('/{instructor}/restore', [InstructorController::class, 'restore'])->name('instructors.restore')->withTrashed();
-            Route::delete('/{instructor}/delete', [InstructorController::class, 'delete'])->name('instructors.delete');
+            Route::delete('/{instructor}/delete', [InstructorController::class, 'delete'])->name('instructors.delete')->withTrashed();
         });
     });
 });
