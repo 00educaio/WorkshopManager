@@ -38,7 +38,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/new', [WorkshopReportController::class, 'create'])->name('reports.create');
         Route::post('/store', [WorkshopReportController::class, 'store'])->name('reports.store');
         Route::get('/{report}', [WorkshopReportController::class, 'show'])->name('reports.show');
-        Route::delete('/{report}', [WorkshopReportController::class, 'destroy'])->name('reports.destroy');
+        Route::delete('/{report}', [WorkshopReportController::class, 'delete'])->name('reports.delete');
         Route::get('/{report}/edit', [WorkshopReportController::class, 'edit'])->name('reports.edit');
         Route::put('/{report}', [WorkshopReportController::class, 'update'])->name('reports.update');
     });
@@ -54,6 +54,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
             Route::get('/{class}/edit', [SchoolClassController::class, 'edit'])->name('classes.edit');
             Route::put('/{class}', [SchoolClassController::class, 'update'])->name('classes.update');
             Route::delete('/{class}', [SchoolClassController::class, 'destroy'])->name('classes.destroy');
+            Route::delete('/{class}/delete', [SchoolClassController::class, 'delete'])->name('classes.delete');
             
         });
         Route::get('/{class}', [SchoolClassController::class, 'show'])->name('classes.show');
@@ -71,6 +72,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
             Route::put('/{instructor}', [InstructorController::class, 'update'])->name('instructors.update');
             Route::delete('/{instructor}', [InstructorController::class, 'destroy'])->name('instructors.destroy');
             Route::patch('/{instructor}/restore', [InstructorController::class, 'restore'])->name('instructors.restore')->withTrashed();
+            Route::delete('/{instructor}/delete', [InstructorController::class, 'delete'])->name('instructors.delete');
         });
     });
 });

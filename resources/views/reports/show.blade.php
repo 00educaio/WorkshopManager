@@ -18,7 +18,7 @@
                         <x-deletion-modal
                                 backHref="{{ route('reports.index') }}"
                                 editHref="{{ route('reports.edit', $report) }}"
-                                deleteHref="{{ route('reports.destroy', $report) }}"> 
+                                deleteHref="{{ route('reports.delete', $report) }}"> 
                             Tem certeza que deseja apagar essa devolutiva?
                         </x-deletion-modal>
                     </div>

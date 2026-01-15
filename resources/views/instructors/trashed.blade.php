@@ -50,18 +50,13 @@
                                 </div>
 
                             </div>
-
+                            
                             <form action="{{ route('instructors.restore', $instructor->id) }}" method="POST" class="flex items-center">
                                 @csrf
                                 @method('PATCH')
-                                <button type="submit" 
-                                        class="w-full sm:w-auto inline-flex justify-center items-center gap-2 px-3 py-3 sm:py-2 border border-transparent text-sm font-medium rounded-md text-green-700 bg-green-100 hover:bg-green-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transition"
-                                        title="Recuperar oficineiro">
-                                    <i class="fas fa-trash-restore"></i>
-                                    Restaurar
-                                </button>
+                                <x-restore-button>Restaurar</x-restore-button>
                             </form>
-                            
+                            <x-deletion-modal :deleteHref="route('instructors.delete', $instructor->id)">Apagar Permanentemente?</x-deletion-modal>
                         </div>
                     </div>
 

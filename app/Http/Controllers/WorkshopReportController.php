@@ -10,6 +10,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class WorkshopReportController extends Controller
 {
@@ -86,9 +87,9 @@ class WorkshopReportController extends Controller
                                 'message' => 'Relatório criado com sucesso!'
                             ]);
 
-        } catch (\Exception $e) {        
-            return back()->withErrors(['error' => 'Erro ao criar o relatório: ' . $e->getMessage()])
-                        ->withInput();
+        } catch (\Exception $e) {
+            Log::error('Erro creating report: ' . $e->getMessage());        
+            return back()->withErrors(['error' => 'Erro ao criar o relatório']);
         }
     }
 
@@ -111,14 +112,23 @@ class WorkshopReportController extends Controller
                         ]);
     }
 
-    public function destroy(WorkshopReport $report)
+    public function delete(WorkshopReport $report)
     {
-        $report->delete();
-        return redirect()->route('reports.index')
-                        ->with('status', [
-                            'type' => 'deleted',
-                            'message' => 'Relatório excluído com sucesso!'
-                        ]);
+        try {
+            $report->forceDelete();
+            
+            return redirect()
+                   ->route('reports.index')
+                   ->with('status', [
+                      'type' => 'deleted',
+                      'message' => 'Relatório Deletado Com Sucesso.'
+                   ]);
+        }
+        catch (\Exception $e) {
+            Log::error('Erro deleting report: ' . $e->getMessage());
+            
+            return back()
+                   ->withErrors(['error' => 'Um erro ocorreu ao deletar o relatório.']);
+        }
     }
-
 }

@@ -69,8 +69,7 @@ class SchoolClassController extends Controller
             Log::error('Erro creating class: ' . $e->getMessage());
             
             return back()
-                   ->withErrors(['error' => 'Um erro ocorreu ao criar a turma.'])
-                   ->withInput();
+                   ->withErrors(['error' => 'Um erro ocorreu ao criar a turma.']);
         }
     }
     public function edit(SchoolClass $class)
@@ -96,8 +95,7 @@ class SchoolClassController extends Controller
             Log::error('Erro updating class: ' . $e->getMessage());
             
             return back()
-                   ->withErrors(['error' => 'Um erro ocorreu ao atualizar a turma.'])
-                   ->withInput();
+                   ->withErrors(['error' => 'Um erro ocorreu ao atualizar a turma.']);
         }
     }
 
@@ -144,6 +142,26 @@ class SchoolClassController extends Controller
             
             return back()
                    ->withErrors(['error' => 'Um erro ocorreu ao restaurar a turma.']);
+        }
+    }
+
+    public function delete(SchoolClass $class)
+    {
+        try {
+            $class->forceDelete();
+            
+            return redirect()
+                   ->route('classes.index')
+                   ->with('status', [
+                      'type' => 'deleted',
+                      'message' => 'Turma Deletada Permanentemente Com Sucesso.'
+                   ]);
+        }
+        catch (\Exception $e) {
+            Log::error('Erro deleting class: ' . $e->getMessage());
+            
+            return back()
+                   ->withErrors(['error' => 'Um erro ocorreu ao deletar a turma permanentemente.']);
         }
     }
 

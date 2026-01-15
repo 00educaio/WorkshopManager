@@ -8,9 +8,6 @@ use App\Models\User;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Support\Facades\Log;
 
-//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-//LEMBRAR DE MUDAR OS LOGS DE ERRO EM PRODUÇÃO
-//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 class InstructorController extends Controller
 {
     public function index()
@@ -59,8 +56,7 @@ class InstructorController extends Controller
           Log::error('Erro creating instructor: ' . $e->getMessage());
 
           return back()
-              ->withErrors(['error' => 'Erro: ' . $e->getMessage()])
-              ->withInput();
+              ->withErrors(['error' => 'Erro ao criar Oficineiro']);
       }
 
     }
@@ -75,15 +71,14 @@ class InstructorController extends Controller
                  ->route('instructors.show', $instructor)
                  ->with('status', [
                     'type' => 'success',
-                    'message' => 'Instrutor Atualizado Com Sucesso.'
+                    'message' => 'Oficineiro Atualizado Com Sucesso.'
                  ]);
       }
       catch (\Exception $e) {
           Log::error('Erro updating instructor: ' . $e->getMessage());
 
           return back()
-              ->withErrors(['error' => 'Erro: ' . $e->getMessage()])
-              ->withInput();
+              ->withErrors(['error' => 'Erro ao atualizar Oficineiro']);
       }
 
     }
@@ -97,15 +92,14 @@ class InstructorController extends Controller
                  ->route('instructors.index')
                  ->with('status', [
                     'type' => 'deleted',
-                    'message' => 'Instrutor Excluído Com Sucesso.'
+                    'message' => 'Oficineiro Excluído Com Sucesso.'
                  ]);
       }
       catch (\Exception $e) {
           Log::error('Erro deleting instructor: ' . $e->getMessage());
 
           return back()
-              ->withErrors(['error' => 'Erro: ' . $e->getMessage()])
-              ->withInput();
+              ->withErrors(['error' => 'Erro ao excluir Oficineiro']);
       }
     }
 
@@ -125,15 +119,35 @@ class InstructorController extends Controller
                  ->route('instructors.index')
                  ->with('status', [
                     'type' => 'restored',
-                    'message' => 'Instrutor Restaurado Com Sucesso.'
+                    'message' => 'Oficineiro Restaurado Com Sucesso.'
                  ]); //Colocar na view
       }
       catch (\Exception $e) {
           Log::error('Erro restoring instructor: ' . $e->getMessage());
 
           return back()
-              ->withErrors(['error' => 'Erro: ' . $e->getMessage()])
-              ->withInput();
+              ->withErrors(['error' => 'Erro ao restaurar Oficineiro']);
+      }
     }
-}
+
+    //Deletar de forma definitiva
+    public function delete(User $instructor)
+    {
+      try {          
+          $instructor->forceDelete();
+          
+          return redirect()
+                 ->route('instructors.index')
+                 ->with('status', [
+                    'type' => 'deleted',
+                    'message' => 'Oficineiro Deletado Com Sucesso.'
+                 ]); //Colocar na view
+      }
+      catch (\Exception $e) {
+          Log::error('Erro deleting instructor: ' . $e->getMessage());
+
+          return back()
+              ->withErrors(['error' => 'Erro ao Deletar Oficineiro']);
+      }
+    }
 }
